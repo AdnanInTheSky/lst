@@ -1,0 +1,11 @@
+{
+  "name": "dhaka-market",
+  "version": "2.0.0",
+  "private": true,
+  "engines": { "node": ">=20" },
+  "dependencies": { "mongodb": "^6.8.0" },
+  "scripts": {
+    "dev": "vercel dev",
+    "deploy": "vercel --prod"
+  }
+}

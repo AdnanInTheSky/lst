@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — Dhaka Market</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--ink:#0d0d0d;--muted:#6b6b6b;--border:#e4e0d8;--cream:#f7f4ef;--white:#fff;--gold:#c8973f;--green:#1a7a4a;--red:#c0392b;--blue:#1a4a7a}
+    body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);min-height:100vh}
+
+    /* LOGIN */
+    #login-screen{position:fixed;inset:0;background:var(--cream);display:flex;align-items:center;justify-content:center;z-index:100}
+    .login-card{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:2.5rem;width:100%;max-width:380px;text-align:center}
+    .login-logo{font-family:'DM Serif Display',serif;font-size:1.6rem;margin-bottom:.25rem}
+    .login-sub{font-size:.85rem;color:var(--muted);margin-bottom:2rem}
+    .login-input{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:.75rem 1rem;font-family:'DM Sans',sans-serif;font-size:.9rem;outline:none;margin-bottom:.75rem}
+    .login-input:focus{border-color:var(--ink)}
+    .login-input.err{border-color:var(--red)}
+    .login-btn{width:100%;background:var(--ink);color:var(--white);border:none;padding:.8rem;border-radius:8px;font-family:'DM Sans',sans-serif;font-weight:700;font-size:.9rem;cursor:pointer;transition:background .2s}
+    .login-btn:hover{background:#2a2a2a}
+    .login-err{color:var(--red);font-size:.8rem;margin-top:.5rem;display:none}
+
+    /* LAYOUT */
+    #app{display:none}
+    .topbar{background:var(--ink);color:var(--white);padding:.9rem 2rem;display:flex;align-items:center;justify-content:space-between}
+    .topbar-brand{font-family:'DM Serif Display',serif;font-size:1.2rem;display:flex;align-items:center;gap:.5rem}
+    .topbar-right{display:flex;align-items:center;gap:1rem}
+    .logout-btn{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);color:var(--white);padding:.4rem .9rem;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:.8rem;cursor:pointer;transition:background .2s}
+    .logout-btn:hover{background:rgba(255,255,255,.25)}
+
+    /* STATS */
+    .stats-row{max-width:1200px;margin:2rem auto;padding:0 2rem;display:grid;grid-template-columns:repeat(5,1fr);gap:1rem}
+    .stat-card{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:1.25rem;text-align:center;cursor:pointer;transition:box-shadow .2s,transform .2s}
+    .stat-card:hover{box-shadow:0 4px 20px rgba(0,0,0,.08);transform:translateY(-2px)}
+    .stat-card.active{border-color:var(--ink);box-shadow:0 0 0 2px var(--ink)}
+    .stat-num{font-family:'DM Serif Display',serif;font-size:2rem;margin-bottom:.25rem}
+    .stat-label{font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+    .stat-card.success .stat-num{color:var(--green)}
+    .stat-card.failed .stat-num{color:var(--red)}
+    .stat-card.pending .stat-num{color:var(--gold)}
+
+    /* TOOLBAR */
+    .toolbar{max-width:1200px;margin:0 auto 1.5rem;padding:0 2rem;display:flex;gap:1rem;align-items:center;flex-wrap:wrap}
+    .search-box{flex:1;min-width:200px;border:1.5px solid var(--border);border-radius:8px;padding:.6rem 1rem;font-family:'DM Sans',sans-serif;font-size:.88rem;outline:none;background:var(--white)}
+    .search-box:focus{border-color:var(--ink)}
+    .toolbar-btn{background:var(--white);border:1.5px solid var(--border);border-radius:8px;padding:.6rem 1rem;font-family:'DM Sans',sans-serif;font-size:.85rem;cursor:pointer;transition:border-color .2s}
+    .toolbar-btn:hover{border-color:var(--ink)}
+
+    /* TABLE */
+    .table-wrap{max-width:1200px;margin:0 auto 3rem;padding:0 2rem;overflow-x:auto}
+    table{width:100%;background:var(--white);border:1px solid var(--border);border-radius:12px;border-collapse:collapse;overflow:hidden}
+    th{background:var(--ink);color:var(--white);padding:.9rem 1rem;text-align:left;font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
+    td{padding:.85rem 1rem;border-bottom:1px solid var(--border);font-size:.85rem;vertical-align:middle}
+    tr:last-child td{border-bottom:none}
+    tr:hover td{background:var(--cream)}
+    .badge{display:inline-flex;align-items:center;gap:.3rem;padding:.25rem .65rem;border-radius:20px;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+    .badge.success{background:#e8f5ee;color:var(--green)}
+    .badge.failed{background:#fde8e6;color:var(--red)}
+    .badge.pending,.badge.verifying{background:#fdf5e0;color:#8a6000}
+    .badge.initiated{background:#e8edf5;color:var(--blue)}
+    .detail-btn{background:none;border:1px solid var(--border);border-radius:6px;padding:.3rem .7rem;font-size:.78rem;cursor:pointer;transition:border-color .2s}
+    .detail-btn:hover{border-color:var(--ink)}
+
+    /* PAGINATION */
+    .pagination{display:flex;align-items:center;justify-content:center;gap:.5rem;padding:1.5rem 0}
+    .page-btn{width:36px;height:36px;border:1px solid var(--border);border-radius:8px;background:var(--white);cursor:pointer;font-size:.85rem;transition:border-color .2s,background .2s;display:flex;align-items:center;justify-content:center}
+    .page-btn:hover{border-color:var(--ink)}
+    .page-btn.active{background:var(--ink);color:var(--white);border-color:var(--ink)}
+    .page-btn:disabled{opacity:.4;cursor:not-allowed}
+
+    /* MODAL */
+    #modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);backdrop-filter:blur(4px);z-index:200;display:none;align-items:center;justify-content:center}
+    #modal-overlay.show{display:flex}
+    .modal{background:var(--white);border-radius:16px;width:100%;max-width:560px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.15)}
+    .modal-head{padding:1.5rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+    .modal-title{font-family:'DM Serif Display',serif;font-size:1.3rem}
+    .modal-close{background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--muted)}
+    .modal-body{padding:1.5rem}
+    .detail-row{display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px dashed var(--border);font-size:.85rem}
+    .detail-row:last-child{border-bottom:none}
+    .detail-row .label{color:var(--muted)}
+    .detail-row .value{font-weight:600;text-align:right;max-width:60%}
+    .detail-section{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:.75rem 0 .25rem;border-top:1px solid var(--border);margin-top:.5rem}
+
+    /* EMPTY / LOADING */
+    .table-msg{text-align:center;padding:4rem;color:var(--muted);font-size:.9rem}
+  </style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-logo">Dhaka Market</div>
+    <div class="login-sub">Admin Panel</div>
+    <input class="login-input" id="secret-input" type="password" placeholder="Admin secret key" onkeydown="if(event.key==='Enter')doLogin()" />
+    <button class="login-btn" onclick="doLogin()">Sign In</button>
+    <div class="login-err" id="login-err">Invalid secret key.</div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <div class="topbar">
+    <div class="topbar-brand">🏪 Dhaka Market — Admin</div>
+    <div class="topbar-right">
+      <span id="admin-time" style="font-size:.8rem;opacity:.6"></span>
+      <button class="logout-btn" onclick="logout()">Sign Out</button>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-row" id="stats-row">
+    <div class="stat-card" onclick="filterStatus('all')"><div class="stat-num" id="s-all">—</div><div class="stat-label">Total</div></div>
+    <div class="stat-card success" onclick="filterStatus('success')"><div class="stat-num" id="s-success">—</div><div class="stat-label">Success</div></div>
+    <div class="stat-card pending" onclick="filterStatus('pending')"><div class="stat-num" id="s-pending">—</div><div class="stat-label">Pending</div></div>
+    <div class="stat-card failed" onclick="filterStatus('failed')"><div class="stat-num" id="s-failed">—</div><div class="stat-label">Failed</div></div>
+    <div class="stat-card" onclick="filterStatus('initiated')"><div class="stat-num" id="s-initiated">—</div><div class="stat-label">Initiated</div></div>
+  </div>
+
+  <!-- TOOLBAR -->
+  <div class="toolbar">
+    <input class="search-box" id="search-box" placeholder="🔍 Search name, phone, email, invoice…" oninput="debounceSearch()" />
+    <button class="toolbar-btn" onclick="loadOrders()">↻ Refresh</button>
+  </div>
+
+  <!-- TABLE -->
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Invoice</th>
+          <th>Customer</th>
+          <th>Location</th>
+          <th>Items</th>
+          <th>Amount</th>
+          <th>Status</th>
+          <th>Date</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="orders-tbody"><tr><td colspan="8" class="table-msg">Loading…</td></tr></tbody>
+    </table>
+    <div class="pagination" id="pagination"></div>
+  </div>
+</div>
+
+<!-- ORDER DETAIL MODAL -->
+<div id="modal-overlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="modal-head">
+      <span class="modal-title" id="modal-title">Order Detail</span>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<script>
+  // ── Auth ─────────────────────────────────────────────────────────────────────
+  let SECRET = '';
+  let currentStatus = 'all', currentPage = 1, currentSearch = '';
+
+  function doLogin() {
+    const val = document.getElementById('secret-input').value.trim();
+    if (!val) return;
+    SECRET = val;
+    // Test auth with a real API call
+    fetch('/api/orders?limit=1', { headers: { 'x-admin-secret': SECRET } })
+      .then(r => {
+        if (r.status === 401) { showLoginErr(); return; }
+        document.getElementById('login-screen').style.display = 'none';
+        document.getElementById('app').style.display = 'block';
+        sessionStorage.setItem('adminSecret', SECRET);
+        loadOrders();
+        setInterval(() => {
+          document.getElementById('admin-time').textContent = new Date().toLocaleTimeString('en-BD');
+        }, 1000);
+      })
+      .catch(() => showLoginErr());
+  }
+
+  function showLoginErr() {
+    SECRET = '';
+    document.getElementById('secret-input').classList.add('err');
+    document.getElementById('login-err').style.display = 'block';
+  }
+
+  function logout() {
+    sessionStorage.removeItem('adminSecret');
+    location.reload();
+  }
+
+  // Restore session
+  window.addEventListener('DOMContentLoaded', () => {
+    const saved = sessionStorage.getItem('adminSecret');
+    if (saved) { document.getElementById('secret-input').value = saved; doLogin(); }
+  });
+
+  // ── Data loading ─────────────────────────────────────────────────────────────
+  async function loadOrders() {
+    const params = new URLSearchParams({ status: currentStatus, page: currentPage, limit: 20, search: currentSearch });
+    const tbody  = document.getElementById('orders-tbody');
+    tbody.innerHTML = '<tr><td colspan="8" class="table-msg">Loading…</td></tr>';
+    try {
+      const res  = await fetch('/api/orders?' + params, { headers: { 'x-admin-secret': SECRET } });
+      const data = await res.json();
+      if (!res.ok) { tbody.innerHTML = `<tr><td colspan="8" class="table-msg">${data.error}</td></tr>`; return; }
+      renderStats(data.counts);
+      renderTable(data.orders);
+      renderPagination(data.pagination);
+    } catch(e) {
+      tbody.innerHTML = '<tr><td colspan="8" class="table-msg">Failed to load orders.</td></tr>';
+    }
+  }
+
+  function filterStatus(s) {
+    currentStatus = s; currentPage = 1;
+    document.querySelectorAll('.stat-card').forEach(c => c.classList.remove('active'));
+    const idx = ['all','success','pending','failed','initiated'].indexOf(s);
+    document.querySelectorAll('.stat-card')[idx]?.classList.add('active');
+    loadOrders();
+  }
+
+  let _st;
+  function debounceSearch() {
+    clearTimeout(_st);
+    _st = setTimeout(() => { currentSearch = document.getElementById('search-box').value.trim(); currentPage = 1; loadOrders(); }, 400);
+  }
+
+  // ── Render ───────────────────────────────────────────────────────────────────
+  function renderStats(c) {
+    if (!c) return;
+    document.getElementById('s-all').textContent      = c.all      || 0;
+    document.getElementById('s-success').textContent  = c.success  || 0;
+    document.getElementById('s-pending').textContent  = c.pending  || 0;
+    document.getElementById('s-failed').textContent   = c.failed   || 0;
+    document.getElementById('s-initiated').textContent= c.initiated|| 0;
+  }
+
+  function statusBadge(s) {
+    const icons = { success:'✅', failed:'❌', pending:'⏳', verifying:'🔄', initiated:'🔵' };
+    return `<span class="badge ${s}">${icons[s]||'❓'} ${s}</span>`;
+  }
+
+  function renderTable(orders) {
+    const tbody = document.getElementById('orders-tbody');
+    if (!orders.length) { tbody.innerHTML = '<tr><td colspan="8" class="table-msg">No orders found.</td></tr>'; return; }
+    tbody.innerHTML = orders.map(o => {
+      const date    = o.created_at ? new Date(o.created_at).toLocaleString('en-BD', { dateStyle:'medium', timeStyle:'short' }) : '—';
+      const loc     = [o.customer?.thana, o.customer?.jela].filter(Boolean).join(', ') || '—';
+      const itemSummary = (o.items||[]).slice(0,2).map(i => `${i.name} ×${i.qty}`).join(', ') + (o.items?.length > 2 ? '…' : '');
+      return `<tr>
+        <td style="font-family:monospace;font-size:.78rem">${o.invoice_number?.slice(-16) || '—'}</td>
+        <td>
+          <div style="font-weight:600">${o.customer?.name||'—'}</div>
+          <div style="font-size:.75rem;color:var(--muted)">${o.customer?.phone||''}</div>
+        </td>
+        <td style="font-size:.8rem;color:var(--muted)">${loc}</td>
+        <td style="font-size:.8rem;max-width:160px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${itemSummary||'—'}</td>
+        <td style="font-weight:600">৳${Number(o.payment_amount||0).toLocaleString('en-BD')}</td>
+        <td>${statusBadge(o.status)}</td>
+        <td style="font-size:.78rem;white-space:nowrap">${date}</td>
+        <td><button class="detail-btn" onclick='showDetail(${JSON.stringify(o)})'>View</button></td>
+      </tr>`;
+    }).join('');
+  }
+
+  function renderPagination({ total, page, pages }) {
+    const pg = document.getElementById('pagination');
+    if (pages <= 1) { pg.innerHTML = ''; return; }
+    let html = `<button class="page-btn" onclick="goPage(${page-1})" ${page<=1?'disabled':''}>‹</button>`;
+    for (let i = Math.max(1,page-2); i <= Math.min(pages,page+2); i++) {
+      html += `<button class="page-btn${i===page?' active':''}" onclick="goPage(${i})">${i}</button>`;
+    }
+    html += `<button class="page-btn" onclick="goPage(${page+1})" ${page>=pages?'disabled':''}>›</button>`;
+    html += `<span style="font-size:.8rem;color:var(--muted);margin-left:.5rem">${total} total</span>`;
+    pg.innerHTML = html;
+  }
+
+  function goPage(p) { currentPage = p; loadOrders(); }
+
+  // ── Detail modal ─────────────────────────────────────────────────────────────
+  function showDetail(o) {
+    document.getElementById('modal-title').textContent = 'Order ' + (o.invoice_number?.slice(-12) || '');
+    const c = o.customer || {};
+    const full_address = [c.address_detail, c.thana, c.upojela, c.jela, c.division].filter(Boolean).join(', ');
+    document.getElementById('modal-body').innerHTML = `
+      <div class="detail-section">Customer</div>
+      <div class="detail-row"><span class="label">Name</span><span class="value">${c.name||'—'}</span></div>
+      <div class="detail-row"><span class="label">Phone</span><span class="value">${c.phone||'—'}</span></div>
+      <div class="detail-row"><span class="label">Email</span><span class="value">${c.email||'—'}</span></div>
+      <div class="detail-row"><span class="label">Address</span><span class="value">${full_address||'—'}</span></div>
+      <div class="detail-section">Payment</div>
+      <div class="detail-row"><span class="label">Invoice</span><span class="value" style="font-family:monospace;font-size:.78rem">${o.invoice_number||'—'}</span></div>
+      <div class="detail-row"><span class="label">Amount</span><span class="value">৳${Number(o.payment_amount||0).toLocaleString('en-BD')} BDT</span></div>
+      <div class="detail-row"><span class="label">Status</span><span class="value">${statusBadge(o.status)}</span></div>
+      <div class="detail-row"><span class="label">Verified</span><span class="value">${o.verified ? '✅ Yes' : '❌ No'}</span></div>
+      <div class="detail-row"><span class="label">Trx Status</span><span class="value">${o.trx_status||'—'}</span></div>
+      <div class="detail-row"><span class="label">Trx ID</span><span class="value">${o.trx_id||'—'}</span></div>
+      <div class="detail-row"><span class="label">Created</span><span class="value">${o.created_at ? new Date(o.created_at).toLocaleString('en-BD') : '—'}</span></div>
+      <div class="detail-row"><span class="label">Updated</span><span class="value">${o.updated_at ? new Date(o.updated_at).toLocaleString('en-BD') : '—'}</span></div>
+      <div class="detail-section">Items</div>
+      ${(o.items||[]).map(i => `<div class="detail-row"><span class="label">${i.name} ×${i.qty}</span><span class="value">৳${Number(i.subtotal||0).toLocaleString('en-BD')}</span></div>`).join('')}
+    `;
+    document.getElementById('modal-overlay').classList.add('show');
+  }
+
+  function closeModal() { document.getElementById('modal-overlay').classList.remove('show'); }
+</script>
+</body>
+</html>
