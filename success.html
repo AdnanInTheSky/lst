@@ -79,9 +79,9 @@
         render('success','🎉 Order Confirmed!','Payment successful. Thank you for shopping with Dhaka Market!', data);
       } else if (status === 'failed' || status === 'cancelled') {
         render('failed','❌ Payment Failed','Your payment was not completed. You have not been charged.', data);
-      } else if (attempt < 4) {
+      } else if (attempt < 12) {
         // Callback may not have fired yet — retry up to 3 times
-        setTimeout(() => verify(attempt + 1), 2500);
+        setTimeout(() => verify(attempt + 1), 5000);
       } else {
         render('failed','❌ Could Not Verify','Please contact support with your invoice number.', data);
       }
