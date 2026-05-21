@@ -1,15 +1,13 @@
 // api/_products.js
 // Single source of truth for product catalog.
-// Lives ONLY on the server — never sent to client as a pricelist.
-// Frontend displays prices from its own copy (display only, never trusted).
 
 module.exports = {
-  p1: { name: "Wireless Earbuds Pro",    price: 1490, category: "Audio" },
-  p2: { name: "Premium Phone Case",      price:  490, category: "Protection" },
-  p3: { name: "USB-C Braided Cable",     price:  390, category: "Cables" },
-  p4: { name: "Power Bank 10000 mAh",    price: 1290, category: "Power" },
-  p5: { name: "Tempered Glass Set",      price:  350, category: "Protection" },
-  p6: { name: "Smart Watch Strap",       price:  590, category: "Wearables" },
-  p7: { name: "Portable LED Lamp",       price:  890, category: "Lighting" },
-  p8: { name: "Bamboo Desk Organiser",   price:  990, category: "Lifestyle" },
+  p1: { name: "হিমসাগর আম — প্রিমিয়াম",    price: 180, category: "Premium" },
+  p2: { name: "ক্যারামিলমুকুট আম",          price: 220, category: "Premium" },
+  p3: { name: "কিং চিলিগাজী আম",            price: 200, category: "Premium" },
+  p4: { name: "কাশ জন লোলভাজী আম",         price: 250, category: "Premium" },
+  p5: { name: "হিমসাগর আম — ফ্যামিলি প্যাক", price: 850, category: "Family" },
+  p6: { name: "আমের আচার — হাতে তৈরি",     price: 350, category: "Processed" },
+  p7: { name: "আমের জুস — তাজা",            price: 180, category: "Processed" },
+  p8: { name: "আমের সরবত কনসেনট্রেট",      price: 280, category: "Processed" },
 };

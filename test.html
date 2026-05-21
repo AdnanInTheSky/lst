@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dhaka Market — Premium Lifestyle Store</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- ── Meta Pixel base code ── -->
+  <script>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+    document,'script','https://connect.facebook.net/en_US/fbevents.js');
+
+    // Replace with your Pixel ID — same as META_PIXEL_ID env var
+    fbq('init', 'YOUR_PIXEL_ID_HERE');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID_HERE&ev=PageView&noscript=1"/></noscript>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --ink:    #0d0d0d; --muted: #6b6b6b; --border: #e4e0d8;
+      --cream:  #f7f4ef; --white: #ffffff;
+      --gold:   #c8973f; --green: #1a7a4a; --red: #c0392b;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--ink); min-height: 100vh; overflow-x: hidden; }
+
+    /* NAV */
+    header { position: sticky; top: 0; z-index: 50; background: rgba(247,244,239,.92); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
+    .nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 2rem; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-family: 'DM Serif Display', serif; font-size: 1.5rem; letter-spacing: -.02em; color: var(--ink); text-decoration: none; display: flex; align-items: center; gap: .5rem; }
+    .logo-dot { width: 8px; height: 8px; background: var(--gold); border-radius: 50%; animation: pulse 2s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.4);opacity:.6} }
+    .nav-link { color: var(--muted); text-decoration: none; font-size: .88rem; font-weight: 500; }
+    .nav-link:hover { color: var(--ink); }
+    .cart-btn { display: flex; align-items: center; gap: .5rem; background: var(--ink); color: var(--white); border: none; padding: .5rem 1.1rem; border-radius: 50px; font-family: 'DM Sans',sans-serif; font-size: .875rem; font-weight: 600; cursor: pointer; transition: background .2s, transform .15s; }
+    .cart-btn:hover { background: #2a2a2a; }
+    .cart-btn.pop { animation: pop .25s ease; }
+    @keyframes pop { 0%{transform:scale(1)} 40%{transform:scale(1.2)} 100%{transform:scale(1)} }
+    .cart-badge { background: var(--gold); color: var(--ink); font-size: .72rem; font-weight: 700; padding: .1rem .45rem; border-radius: 20px; min-width: 1.3rem; text-align: center; }
+    .nav-right { display: flex; align-items: center; gap: 1.5rem; }
+
+    /* HERO */
+    .hero { max-width: 1200px; margin: 0 auto; padding: 5rem 2rem 3rem; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    .hero-eyebrow { font-size: .75rem; font-weight: 600; letter-spacing: .15em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
+    .hero-title { font-family: 'DM Serif Display', serif; font-size: clamp(2.4rem, 4.5vw, 3.6rem); line-height: 1.05; letter-spacing: -.02em; margin-bottom: 1.5rem; }
+    .hero-title em { font-style: italic; color: var(--gold); }
+    .hero-body { color: var(--muted); font-size: 1rem; line-height: 1.7; max-width: 400px; margin-bottom: 2rem; }
+    .hero-chips { display: flex; flex-wrap: wrap; gap: .6rem; }
+    .chip { font-size: .78rem; font-weight: 500; padding: .35rem .85rem; border-radius: 20px; border: 1px solid var(--border); background: var(--white); color: var(--muted); }
+    .hero-visual { position: relative; aspect-ratio: 1; max-width: 480px; }
+    .hero-visual-bg { width: 100%; height: 100%; background: linear-gradient(135deg,#e8d9c0 0%,#f0e8d6 100%); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 7rem; }
+    .hero-tag { position: absolute; bottom: 1.5rem; right: -1.5rem; background: var(--white); border-radius: 12px; padding: .9rem 1.2rem; box-shadow: 0 8px 32px rgba(0,0,0,.12); font-size: .8rem; font-weight: 600; border: 1px solid var(--border); animation: float 4s ease-in-out infinite; }
+    .hero-tag span { color: var(--green); }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+
+    /* TRUST */
+    .trust-strip { max-width: 1200px; margin: 0 auto 4rem; padding: 0 2rem; display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+    .trust-item { background: var(--white); padding: 1.5rem; text-align: center; }
+    .trust-icon { font-size: 1.5rem; margin-bottom: .5rem; }
+    .trust-name { font-size: .8rem; font-weight: 600; margin-bottom: .2rem; }
+    .trust-desc { font-size: .73rem; color: var(--muted); }
+
+    /* PRODUCTS */
+    .section-wrap { max-width: 1200px; margin: 0 auto; padding: 0 2rem 5rem; }
+    .section-head { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 2.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
+    .section-title { font-family: 'DM Serif Display', serif; font-size: 2rem; letter-spacing: -.02em; }
+    .section-count { font-size: .85rem; color: var(--muted); }
+    .products { display: grid; grid-template-columns: repeat(auto-fill,minmax(270px,1fr)); gap: 1.5rem; }
+    .product-card { background: var(--white); border-radius: 10px; border: 1px solid var(--border); overflow: hidden; transition: transform .3s cubic-bezier(.2,.8,.2,1), box-shadow .3s; }
+    .product-card:hover { transform: translateY(-5px); box-shadow: 0 20px 50px rgba(0,0,0,.08); }
+    .product-img { aspect-ratio: 4/3; background: var(--cream); display: flex; align-items: center; justify-content: center; font-size: 3.5rem; position: relative; }
+    .product-label { position: absolute; top: .75rem; left: .75rem; font-size: .68rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; background: var(--gold); color: var(--white); padding: .25rem .6rem; border-radius: 4px; }
+    .product-body { padding: 1.25rem; }
+    .product-name { font-family: 'DM Serif Display', serif; font-size: 1.1rem; margin-bottom: .3rem; }
+    .product-desc { font-size: .83rem; color: var(--muted); margin-bottom: 1rem; line-height: 1.5; }
+    .product-footer { display: flex; align-items: center; justify-content: space-between; }
+    .product-price { font-size: 1.2rem; font-weight: 600; }
+    .product-price small { font-size: .75rem; font-weight: 400; color: var(--muted); }
+    .stepper { display: flex; align-items: center; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+    .stepper button { width: 30px; height: 30px; border: none; background: var(--cream); cursor: pointer; font-size: .95rem; color: var(--ink); transition: background .15s; display: flex; align-items: center; justify-content: center; }
+    .stepper button:hover { background: var(--border); }
+    .stepper .val { width: 34px; height: 30px; text-align: center; font-weight: 600; font-size: .85rem; border-left: 1px solid var(--border); border-right: 1px solid var(--border); display: flex; align-items: center; justify-content: center; background: var(--white); }
+    .add-btn { display: flex; align-items: center; justify-content: center; gap: .4rem; width: 100%; margin-top: .9rem; background: var(--ink); color: var(--white); border: none; padding: .65rem; border-radius: 8px; font-family: 'DM Sans',sans-serif; font-size: .88rem; font-weight: 600; cursor: pointer; transition: background .2s, transform .1s; }
+    .add-btn:hover { background: #2a2a2a; }
+    .add-btn:active { transform: scale(.98); }
+
+    /* CART DRAWER */
+    #overlay { position: fixed; inset: 0; background: rgba(0,0,0,.4); backdrop-filter: blur(4px); z-index: 90; opacity: 0; pointer-events: none; transition: opacity .3s; }
+    #overlay.show { opacity: 1; pointer-events: all; }
+    #cart-drawer { position: fixed; top: 0; right: 0; height: 100%; width: 460px; max-width: 100vw; background: var(--white); z-index: 100; display: flex; flex-direction: column; transform: translateX(110%); transition: transform .35s cubic-bezier(.4,0,.2,1); box-shadow: -12px 0 60px rgba(0,0,0,.12); }
+    #cart-drawer.open { transform: translateX(0); }
+    .drawer-head { padding: 1.5rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+    .drawer-title { font-family: 'DM Serif Display', serif; font-size: 1.4rem; }
+    .close-btn { width: 36px; height: 36px; border: 1px solid var(--border); border-radius: 50%; background: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1rem; transition: background .15s; }
+    .close-btn:hover { background: var(--cream); }
+    .drawer-body { flex: 1; overflow-y: auto; padding: 1rem 1.5rem; }
+    .empty-state { text-align: center; padding: 4rem 1rem; color: var(--muted); }
+    .empty-state .emoji { font-size: 3rem; margin-bottom: 1rem; }
+    .cart-item { display: grid; grid-template-columns: 52px 1fr auto; gap: .75rem; align-items: center; padding: .9rem 0; border-bottom: 1px solid var(--border); }
+    .ci-img { width: 52px; height: 52px; background: var(--cream); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
+    .ci-name { font-size: .88rem; font-weight: 600; margin-bottom: .2rem; }
+    .ci-price { font-size: .8rem; color: var(--muted); }
+    .ci-ctrl { display: flex; align-items: center; gap: .4rem; }
+    .ci-btn { width: 26px; height: 26px; border: 1px solid var(--border); border-radius: 6px; background: none; cursor: pointer; font-size: .85rem; display: flex; align-items: center; justify-content: center; transition: border-color .15s, background .15s; }
+    .ci-btn:hover { border-color: var(--ink); background: var(--cream); }
+    .ci-qty { font-weight: 700; min-width: 1.4rem; text-align: center; font-size: .85rem; }
+
+    /* DRAWER FOOTER */
+    .drawer-foot { padding: 1.25rem 1.5rem; border-top: 1px solid var(--border); background: var(--cream); }
+    .total-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1.25rem; }
+    .total-label { font-size: .85rem; color: var(--muted); }
+    .total-amount { font-family: 'DM Serif Display', serif; font-size: 1.6rem; }
+
+    /* FORM */
+    .form-grid { display: grid; gap: .6rem; }
+    .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; }
+    .form-input, .form-select { width: 100%; background: var(--white); border: 1.5px solid var(--border); border-radius: 8px; padding: .65rem 1rem; font-family: 'DM Sans',sans-serif; font-size: .88rem; color: var(--ink); outline: none; transition: border-color .2s, box-shadow .2s; appearance: none; }
+    .form-input:focus, .form-select:focus { border-color: var(--ink); box-shadow: 0 0 0 3px rgba(13,13,13,.06); }
+    .form-input::placeholder { color: #bbb; }
+    .form-input.error, .form-select.error { border-color: var(--red); }
+    .form-label { font-size: .72rem; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); margin-bottom: .25rem; display: block; }
+    .form-section { font-size: .72rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); padding: .5rem 0 .25rem; border-top: 1px solid var(--border); margin-top: .4rem; }
+    .pay-btn { width: 100%; margin-top: .75rem; background: var(--ink); color: var(--white); border: none; padding: .85rem 1rem; border-radius: 10px; font-family: 'DM Sans',sans-serif; font-size: .95rem; font-weight: 700; letter-spacing: .02em; cursor: pointer; transition: background .2s, transform .1s; display: flex; align-items: center; justify-content: center; gap: .5rem; }
+    .pay-btn:hover:not(:disabled) { background: #2a2a2a; }
+    .pay-btn:disabled { opacity: .55; cursor: not-allowed; }
+    .secure-note { text-align: center; font-size: .72rem; color: var(--muted); margin-top: .6rem; display: flex; align-items: center; justify-content: center; gap: .3rem; }
+
+    /* TOAST */
+    #toast { position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%) translateY(5rem); background: var(--ink); color: var(--white); padding: .75rem 1.5rem; border-radius: 50px; font-size: .875rem; font-weight: 500; z-index: 200; transition: transform .3s; pointer-events: none; white-space: nowrap; box-shadow: 0 4px 20px rgba(0,0,0,.18); }
+    #toast.show { transform: translateX(-50%) translateY(0); }
+    #toast.err { background: var(--red); }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) { .hero { grid-template-columns: 1fr; } .trust-strip { grid-template-columns: repeat(2,1fr); } }
+    @media (max-width: 600px) { .nav-link { display: none; } .hero { padding: 3rem 1rem 2rem; } .form-row-2 { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<div id="overlay" onclick="closeCart()"></div>
+
+<!-- CART DRAWER -->
+<div id="cart-drawer">
+  <div class="drawer-head">
+    <span class="drawer-title">Your Cart</span>
+    <button class="close-btn" onclick="closeCart()">✕</button>
+  </div>
+  <div class="drawer-body" id="cart-body">
+    <div class="empty-state"><div class="emoji">🛍️</div><p>Your cart is empty.</p></div>
+  </div>
+  <div class="drawer-foot" id="cart-foot" style="display:none">
+    <div class="total-row">
+      <span class="total-label">Total</span>
+      <span class="total-amount">৳<span id="total-val">0</span></span>
+    </div>
+    <div class="form-grid">
+      <!-- Customer -->
+      <div><label class="form-label">Full Name</label><input class="form-input" id="f-name" placeholder="Rahim Uddin" /></div>
+      <div class="form-row-2">
+        <div><label class="form-label">Phone</label><input class="form-input" id="f-phone" placeholder="01XXXXXXXXX" /></div>
+        <div><label class="form-label">Email</label><input class="form-input" id="f-email" type="email" placeholder="you@example.com" /></div>
+      </div>
+      <!-- Address -->
+      <div class="form-section">Delivery Address</div>
+      <div class="form-row-2">
+        <div>
+          <label class="form-label">Division</label>
+          <select class="form-select" id="f-division" onchange="loadJelas()">
+            <option value="">Select Division</option>
+            <option>Dhaka</option><option>Chittagong</option><option>Rajshahi</option>
+            <option>Khulna</option><option>Barisal</option><option>Sylhet</option>
+            <option>Rangpur</option><option>Mymensingh</option>
+          </select>
+        </div>
+        <div><label class="form-label">Jela (District)</label><input class="form-input" id="f-jela" placeholder="e.g. Dhaka" /></div>
+      </div>
+      <div class="form-row-2">
+        <div><label class="form-label">Upojela</label><input class="form-input" id="f-upojela" placeholder="e.g. Dhamrai" /></div>
+        <div><label class="form-label">Thana</label><input class="form-input" id="f-thana" placeholder="e.g. Dhamrai" /></div>
+      </div>
+      <div><label class="form-label">Address Detail</label><input class="form-input" id="f-address" placeholder="House, Road, Area..." /></div>
+    </div>
+    <button class="pay-btn" id="pay-btn" onclick="checkout()">🔒 Pay with PayStation</button>
+    <div class="secure-note">🛡️ SSL encrypted · PayStation BD</div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="nav-inner">
+    <a href="#" class="logo">Dhaka Market <span class="logo-dot"></span></a>
+    <div class="nav-right">
+      <a href="#products" class="nav-link">Collection</a>
+      <button class="cart-btn" id="cart-toggle-btn" onclick="openCart()">
+        🛍️ Cart <span class="cart-badge" id="cart-count">0</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div>
+    <p class="hero-eyebrow">✦ Premium Lifestyle Shop</p>
+    <h1 class="hero-title">Discover<br><em>curated</em><br>essentials.</h1>
+    <p class="hero-body">Handpicked lifestyle products delivered across Bangladesh. bKash, Nagad, cards — pay your way.</p>
+    <div class="hero-chips">
+      <span class="chip">🇧🇩 Made for Bangladesh</span>
+      <span class="chip">📦 Fast Delivery</span>
+      <span class="chip">✅ 7-Day Returns</span>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-visual-bg">🛒</div>
+    <div class="hero-tag"><span>✓</span> Secure Checkout<br>via PayStation</div>
+  </div>
+</section>
+
+<!-- TRUST -->
+<div class="trust-strip">
+  <div class="trust-item"><div class="trust-icon">🏅</div><div class="trust-name">Authentic</div><div class="trust-desc">100% genuine products</div></div>
+  <div class="trust-item"><div class="trust-icon">🚚</div><div class="trust-name">Nationwide</div><div class="trust-desc">Dhaka 1-2 days, BD 3-5 days</div></div>
+  <div class="trust-item"><div class="trust-icon">🔒</div><div class="trust-name">Secure Pay</div><div class="trust-desc">PayStation PSO-licensed</div></div>
+  <div class="trust-item"><div class="trust-icon">↩️</div><div class="trust-name">7-Day Returns</div><div class="trust-desc">Hassle-free returns</div></div>
+</div>
+
+<!-- PRODUCTS -->
+<div class="section-wrap" id="products">
+  <div class="section-head">
+    <h2 class="section-title">Our Collection</h2>
+    <span class="section-count" id="product-count"></span>
+  </div>
+  <div class="products" id="product-grid"></div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+  // ── Product catalog (display only — server recalculates prices) ──────────────
+  const PRODUCTS = {
+    p1: { name: "Wireless Earbuds Pro",   price: 1490, emoji: "🎧", desc: "Crystal-clear audio, 24h battery." },
+    p2: { name: "Premium Phone Case",     price:  490, emoji: "📱", desc: "Military-grade drop protection." },
+    p3: { name: "USB-C Braided Cable",    price:  390, emoji: "🔌", desc: "Fast charge, tangle-free nylon." },
+    p4: { name: "Power Bank 10000 mAh",   price: 1290, emoji: "🔋", desc: "Dual-port, airline carry-on safe." },
+    p5: { name: "Tempered Glass Set",     price:  350, emoji: "🛡️", desc: "9H hardness, oleophobic coat." },
+    p6: { name: "Smart Watch Strap",      price:  590, emoji: "⌚", desc: "Soft silicone, universal 22mm." },
+    p7: { name: "Portable LED Lamp",      price:  890, emoji: "💡", desc: "USB-powered, 3 brightness modes." },
+    p8: { name: "Bamboo Desk Organiser",  price:  990, emoji: "💡", desc: "Eco-friendly, holds pens & cables." },
+  };
+
+  // ── State ────────────────────────────────────────────────────────────────────
+  let cart = {};
+
+  // ── Meta Pixel helpers ───────────────────────────────────────────────────────
+  function getFbp() { return document.cookie.match(/_fbp=([^;]+)/)?.[1] || null; }
+  function getFbc() { return document.cookie.match(/_fbc=([^;]+)/)?.[1] || new URLSearchParams(location.search).get('fbclid') || null; }
+  function pixelAddToCart(pid) {
+    if (typeof fbq === "undefined") return;
+    const p = PRODUCTS[pid];
+    fbq('track', 'AddToCart', {
+      content_ids:  [pid],
+      content_name: p.name,
+      content_type: 'product',
+      value:        p.price,
+      currency:     'BDT',
+    });
+  }
+  function pixelInitiateCheckout() {
+    if (typeof fbq === "undefined") return;
+    fbq('track', 'InitiateCheckout', {
+      content_ids: Object.keys(cart),
+      num_items:   cartCount(),
+      value:       cartTotal(),
+      currency:    'BDT',
+    }, { eventID: `ic-${Date.now()}` });   // eventID for dedup with CAPI
+  }
+
+  // ── Cart logic ───────────────────────────────────────────────────────────────
+  function addToCart(pid) {
+    cart[pid] = (cart[pid] || 0) + 1;
+    refreshAll();
+    toast(`${PRODUCTS[pid].emoji} Added to cart!`);
+    popBtn();
+    pixelAddToCart(pid);
+  }
+  function adjustQty(pid, delta) {
+    const next = (cart[pid] || 0) + delta;
+    if (next <= 0) delete cart[pid]; else if (next <= 10) cart[pid] = next;
+    refreshAll();
+  }
+  function cartTotal() { return Object.entries(cart).reduce((s,[pid,qty]) => s + (PRODUCTS[pid]?.price||0)*qty, 0); }
+  function cartCount() { return Object.values(cart).reduce((a,b) => a+b, 0); }
+  function cartPayload() { return Object.entries(cart).map(([id,qty]) => ({id,qty})); }
+
+  // ── Render ───────────────────────────────────────────────────────────────────
+  function renderProducts() {
+    const grid = document.getElementById('product-grid');
+    document.getElementById('product-count').textContent = Object.keys(PRODUCTS).length + ' items';
+    grid.innerHTML = Object.entries(PRODUCTS).map(([pid,p]) => `
+      <div class="product-card">
+        <div class="product-img"><span class="product-label">New</span>${p.emoji}</div>
+        <div class="product-body">
+          <h3 class="product-name">${p.name}</h3>
+          <p class="product-desc">${p.desc}</p>
+          <div class="product-footer">
+            <span class="product-price">৳${p.price.toLocaleString('en-BD')} <small>BDT</small></span>
+            <div class="stepper">
+              <button onclick="adjustQty('${pid}',-1)">−</button>
+              <span class="val" id="sq-${pid}">${cart[pid]||0}</span>
+              <button onclick="adjustQty('${pid}',1)">+</button>
+            </div>
+          </div>
+          <button class="add-btn" onclick="addToCart('${pid}')">＋ Add to cart</button>
+        </div>
+      </div>`).join('');
+  }
+
+  function refreshAll() {
+    const count = cartCount();
+    document.getElementById('cart-count').textContent = count;
+    document.getElementById('total-val').textContent  = cartTotal().toLocaleString('en-BD');
+    Object.keys(PRODUCTS).forEach(pid => {
+      const el = document.getElementById('sq-'+pid);
+      if (el) el.textContent = cart[pid] || 0;
+    });
+    const body = document.getElementById('cart-body');
+    const foot = document.getElementById('cart-foot');
+    if (count === 0) {
+      body.innerHTML = `<div class="empty-state"><div class="emoji">🛍️</div><p>Your cart is empty.</p></div>`;
+      foot.style.display = 'none';
+      return;
+    }
+    foot.style.display = 'block';
+    body.innerHTML = Object.entries(cart).map(([pid,qty]) => {
+      const p = PRODUCTS[pid];
+      return `<div class="cart-item">
+        <div class="ci-img">${p.emoji}</div>
+        <div><div class="ci-name">${p.name}</div><div class="ci-price">৳${(p.price*qty).toLocaleString('en-BD')}</div></div>
+        <div class="ci-ctrl">
+          <button class="ci-btn" onclick="adjustQty('${pid}',-1)">−</button>
+          <span class="ci-qty">${qty}</span>
+          <button class="ci-btn" onclick="adjustQty('${pid}',1)">+</button>
+        </div></div>`;
+    }).join('');
+  }
+
+  // ── Cart drawer ──────────────────────────────────────────────────────────────
+  function openCart() { document.getElementById('cart-drawer').classList.add('open'); document.getElementById('overlay').classList.add('show'); document.body.style.overflow='hidden'; }
+  function closeCart() { document.getElementById('cart-drawer').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); document.body.style.overflow=''; }
+  function popBtn() { const b=document.getElementById('cart-toggle-btn'); b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop'); }
+
+  // ── Checkout ─────────────────────────────────────────────────────────────────
+  async function checkout() {
+    const fields = ['f-name','f-phone','f-email','f-division','f-jela','f-upojela','f-thana','f-address'];
+    fields.forEach(id => document.getElementById(id)?.classList.remove('error'));
+
+    const name     = document.getElementById('f-name').value.trim();
+    const phone    = document.getElementById('f-phone').value.trim();
+    const email    = document.getElementById('f-email').value.trim();
+    const division = document.getElementById('f-division').value;
+    const jela     = document.getElementById('f-jela').value.trim();
+    const upojela  = document.getElementById('f-upojela').value.trim();
+    const thana    = document.getElementById('f-thana').value.trim();
+    const address  = document.getElementById('f-address').value.trim();
+
+    let err = false;
+    const mark = id => { document.getElementById(id)?.classList.add('error'); err = true; };
+    if (!name)     mark('f-name');
+    if (!phone)    mark('f-phone');
+    if (!email)    mark('f-email');
+    if (!division) mark('f-division');
+    if (!jela)     mark('f-jela');
+    if (!upojela)  mark('f-upojela');
+    if (!thana)    mark('f-thana');
+    if (err) { toast('Please fill all required fields', true); return; }
+    if (cartCount() === 0) { toast('Cart is empty', true); return; }
+
+    const btn = document.getElementById('pay-btn');
+    btn.disabled = true;
+    btn.textContent = '⏳ Connecting to PayStation…';
+
+    const icEventId = 'ic-' + Date.now();
+    pixelInitiateCheckout();
+
+    try {
+      const res = await fetch('/api/initiate', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          items:          cartPayload(),
+          cust_name:      name,
+          cust_phone:     phone,
+          cust_email:     email,
+          division,
+          jela,
+          upojela,
+          thana,
+          address_detail: address,
+          fbp:            getFbp(),
+          fbc:            getFbc(),
+          event_id:       icEventId,
+        }),
+      });
+      const data = await res.json();
+      if (data.payment_url) {
+        sessionStorage.setItem('lastOrder', JSON.stringify({
+          invoice: data.invoice_number, name,
+          amount: cartTotal(),
+          items: Object.entries(cart).map(([pid,qty]) => ({ name: PRODUCTS[pid].name, emoji: PRODUCTS[pid].emoji, qty, price: PRODUCTS[pid].price })),
+        }));
+        window.location.href = data.payment_url;
+      } else {
+        toast(data.error || 'Payment failed. Please try again.', true);
+        btn.disabled = false;
+        btn.innerHTML = '🔒 Pay with PayStation';
+      }
+    } catch (e) {
+      toast('Network error. Please try again.', true);
+      btn.disabled = false;
+      btn.innerHTML = '🔒 Pay with PayStation';
+    }
+  }
+
+  // ── Toast ────────────────────────────────────────────────────────────────────
+  let _tt;
+  function toast(msg, isErr=false) {
+    const el = document.getElementById('toast');
+    el.textContent = msg;
+    el.className = 'show' + (isErr ? ' err' : '');
+    clearTimeout(_tt);
+    _tt = setTimeout(() => { el.className=''; }, 3200);
+  }
+
+  // ── Init ─────────────────────────────────────────────────────────────────────
+  renderProducts();
+  refreshAll();
+</script>
+</body>
+</html>
