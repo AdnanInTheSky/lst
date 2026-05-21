@@ -2,14 +2,12 @@
 <html lang="bn">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>আমবাড়ি — সাতক্ষীরার সেরা হিমসাগর আম</title>
 
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
-  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -50,22 +48,13 @@
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap');
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; -webkit-tap-highlight-color: transparent; }
     body { font-family: 'Noto Sans Bengali', 'DM Sans', sans-serif; }
     .product-card:hover .product-img img { transform: scale(1.05); }
-    /* Custom scrollbar for cart */
-    #cart-body::-webkit-scrollbar { width: 6px; }
-    #cart-body::-webkit-scrollbar-track { background: #FFF8E7; }
-    #cart-body::-webkit-scrollbar-thumb { background: #E8910A; border-radius: 3px; }
-    /* Form error states */
-    .form-input.error { border-color: #EF4444 !important; box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15) !important; }
-    .form-input.valid { border-color: #22C55E !important; }
-    .form-hint { font-size: 0.7rem; margin-top: 0.25rem; }
-    .form-hint.error { color: #EF4444; }
-    .form-hint.valid { color: #22C55E; }
+    button, a { touch-action: manipulation; }
+    body { overflow-x: hidden; }
   </style>
 
-  <!-- Meta Pixel -->
   <script>
     !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
     n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
@@ -81,189 +70,115 @@
 </head>
 <body class="bg-cream text-[#2D1810] min-h-screen overflow-x-hidden">
 
-<!-- Overlay -->
-<div id="overlay" onclick="closeCart()" class="fixed inset-0 bg-leaf-green/25 backdrop-blur-sm z-40 opacity-0 pointer-events-none transition-opacity duration-300"></div>
-
-<!-- Cart Drawer -->
-<div id="cart-drawer" class="fixed top-0 right-0 h-full w-[480px] max-w-full bg-white z-50 flex flex-col translate-x-full transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] shadow-[-12px_0_60px_rgba(0,0,0,0.12)]">
-  <div class="p-6 border-b-2 border-[#F5DEB3] flex items-center justify-between bg-cream shrink-0">
-    <span class="font-bengali text-xl font-bold text-leaf-green">🛒 আপনার কার্ট</span>
-    <button class="w-10 h-10 border-2 border-[#F5DEB3] rounded-full flex items-center justify-center text-lg text-muted transition-all duration-150 hover:bg-cream-light hover:border-mango-orange hover:text-mango-orange shrink-0" onclick="closeCart()">✕</button>
-  </div>
-
-  <!-- Cart Items Area -->
-  <div class="flex-1 overflow-y-auto p-4 px-6 min-h-0" id="cart-body">
-    <div class="text-center py-16 text-muted">
-      <div class="text-[3.5rem] mb-4">🥭</div>
-      <p>আপনার কার্ট খালি</p>
-    </div>
-  </div>
-
-  <!-- Checkout Form Area -->
-  <div class="p-5 border-t-2 border-[#F5DEB3] bg-cream shrink-0 hidden" id="cart-foot">
-    <div class="flex justify-between items-baseline mb-5">
-      <span class="text-sm text-muted font-medium">মোট</span>
-      <span class="font-bengali text-[1.7rem] font-extrabold text-mango-orange">৳<span id="total-val">0</span></span>
-    </div>
-
-    <!-- Checkout Form -->
-    <div class="grid gap-3">
-      <div>
-        <label class="text-[0.72rem] font-bold tracking-wide uppercase text-muted mb-1 block">পুরো নাম</label>
-        <input class="form-input w-full bg-white border-2 border-[#F5DEB3] rounded-lg px-4 py-2.5 font-inherit text-sm text-[#2D1810] outline-none transition-all duration-200 focus:border-mango-orange focus:shadow-[0_0_0_4px_rgba(232,145,10,0.1)] placeholder-[#C4B5A0]" id="f-name" placeholder="রহিম উদ্দিন" />
-      </div>
-      <div class="grid grid-cols-2 gap-2">
-        <div>
-          <label class="text-[0.72rem] font-bold tracking-wide uppercase text-muted mb-1 block">ফোন</label>
-          <input class="form-input w-full bg-white border-2 border-[#F5DEB3] rounded-lg px-4 py-2.5 font-inherit text-sm text-[#2D1810] outline-none transition-all duration-200 focus:border-mango-orange focus:shadow-[0_0_0_4px_rgba(232,145,10,0.1)] placeholder-[#C4B5A0]" id="f-phone" placeholder="01XXXXXXXXX" maxlength="11" />
-          <div class="form-hint" id="hint-phone"></div>
-        </div>
-        <div>
-          <label class="text-[0.72rem] font-bold tracking-wide uppercase text-muted mb-1 block">ইমেইল</label>
-          <input class="form-input w-full bg-white border-2 border-[#F5DEB3] rounded-lg px-4 py-2.5 font-inherit text-sm text-[#2D1810] outline-none transition-all duration-200 focus:border-mango-orange focus:shadow-[0_0_0_4px_rgba(232,145,10,0.1)] placeholder-[#C4B5A0]" id="f-email" type="email" placeholder="you@example.com" />
-          <div class="form-hint" id="hint-email"></div>
-        </div>
-      </div>
-
-      <div class="text-[0.72rem] font-bold tracking-wider uppercase text-leaf-green py-2 pb-1 border-t-2 border-[#F5DEB3] mt-1">ডেলিভারি ঠিকানা</div>
-
-      <div class="grid grid-cols-2 gap-2">
-        <div>
-          <label class="text-[0.72rem] font-bold tracking-wide uppercase text-muted mb-1 block">বিভাগ</label>
-          <input class="form-input w-full bg-white border-2 border-[#F5DEB3] rounded-lg px-4 py-2.5 font-inherit text-sm text-[#2D1810] outline-none transition-all duration-200 focus:border-mango-orange focus:shadow-[0_0_0_4px_rgba(232,145,10,0.1)] placeholder-[#C4B5A0]" id="f-division" placeholder="যেমন: ঢাকা" />
-        </div>
-        <div>
-          <label class="text-[0.72rem] font-bold tracking-wide uppercase text-muted mb-1 block">জেলা</label>
-          <input class="form-input w-full bg-white border-2 border-[#F5DEB3] rounded-lg px-4 py-2.5 font-inherit text-sm text-[#2D1810] outline-none transition-all duration-200 focus:border-mango-orange focus:shadow-[0_0_0_4px_rgba(232,145,10,0.1)] placeholder-[#C4B5A0]" id="f-jela" placeholder="যেমন: সাতক্ষীরা" />
-        </div>
-      </div>
-
-      <div class="grid grid-cols-2 gap-2">
-        <div>
-          <label class="text-[0.72rem] font-bold tracking-wide uppercase text-muted mb-1 block">উপজেলা</label>
-          <input class="form-input w-full bg-white border-2 border-[#F5DEB3] rounded-lg px-4 py-2.5 font-inherit text-sm text-[#2D1810] outline-none transition-all duration-200 focus:border-mango-orange focus:shadow-[0_0_0_4px_rgba(232,145,10,0.1)] placeholder-[#C4B5A0]" id="f-upojela" placeholder="যেমন: তালা" />
-        </div>
-        <div>
-          <label class="text-[0.72rem] font-bold tracking-wide uppercase text-muted mb-1 block">থানা</label>
-          <input class="form-input w-full bg-white border-2 border-[#F5DEB3] rounded-lg px-4 py-2.5 font-inherit text-sm text-[#2D1810] outline-none transition-all duration-200 focus:border-mango-orange focus:shadow-[0_0_0_4px_rgba(232,145,10,0.1)] placeholder-[#C4B5A0]" id="f-thana" placeholder="যেমন: তালা" />
-        </div>
-      </div>
-
-      <div>
-        <label class="text-[0.72rem] font-bold tracking-wide uppercase text-muted mb-1 block">বিস্তারিত ঠিকানা</label>
-        <input class="form-input w-full bg-white border-2 border-[#F5DEB3] rounded-lg px-4 py-2.5 font-inherit text-sm text-[#2D1810] outline-none transition-all duration-200 focus:border-mango-orange focus:shadow-[0_0_0_4px_rgba(232,145,10,0.1)] placeholder-[#C4B5A0]" id="f-address" placeholder="বাড়ি, রোড, এলাকা..." />
-      </div>
-    </div>
-
-    <button class="pay-btn w-full mt-3 bg-gradient-to-br from-mango-orange to-mango-ripe text-white border-0 py-3.5 px-4 rounded-xl font-inherit text-base font-bold tracking-wide cursor-pointer transition-all duration-200 flex items-center justify-center gap-2 shadow-[0_4px_16px_rgba(232,145,10,0.3)] hover:translate-y-[-2px] hover:shadow-[0_6px_24px_rgba(232,145,10,0.4)] disabled:opacity-55 disabled:cursor-not-allowed" id="pay-btn" onclick="checkout()">🔒 PayStation-এ পেমেন্ট করুন</button>
-    <div class="text-center text-xs text-muted mt-2.5 flex items-center justify-center gap-1">🛡️ SSL এনক্রিপ্টেড · PayStation BD</div>
-  </div>
-</div>
-
 <!-- Header -->
 <header class="sticky top-0 z-30 bg-cream/95 backdrop-blur-md border-b border-[#F5DEB3]">
-  <div class="max-w-6xl mx-auto px-8 h-[72px] flex items-center justify-between">
-    <a href="/" class="flex items-center gap-3 no-underline">
-      <div class="w-11 h-11 bg-gradient-to-br from-mango-orange to-mango-yellow rounded-xl flex items-center justify-center text-xl shadow-[0_2px_8px_rgba(232,145,10,0.12)]">🥭</div>
+  <div class="max-w-6xl mx-auto px-4 sm:px-8 h-[60px] sm:h-[72px] flex items-center justify-between">
+    <a href="/" class="flex items-center gap-2 sm:gap-3 no-underline">
+      <div class="w-9 h-9 sm:w-11 sm:h-11 bg-gradient-to-br from-mango-orange to-mango-yellow rounded-xl flex items-center justify-center text-lg sm:text-xl shadow-[0_2px_8px_rgba(232,145,10,0.12)]">🥭</div>
       <div>
-        <div class="font-bengali text-xl font-bold text-leaf-green tracking-tight">আমবাড়ি</div>
-        <div class="text-xs text-muted font-medium tracking-wider">সাতক্ষীরার সেরা আম</div>
+        <div class="font-bengali text-base sm:text-xl font-bold text-leaf-green tracking-tight">আমবাড়ি</div>
+        <div class="text-[0.65rem] sm:text-xs text-muted font-medium tracking-wider hidden sm:block">সাতক্ষীরার সেরা আম</div>
       </div>
     </a>
-    <div class="flex items-center gap-5">
+    <div class="flex items-center gap-3 sm:gap-5">
       <a href="tel:01822916488" class="flex items-center gap-1 text-leaf-green text-sm font-bold no-underline">
         <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-        <span>01822916488</span>
+        <span class="hidden sm:inline">01822916488</span>
       </a>
-      <button class="flex items-center gap-2 bg-mango-orange text-white border-0 py-2.5 px-4.5 rounded-full font-bengali text-sm font-bold cursor-pointer transition-all duration-200 shadow-[0_2px_12px_rgba(232,145,10,0.3)] hover:bg-mango-ripe hover:translate-y-[-1px]" id="cart-toggle-btn" onclick="openCart()">
-        🛒 কার্ট <span class="bg-leaf-green text-white text-xs font-bold py-0.5 px-2 rounded-full min-w-[1.3rem] text-center" id="cart-count">0</span>
-      </button>
+      <a href="cart.html" class="flex items-center gap-1.5 sm:gap-2 bg-mango-orange text-white border-0 py-2 sm:py-2.5 px-3 sm:px-4.5 rounded-full font-bengali text-xs sm:text-sm font-bold cursor-pointer transition-all duration-200 shadow-[0_2px_12px_rgba(232,145,10,0.3)] hover:bg-mango-ripe hover:translate-y-[-1px] active:scale-95 no-underline" id="cart-toggle-btn">
+        <span class="sm:hidden">🛒</span><span class="hidden sm:inline">🛒 কার্ট</span>
+        <span class="bg-leaf-green text-white text-[0.65rem] sm:text-xs font-bold py-0.5 px-1.5 sm:px-2 rounded-full min-w-[1.3rem] text-center" id="cart-count">0</span>
+      </a>
     </div>
   </div>
 </header>
 
 <!-- Hero Section -->
-<section class="max-w-6xl mx-auto px-8 py-16 pb-12 grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-12 items-center">
-  <div>
-    <p class="text-xs font-bold tracking-widest uppercase text-mango-orange mb-3 flex items-center gap-2">
-      <span class="w-6 h-0.5 bg-mango-orange rounded"></span>
-      <span class="flex-1 max-w-16 h-0.5 bg-mango-orange rounded opacity-40"></span>
-      সাতক্ষীরার মিষ্টি কন্যা বাগান থেকে
-    </p>
-    <h1 class="font-bengali text-[clamp(2.2rem,4vw,3.2rem)] leading-tight font-bold text-leaf-green mb-5">
-      প্রাকৃতিকভাবে পাকা<br><span class="text-mango-orange font-extrabold">সুমিষ্ট হিমসাগর আম</span>
-    </h1>
-    <p class="text-muted text-base leading-relaxed max-w-xl mb-7">
-      ১০০% ক্যামিক্যালমুক্ত হিমসাগর আম — সাতক্ষীরার নিজস্ব বাগান থেকে সরাসরি আপনার দরজায়। কোনো স্প্রে/কার্বাইড নেই, কোনো ভেজাল নেই।
-    </p>
-    <div class="flex gap-3 mb-6 flex-wrap">
-      <a href="#products" class="bg-mango-orange text-white border-0 py-3.5 px-7 rounded-xl font-inherit text-[0.95rem] font-bold cursor-pointer transition-all duration-200 shadow-[0_4px_16px_rgba(232,145,10,0.3)] hover:bg-mango-ripe hover:translate-y-[-2px] hover:shadow-[0_6px_20px_rgba(232,145,10,0.4)] no-underline inline-flex items-center gap-1">এখনই অর্ডার করুন →</a>
-      <a href="#products" class="bg-transparent text-leaf-green border-2 border-[#E8D5B7] py-3.5 px-7 rounded-xl font-inherit text-[0.95rem] font-medium cursor-pointer transition-all duration-200 no-underline inline-flex items-center hover:border-mango-orange hover:text-mango-orange">প্যাকেজ দেখুন</a>
+<section class="max-w-6xl mx-auto px-4 sm:px-8 py-8 sm:py-16 pb-8 sm:pb-12">
+  <div class="grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-8 sm:gap-12 items-center">
+    <div>
+      <p class="text-[0.65rem] sm:text-xs font-bold tracking-widest uppercase text-mango-orange mb-3 flex items-center gap-2">
+        <span class="w-6 h-0.5 bg-mango-orange rounded"></span>
+        <span class="flex-1 max-w-16 h-0.5 bg-mango-orange rounded opacity-40"></span>
+        <span class="truncate">সাতক্ষীরার মিষ্টি কন্যা বাগান থেকে</span>
+      </p>
+      <h1 class="font-bengali text-[1.8rem] sm:text-[clamp(2.2rem,4vw,3.2rem)] leading-tight font-bold text-leaf-green mb-4 sm:mb-5">
+        প্রাকৃতিকভাবে পাকা<br><span class="text-mango-orange font-extrabold">সুমিষ্ট হিমসাগর আম</span>
+      </h1>
+      <p class="text-muted text-sm sm:text-base leading-relaxed max-w-xl mb-5 sm:mb-7">
+        ১০০% ক্যামিক্যালমুক্ত হিমসাগর আম — সাতক্ষীরার নিজস্ব বাগান থেকে সরাসরি আপনার দরজায়। কোনো স্প্রে/কার্বাইড নেই, কোনো ভেজাল নেই।
+      </p>
+      <div class="flex gap-2 sm:gap-3 mb-5 sm:mb-6 flex-wrap">
+        <a href="#products" class="bg-mango-orange text-white border-0 py-3 sm:py-3.5 px-5 sm:px-7 rounded-xl font-inherit text-[0.85rem] sm:text-[0.95rem] font-bold cursor-pointer transition-all duration-200 shadow-[0_4px_16px_rgba(232,145,10,0.3)] hover:bg-mango-ripe hover:translate-y-[-2px] hover:shadow-[0_6px_20px_rgba(232,145,10,0.4)] no-underline inline-flex items-center gap-1 active:scale-95">এখনই অর্ডার করুন →</a>
+        <a href="#products" class="bg-transparent text-leaf-green border-2 border-[#E8D5B7] py-3 sm:py-3.5 px-5 sm:px-7 rounded-xl font-inherit text-[0.85rem] sm:text-[0.95rem] font-medium cursor-pointer transition-all duration-200 no-underline inline-flex items-center hover:border-mango-orange hover:text-mango-orange active:scale-95">প্যাকেজ দেখুন</a>
+      </div>
+      <div class="flex flex-wrap gap-2 sm:gap-2.5">
+        <span class="text-xs sm:text-sm font-medium py-1.5 px-3 sm:px-4 rounded-full border border-[#F5DEB3] bg-white text-muted flex items-center gap-1">✦ ক্যারামিলমুকুট</span>
+        <span class="text-xs sm:text-sm font-medium py-1.5 px-3 sm:px-4 rounded-full border border-[#F5DEB3] bg-white text-muted flex items-center gap-1">✦ কিং চিলিগাজী</span>
+        <span class="text-xs sm:text-sm font-medium py-1.5 px-3 sm:px-4 rounded-full border border-[#F5DEB3] bg-white text-muted flex items-center gap-1">✦ কাশ জন লোলভাজী</span>
+        <span class="text-xs sm:text-sm font-medium py-1.5 px-3 sm:px-4 rounded-full border border-[#F5DEB3] bg-white text-muted flex items-center gap-1">✦ ৪৮ ঘণ্টা ডেলিভারি</span>
+      </div>
     </div>
-    <div class="flex flex-wrap gap-2.5">
-      <span class="text-sm font-medium py-1.5 px-4 rounded-full border border-[#F5DEB3] bg-white text-muted flex items-center gap-1">✦ ক্যারামিলমুকুট</span>
-      <span class="text-sm font-medium py-1.5 px-4 rounded-full border border-[#F5DEB3] bg-white text-muted flex items-center gap-1">✦ কিং চিলিগাজী</span>
-      <span class="text-sm font-medium py-1.5 px-4 rounded-full border border-[#F5DEB3] bg-white text-muted flex items-center gap-1">✦ কাশ জন লোলভাজী</span>
-      <span class="text-sm font-medium py-1.5 px-4 rounded-full border border-[#F5DEB3] bg-white text-muted flex items-center gap-1">✦ ৪৮ ঘণ্টা ডেলিভারি</span>
-    </div>
-  </div>
-  <div class="relative">
-    <img class="w-full aspect-[4/3] object-cover rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.12)]" src="https://images.unsplash.com/photo-1553279768-865429fa0078?w=800&q=80" alt="হিমসাগর আম গাছে" />
-    <div class="grid grid-cols-2 gap-3 mt-3">
-      <img src="https://images.unsplash.com/photo-1623065422902-30a2d299bbe4?w=400&q=80" alt="কাটা হিমসাগর আম" class="w-full aspect-[16/10] object-cover rounded-xl shadow-[0_8px_24px_rgba(0,0,0,0.08)]" />
-      <img src="https://images.unsplash.com/photo-1591073113125-e46713c829ed?w=400&q=80" alt="পাকা হিমসাগর আম" class="w-full aspect-[16/10] object-cover rounded-xl shadow-[0_8px_24px_rgba(0,0,0,0.08)]" />
-    </div>
-    <div class="absolute bottom-[-1rem] left-[-1rem] bg-white rounded-xl py-4 px-5 shadow-[0_8px_32px_rgba(0,0,0,0.12)] text-sm font-bold border border-[#F5DEB3] animate-float z-10">
-      <div class="text-muted text-xs mb-1">প্রতি কেজি</div>
-      <div class="text-mango-orange text-xl font-extrabold">৳১৮০</div>
-      <div class="text-leaf-green text-xs mt-1">✓ স্টকে আছে</div>
+    <div class="relative">
+      <img class="w-full aspect-[4/3] object-cover rounded-xl sm:rounded-2xl shadow-[0_12px_40px_rgba(0,0,0,0.12)] sm:shadow-[0_20px_60px_rgba(0,0,0,0.12)]" src="https://images.unsplash.com/photo-1553279768-865429fa0078?w=800&q=80" alt="হিমসাগর আম গাছে" />
+      <div class="grid grid-cols-2 gap-2 sm:gap-3 mt-2 sm:mt-3">
+        <img src="https://images.unsplash.com/photo-1623065422902-30a2d299bbe4?w=400&q=80" alt="কাটা হিমসাগর আম" class="w-full aspect-[16/10] object-cover rounded-lg sm:rounded-xl shadow-[0_4px_16px_rgba(0,0,0,0.08)] sm:shadow-[0_8px_24px_rgba(0,0,0,0.08)]" />
+        <img src="https://images.unsplash.com/photo-1591073113125-e46713c829ed?w=400&q=80" alt="পাকা হিমসাগর আম" class="w-full aspect-[16/10] object-cover rounded-lg sm:rounded-xl shadow-[0_4px_16px_rgba(0,0,0,0.08)] sm:shadow-[0_8px_24px_rgba(0,0,0,0.08)]" />
+      </div>
+      <div class="relative sm:absolute sm:bottom-[-1rem] sm:left-[-1rem] bg-white rounded-xl py-3 sm:py-4 px-4 sm:px-5 shadow-[0_8px_32px_rgba(0,0,0,0.12)] text-sm font-bold border border-[#F5DEB3] sm:animate-float z-10 mt-3 sm:mt-0">
+        <div class="text-muted text-xs mb-1">প্রতি কেজি</div>
+        <div class="text-mango-orange text-lg sm:text-xl font-extrabold">৳১৮০</div>
+        <div class="text-leaf-green text-xs mt-1">✓ স্টকে আছে</div>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- Trust Strip -->
-<div class="max-w-6xl mx-auto px-8 mb-16 grid grid-cols-4 gap-px bg-[#F5DEB3] border border-[#F5DEB3] rounded-2xl overflow-hidden">
-  <div class="bg-white p-7 text-center transition-bg duration-200 hover:bg-cream-light">
-    <div class="w-12 h-12 bg-gradient-to-br from-mango-yellow to-mango-orange rounded-xl flex items-center justify-center mx-auto mb-3 text-xl">🌿</div>
-    <div class="text-sm font-bold text-leaf-green mb-1">১০০% ক্যামিক্যালমুক্ত</div>
-    <div class="text-xs text-muted leading-relaxed">কোনো স্প্রে বা কার্বাইড ছাড়াই প্রাকৃতিকভাবে পাকানো</div>
-  </div>
-  <div class="bg-white p-7 text-center transition-bg duration-200 hover:bg-cream-light">
-    <div class="w-12 h-12 bg-gradient-to-br from-mango-yellow to-mango-orange rounded-xl flex items-center justify-center mx-auto mb-3 text-xl">🚚</div>
-    <div class="text-sm font-bold text-leaf-green mb-1">দ্রুত ডেলিভারি</div>
-    <div class="text-xs text-muted leading-relaxed">ঢাকায় ২৪-৪৮ ঘণ্টা, সারাদেশে ৩-৫ দিন</div>
-  </div>
-  <div class="bg-white p-7 text-center transition-bg duration-200 hover:bg-cream-light">
-    <div class="w-12 h-12 bg-gradient-to-br from-mango-yellow to-mango-orange rounded-xl flex items-center justify-center mx-auto mb-3 text-xl">🔒</div>
-    <div class="text-sm font-bold text-leaf-green mb-1">নিরাপদ পেমেন্ট</div>
-    <div class="text-xs text-muted leading-relaxed">PayStation-এর মাধ্যমে নিরাপদ লেনদেন</div>
-  </div>
-  <div class="bg-white p-7 text-center transition-bg duration-200 hover:bg-cream-light">
-    <div class="w-12 h-12 bg-gradient-to-br from-mango-yellow to-mango-orange rounded-xl flex items-center justify-center mx-auto mb-3 text-xl">↩️</div>
-    <div class="text-sm font-bold text-leaf-green mb-1">৭ দিনের রিটার্ন</div>
-    <div class="text-xs text-muted leading-relaxed">খারাপ আম পেলে ফুল রিফান্ড</div>
+<div class="max-w-6xl mx-auto px-4 sm:px-8 mb-10 sm:mb-16">
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-px bg-[#F5DEB3] border border-[#F5DEB3] rounded-xl sm:rounded-2xl overflow-hidden">
+    <div class="bg-white p-4 sm:p-7 text-center transition-bg duration-200 hover:bg-cream-light">
+      <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-mango-yellow to-mango-orange rounded-xl flex items-center justify-center mx-auto mb-2 sm:mb-3 text-lg sm:text-xl">🌿</div>
+      <div class="text-xs sm:text-sm font-bold text-leaf-green mb-1">১০০% ক্যামিক্যালমুক্ত</div>
+      <div class="text-[0.65rem] sm:text-xs text-muted leading-relaxed">কোনো স্প্রে বা কার্বাইড ছাড়াই প্রাকৃতিকভাবে পাকানো</div>
+    </div>
+    <div class="bg-white p-4 sm:p-7 text-center transition-bg duration-200 hover:bg-cream-light">
+      <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-mango-yellow to-mango-orange rounded-xl flex items-center justify-center mx-auto mb-2 sm:mb-3 text-lg sm:text-xl">🚚</div>
+      <div class="text-xs sm:text-sm font-bold text-leaf-green mb-1">দ্রুত ডেলিভারি</div>
+      <div class="text-[0.65rem] sm:text-xs text-muted leading-relaxed">ঢাকায় ২৪-৪৮ ঘণ্টা, সারাদেশে ৩-৫ দিন</div>
+    </div>
+    <div class="bg-white p-4 sm:p-7 text-center transition-bg duration-200 hover:bg-cream-light">
+      <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-mango-yellow to-mango-orange rounded-xl flex items-center justify-center mx-auto mb-2 sm:mb-3 text-lg sm:text-xl">🔒</div>
+      <div class="text-xs sm:text-sm font-bold text-leaf-green mb-1">নিরাপদ পেমেন্ট</div>
+      <div class="text-[0.65rem] sm:text-xs text-muted leading-relaxed">PayStation-এর মাধ্যমে নিরাপদ লেনদেন</div>
+    </div>
+    <div class="bg-white p-4 sm:p-7 text-center transition-bg duration-200 hover:bg-cream-light">
+      <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-mango-yellow to-mango-orange rounded-xl flex items-center justify-center mx-auto mb-2 sm:mb-3 text-lg sm:text-xl">↩️</div>
+      <div class="text-xs sm:text-sm font-bold text-leaf-green mb-1">৭ দিনের রিটার্ন</div>
+      <div class="text-[0.65rem] sm:text-xs text-muted leading-relaxed">খারাপ আম পেলে ফুল রিফান্ড</div>
+    </div>
   </div>
 </div>
 
 <!-- Products Section -->
-<div class="max-w-6xl mx-auto px-8 pb-20" id="products">
-  <div class="flex items-end justify-between mb-10 pb-6 border-b-2 border-[#F5DEB3]">
-    <h2 class="font-bengali text-2xl font-bold text-leaf-green">আমাদের আমের সংগ্রহ</h2>
-    <span class="text-sm text-muted font-medium" id="product-count"></span>
+<div class="max-w-6xl mx-auto px-4 sm:px-8 pb-12 sm:pb-20" id="products">
+  <div class="flex items-end justify-between mb-6 sm:mb-10 pb-4 sm:pb-6 border-b-2 border-[#F5DEB3]">
+    <h2 class="font-bengali text-xl sm:text-2xl font-bold text-leaf-green">আমাদের আমের সংগ্রহ</h2>
+    <span class="text-xs sm:text-sm text-muted font-medium" id="product-count"></span>
   </div>
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="product-grid"></div>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6" id="product-grid"></div>
 </div>
 
 <!-- Footer -->
-<footer class="bg-leaf-green text-white py-10 px-8 mt-12">
-  <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+<footer class="bg-leaf-green text-white py-8 sm:py-10 px-4 sm:px-8 mt-8 sm:mt-12">
+  <div class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8">
     <div>
-      <div class="font-bengali text-lg font-bold mb-2">🥭 আমবাড়ি</div>
-      <p class="text-sm opacity-80 leading-relaxed">সাতক্ষীরার নিজস্ব বাগান থেকে সরাসরি আপনার দরজায় সুমিষ্ট হিমসাগর আম। প্রাকৃতিক পদ্ধতিতে চাষ, কোনো রাসায়নিক মিশ্রণ নেই।</p>
+      <div class="font-bengali text-base sm:text-lg font-bold mb-2">🥭 আমবাড়ি</div>
+      <p class="text-xs sm:text-sm opacity-80 leading-relaxed">সাতক্ষীরার নিজস্ব বাগান থেকে সরাসরি আপনার দরজায় সুমিষ্ট হিমসাগর আম। প্রাকৃতিক পদ্ধতিতে চাষ, কোনো রাসায়নিক মিশ্রণ নেই।</p>
     </div>
     <div>
       <div class="text-xs font-bold tracking-widest uppercase mb-3 opacity-90">যোগাযোগ</div>
-      <ul class="list-none">
+      <ul class="list-none text-sm">
         <li class="mb-2">📞 01822916488</li>
         <li class="mb-2">📧 hello@ambari.bd</li>
         <li>📍 তালা, সাতক্ষীরা</li>
@@ -278,433 +193,117 @@
       </ul>
     </div>
   </div>
-  <div class="max-w-6xl mx-auto pt-6 mt-6 border-t border-white/15 text-center text-xs opacity-60">© ২০২৬ আমবাড়ি — সাতক্ষীরার সেরা হিমসাগর আম</div>
+  <div class="max-w-6xl mx-auto pt-5 sm:pt-6 mt-5 sm:mt-6 border-t border-white/15 text-center text-xs opacity-60">© ২০২৬ আমবাড়ি — সাতক্ষীরার সেরা হিমসাগর আম</div>
 </footer>
 
-<!-- Toast Notification -->
-<div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 translate-y-20 py-3.5 px-7 rounded-full text-sm font-medium z-50 transition-transform duration-300 pointer-events-none whitespace-nowrap shadow-[0_4px_20px_rgba(0,0,0,0.18)]"></div>
+<!-- Toast -->
+<div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 translate-y-24 py-3 px-5 sm:py-3.5 sm:px-7 rounded-full text-sm font-medium z-50 transition-transform duration-300 pointer-events-none whitespace-nowrap shadow-[0_4px_20px_rgba(0,0,0,0.18)] max-w-[90vw] text-center"></div>
 
 <script>
-  // ═══════════════════════════════════════════════════════════════════════════
-  //  CONFIG & DATA
-  // ═══════════════════════════════════════════════════════════════════════════
-  const API_BASE = "/api";
+const PRODUCTS = {
+  p1: { name: "হিমসাগর আম — প্রিমিয়াম",     price: 180, image: "https://images.unsplash.com/photo-1623065422902-30a2d299bbe4?w=600&q=80", desc: "সাতক্ষীরার বিখ্যাত হিমসাগর, মিষ্টি ও সুগন্ধি। প্রতি কেজি।", label: "বেস্টসেলার" },
+  p2: { name: "ক্যারামিলমুকুট আম",           price: 220, image: "https://images.unsplash.com/photo-1591073113125-e46713c829ed?w=600&q=80", desc: "গাঢ় ক্যারামেল স্বাদের আম, বিরল প্রজাতি। প্রতি কেজি।", label: "নতুন" },
+  p3: { name: "কিং চিলিগাজী আম",             price: 200, image: "https://images.unsplash.com/photo-1553279768-865429fa0078?w=600&q=80", desc: "রাজকীয় আকার ও স্বাদ, চিলিগাজীর সেরা বাগান থেকে। প্রতি কেজি।", label: "জনপ্রিয়" },
+  p4: { name: "কাশ জন লোলভাজী আম",          price: 250, image: "https://images.unsplash.com/photo-1601493700631-2b16ec4b4716?w=600&q=80", desc: "বিরল লোলভাজী প্রজাতি, মধু-মিষ্টি স্বাদ। প্রতি কেজি।", label: "নতুন" },
+  p5: { name: "হিমসাগর আম — ফ্যামিলি প্যাক", price: 850, image: "https://images.unsplash.com/photo-1557800636-894a64c1696f?w=600&q=80", desc: "৫ কেজি ফ্যামিলি প্যাক, বিশেষ ডিসকাউন্টে।", label: "ফ্যামিলি" },
+  p6: { name: "আমের আচার — হাতে তৈরি",      price: 350, image: "https://images.unsplash.com/photo-1596450531560-95a459f72c0c?w=600&q=80", desc: "পাকা আমের ঐতিহ্যবাহী আচার, কোনো প্রিজারভেটিভ নেই। ৫০০গ্রাম।", label: "নতুন" },
+  p7: { name: "আমের জুস — তাজা",             price: 180, image: "https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=600&q=80", desc: "তাজা হিমসাগর আমের জুস, কোনো চিনি মিশ্রিত নয়। ১ লিটার।", label: "তাজা" },
+  p8: { name: "আমের সরবত কনসেনট্রেট",       price: 280, image: "https://images.unsplash.com/photo-1546173159-315724a31696?w=600&q=80", desc: "ঘন সরবত কনসেনট্রেট, পানিতে মিশিয়ে খান। ৫০০মিলি।", label: "নতুন" },
+};
 
-  const PRODUCTS = {
-    p1: { name: "হিমসাগর আম — প্রিমিয়াম",     price: 180, image: "https://images.unsplash.com/photo-1623065422902-30a2d299bbe4?w=600&q=80", desc: "সাতক্ষীরার বিখ্যাত হিমসাগর, মিষ্টি ও সুগন্ধি। প্রতি কেজি।", label: "বেস্টসেলার" },
-    p2: { name: "ক্যারামিলমুকুট আম",           price: 220, image: "https://images.unsplash.com/photo-1591073113125-e46713c829ed?w=600&q=80", desc: "গাঢ় ক্যারামেল স্বাদের আম, বিরল প্রজাতি। প্রতি কেজি।", label: "নতুন" },
-    p3: { name: "কিং চিলিগাজী আম",             price: 200, image: "https://images.unsplash.com/photo-1553279768-865429fa0078?w=600&q=80", desc: "রাজকীয় আকার ও স্বাদ, চিলিগাজীর সেরা বাগান থেকে। প্রতি কেজি।", label: "জনপ্রিয়" },
-    p4: { name: "কাশ জন লোলভাজী আম",          price: 250, image: "https://images.unsplash.com/photo-1601493700631-2b16ec4b4716?w=600&q=80", desc: "বিরল লোলভাজী প্রজাতি, মধু-মিষ্টি স্বাদ। প্রতি কেজি।", label: "নতুন" },
-    p5: { name: "হিমসাগর আম — ফ্যামিলি প্যাক", price: 850, image: "https://images.unsplash.com/photo-1557800636-894a64c1696f?w=600&q=80", desc: "৫ কেজি ফ্যামিলি প্যাক, বিশেষ ডিসকাউন্টে।", label: "ফ্যামিলি" },
-    p6: { name: "আমের আচার — হাতে তৈরি",      price: 350, image: "https://images.unsplash.com/photo-1596450531560-95a459f72c0c?w=600&q=80", desc: "পাকা আমের ঐতিহ্যবাহী আচার, কোনো প্রিজারভেটিভ নেই। ৫০০গ্রাম।", label: "নতুন" },
-    p7: { name: "আমের জুস — তাজা",             price: 180, image: "https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=600&q=80", desc: "তাজা হিমসাগর আমের জুস, কোনো চিনি মিশ্রিত নয়। ১ লিটার।", label: "তাজা" },
-    p8: { name: "আমের সরবত কনসেনট্রেট",       price: 280, image: "https://images.unsplash.com/photo-1546173159-315724a31696?w=600&q=80", desc: "ঘন সরবত কনসেনট্রেট, পানিতে মিশিয়ে খান। ৫০০মিলি।", label: "নতুন" },
-  };
+let cart = {};
+try {
+  const saved = sessionStorage.getItem('ambariCart');
+  if (saved) cart = JSON.parse(saved);
+} catch(e) {}
 
-  let cart = {};
-  let directBuyPid = null;
+function saveCart() {
+  sessionStorage.setItem('ambariCart', JSON.stringify(cart));
+}
 
-  // ═══════════════════════════════════════════════════════════════════════════
-  //  VALIDATION HELPERS
-  // ═══════════════════════════════════════════════════════════════════════════
-  function validatePhone(phone) {
-    const clean = phone.replace(/[^0-9]/g, '');
-    const bdRegex = /^01[3-9][0-9]{8}$/;
-    return bdRegex.test(clean);
-  }
+function addToCart(pid) {
+  cart[pid] = (cart[pid] || 0) + 1;
+  saveCart();
+  refreshCount();
+  toast(`🥭 ${PRODUCTS[pid].name} কার্টে যোগ করা হয়েছে!`);
+  popBtn();
+}
 
-  function validateEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email.trim());
-  }
+function buyNow(pid) {
+  cart[pid] = (cart[pid] || 0) + 1;
+  saveCart();
+  refreshCount();
+  window.location.href = 'cart.html';
+}
 
-  function setFieldStatus(id, isValid, message) {
-    const el = document.getElementById(id);
-    const hint = document.getElementById('hint-' + id.replace('f-', ''));
-    if (!el) return;
+function adjustQty(pid, delta) {
+  const next = (cart[pid] || 0) + delta;
+  if (next <= 0) delete cart[pid]; else if (next <= 20) cart[pid] = next;
+  saveCart();
+  refreshCount();
+}
 
-    el.classList.remove('error', 'valid');
-    if (hint) {
-      hint.classList.remove('error', 'valid');
-      hint.textContent = message || '';
-    }
+function cartCount() {
+  return Object.values(cart).reduce((a,b) => a+b, 0);
+}
 
-    if (isValid === true) {
-      el.classList.add('valid');
-      if (hint) hint.classList.add('valid');
-    } else if (isValid === false) {
-      el.classList.add('error');
-      if (hint) hint.classList.add('error');
-    }
-  }
+function refreshCount() {
+  const count = cartCount();
+  document.getElementById('cart-count').textContent = count;
+  Object.keys(PRODUCTS).forEach(pid => {
+    const el = document.getElementById('sq-'+pid);
+    if (el) el.textContent = cart[pid] || 0;
+  });
+}
 
-  // ═══════════════════════════════════════════════════════════════════════════
-  //  FACEBOOK PIXEL HELPERS
-  // ═══════════════════════════════════════════════════════════════════════════
-  function getFbp() { return document.cookie.match(/_fbp=([^;]+)/)?.[1] || null; }
-  function getFbc() { return document.cookie.match(/_fbc=([^;]+)/)?.[1] || new URLSearchParams(location.search).get('fbclid') || null; }
+function renderProducts() {
+  const grid = document.getElementById('product-grid');
+  document.getElementById('product-count').textContent = Object.keys(PRODUCTS).length + ' প্রকার';
 
-  function pixelAddToCart(pid) {
-    if (typeof fbq === "undefined") return;
-    const p = PRODUCTS[pid];
-    fbq('track', 'AddToCart', { content_ids: [pid], content_name: p.name, content_type: 'product', value: p.price, currency: 'BDT' });
-  }
-
-  function pixelInitiateCheckout() {
-    if (typeof fbq === "undefined") return;
-    fbq('track', 'InitiateCheckout', { 
-      content_ids: Object.keys(cart), 
-      num_items: cartCount(), 
-      value: cartTotal(), 
-      currency: 'BDT' 
-    }, { eventID: `ic-${Date.now()}` });
-  }
-
-  // ═══════════════════════════════════════════════════════════════════════════
-  //  CART FUNCTIONS
-  // ═══════════════════════════════════════════════════════════════════════════
-  function addToCart(pid) {
-    cart[pid] = (cart[pid] || 0) + 1;
-    refreshAll();
-    toast(`🥭 ${PRODUCTS[pid].name} কার্টে যোগ করা হয়েছে!`);
-    popBtn();
-    pixelAddToCart(pid);
-  }
-
-  function buyNow(pid) {
-    cart[pid] = (cart[pid] || 0) + 1;
-    directBuyPid = pid;
-
-    refreshAll();
-    openCart();
-
-    setTimeout(() => {
-      const checkoutForm = document.getElementById('cart-foot');
-      if (checkoutForm) {
-        checkoutForm.scrollIntoView({ behavior: 'smooth', block: 'end' });
-      }
-    }, 350);
-
-    pixelAddToCart(pid);
-    pixelInitiateCheckout();
-
-    toast(`🛒 কার্টে যোগ হয়েছে → চেকআউটে নিয়ে যাচ্ছি`);
-  }
-
-  function adjustQty(pid, delta) {
-    const next = (cart[pid] || 0) + delta;
-    if (next <= 0) delete cart[pid]; else if (next <= 20) cart[pid] = next;
-    refreshAll();
-  }
-
-  function cartTotal() { 
-    return Object.entries(cart).reduce((s,[pid,qty]) => s + (PRODUCTS[pid]?.price||0)*qty, 0); 
-  }
-
-  function cartCount() { 
-    return Object.values(cart).reduce((a,b) => a+b, 0); 
-  }
-
-  function cartPayload() { 
-    return Object.entries(cart).map(([id,qty]) => ({id,qty})); 
-  }
-
-  // ═══════════════════════════════════════════════════════════════════════════
-  //  RENDER FUNCTIONS
-  // ═══════════════════════════════════════════════════════════════════════════
-  function renderProducts() {
-    const grid = document.getElementById('product-grid');
-    document.getElementById('product-count').textContent = Object.keys(PRODUCTS).length + ' প্রকার';
-
-    grid.innerHTML = Object.entries(PRODUCTS).map(([pid,p]) => {
-      const labelBg = p.label === 'বেস্টসেলার' ? 'bg-leaf-green' : p.label === 'জনপ্রিয়' ? 'bg-mango-ripe' : 'bg-mango-orange';
-      return `
-      <div class="product-card bg-white rounded-2xl border border-[#F5DEB3] overflow-hidden transition-all duration-300 hover:translate-y-[-6px] hover:shadow-[0_24px_60px_rgba(232,145,10,0.12)]">
-        <div class="aspect-[4/3] bg-gradient-to-br from-cream to-[#FFF0D4] flex items-center justify-center relative overflow-hidden">
-          <span class="absolute top-3 left-3 text-[0.68rem] font-bold tracking-wider uppercase text-white py-1 px-2.5 rounded shadow-[0_2px_8px_rgba(0,0,0,0.15)] ${labelBg}">${p.label}</span>
-          <img src="${p.image}" alt="${p.name}" loading="lazy" class="w-full h-full object-cover transition-transform duration-400" />
-        </div>
-        <div class="p-5">
-          <h3 class="font-bengali text-lg font-bold text-leaf-green mb-1">${p.name}</h3>
-          <p class="text-sm text-muted mb-4 leading-relaxed">${p.desc}</p>
-          <div class="flex items-center justify-between">
-            <span class="text-xl font-extrabold text-mango-orange">৳${p.price.toLocaleString('en-BD')} <small class="text-xs font-normal text-muted">প্রতি কেজি</small></span>
-            <div class="flex items-center border-2 border-[#F5DEB3] rounded-xl overflow-hidden bg-cream-light">
-              <button onclick="adjustQty('${pid}',-1)" class="w-8 h-8 border-0 bg-transparent cursor-pointer text-base text-leaf-green transition-bg duration-150 hover:bg-[#F5DEB3] flex items-center justify-center font-bold">−</button>
-              <span class="w-9 h-8 text-center font-bold text-sm border-x-2 border-[#F5DEB3] flex items-center justify-center bg-white text-leaf-green" id="sq-${pid}">${cart[pid]||0}</span>
-              <button onclick="adjustQty('${pid}',1)" class="w-8 h-8 border-0 bg-transparent cursor-pointer text-base text-leaf-green transition-bg duration-150 hover:bg-[#F5DEB3] flex items-center justify-center font-bold">+</button>
-            </div>
+  grid.innerHTML = Object.entries(PRODUCTS).map(([pid,p]) => {
+    const labelBg = p.label === 'বেস্টসেলার' ? 'bg-leaf-green' : p.label === 'জনপ্রিয়' ? 'bg-mango-ripe' : 'bg-mango-orange';
+    return `
+    <div class="product-card bg-white rounded-2xl border border-[#F5DEB3] overflow-hidden transition-all duration-300 hover:translate-y-[-4px] sm:hover:translate-y-[-6px] hover:shadow-[0_16px_40px_rgba(232,145,10,0.1)] sm:hover:shadow-[0_24px_60px_rgba(232,145,10,0.12)] active:scale-[0.98] sm:active:scale-100">
+      <div class="aspect-[4/3] bg-gradient-to-br from-cream to-[#FFF0D4] flex items-center justify-center relative overflow-hidden">
+        <span class="absolute top-2 sm:top-3 left-2 sm:left-3 text-[0.6rem] sm:text-[0.68rem] font-bold tracking-wider uppercase text-white py-0.5 sm:py-1 px-2 sm:px-2.5 rounded shadow-[0_2px_8px_rgba(0,0,0,0.15)] ${labelBg}">${p.label}</span>
+        <img src="${p.image}" alt="${p.name}" loading="lazy" class="w-full h-full object-cover transition-transform duration-400" />
+      </div>
+      <div class="p-4 sm:p-5">
+        <h3 class="font-bengali text-base sm:text-lg font-bold text-leaf-green mb-1">${p.name}</h3>
+        <p class="text-xs sm:text-sm text-muted mb-3 sm:mb-4 leading-relaxed">${p.desc}</p>
+        <div class="flex items-center justify-between gap-2">
+          <span class="text-lg sm:text-xl font-extrabold text-mango-orange shrink-0">৳${p.price.toLocaleString('en-BD')} <small class="text-[0.6rem] sm:text-xs font-normal text-muted">প্রতি কেজি</small></span>
+          <div class="flex items-center border-2 border-[#F5DEB3] rounded-xl overflow-hidden bg-cream-light">
+            <button onclick="adjustQty('${pid}',-1)" class="w-7 h-7 sm:w-8 sm:h-8 border-0 bg-transparent cursor-pointer text-sm sm:text-base text-leaf-green transition-bg duration-150 hover:bg-[#F5DEB3] flex items-center justify-center font-bold active:bg-[#E8D5B7]">−</button>
+            <span class="w-7 sm:w-9 h-7 sm:h-8 text-center font-bold text-xs sm:text-sm border-x-2 border-[#F5DEB3] flex items-center justify-center bg-white text-leaf-green" id="sq-${pid}">${cart[pid]||0}</span>
+            <button onclick="adjustQty('${pid}',1)" class="w-7 h-7 sm:w-8 sm:h-8 border-0 bg-transparent cursor-pointer text-sm sm:text-base text-leaf-green transition-bg duration-150 hover:bg-[#F5DEB3] flex items-center justify-center font-bold active:bg-[#E8D5B7]">+</button>
           </div>
-          <button class="w-full mt-3.5 bg-leaf-green text-white border-0 py-3 rounded-xl font-inherit text-sm font-bold cursor-pointer transition-all duration-200 hover:bg-leaf-light hover:translate-y-[-1px] active:scale-98 flex items-center justify-center gap-1" onclick="addToCart('${pid}')">＋ কার্টে যোগ করুন</button>
-          <button class="w-full mt-2 bg-gradient-to-r from-mango-orange to-mango-ripe text-white border-0 py-2.5 rounded-xl font-inherit text-sm font-bold cursor-pointer transition-all duration-200 hover:opacity-90 hover:translate-y-[-1px] active:scale-98 flex items-center justify-center gap-1 shadow-[0_3px_12px_rgba(232,145,10,0.25)]" onclick="buyNow('${pid}')">⚡ এখনই কিনুন</button>
         </div>
-      </div>`;
-    }).join('');
-  }
+        <button class="w-full mt-3 sm:mt-3.5 bg-leaf-green text-white border-0 py-2.5 sm:py-3 rounded-xl font-inherit text-xs sm:text-sm font-bold cursor-pointer transition-all duration-200 hover:bg-leaf-light hover:translate-y-[-1px] active:scale-98 flex items-center justify-center gap-1" onclick="addToCart('${pid}')">＋ কার্টে যোগ করুন</button>
+        <button class="w-full mt-2 bg-gradient-to-r from-mango-orange to-mango-ripe text-white border-0 py-2 sm:py-2.5 rounded-xl font-inherit text-xs sm:text-sm font-bold cursor-pointer transition-all duration-200 hover:opacity-90 hover:translate-y-[-1px] active:scale-98 flex items-center justify-center gap-1 shadow-[0_3px_12px_rgba(232,145,10,0.25)]" onclick="buyNow('${pid}')">⚡ এখনই কিনুন</button>
+      </div>
+    </div>`;
+  }).join('');
+}
 
-  function refreshAll() {
-    const count = cartCount();
-    document.getElementById('cart-count').textContent = count;
-    document.getElementById('total-val').textContent = cartTotal().toLocaleString('en-BD');
+let _tt;
+function toast(msg, isErr=false) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = `fixed bottom-6 left-1/2 -translate-x-1/2 translate-y-0 py-3 px-5 sm:py-3.5 sm:px-7 rounded-full text-sm font-medium z-50 transition-transform duration-300 pointer-events-none whitespace-nowrap shadow-[0_4px_20px_rgba(0,0,0,0.18)] max-w-[90vw] text-center text-white ${isErr ? 'bg-[#C0392B]' : 'bg-leaf-green'}`;
+  clearTimeout(_tt);
+  _tt = setTimeout(() => { el.classList.remove('translate-y-0'); el.classList.add('translate-y-24'); }, 3200);
+}
 
-    Object.keys(PRODUCTS).forEach(pid => {
-      const el = document.getElementById('sq-'+pid);
-      if (el) el.textContent = cart[pid] || 0;
-    });
+function popBtn() {
+  const b = document.getElementById('cart-toggle-btn');
+  b.classList.remove('animate-pop');
+  void b.offsetWidth;
+  b.classList.add('animate-pop');
+}
 
-    const body = document.getElementById('cart-body');
-    const foot = document.getElementById('cart-foot');
-
-    if (count === 0) {
-      body.innerHTML = `<div class="text-center py-16 text-muted"><div class="text-[3.5rem] mb-4">🥭</div><p>আপনার কার্ট খালি</p></div>`;
-      foot.classList.add('hidden');
-      return;
-    }
-
-    foot.classList.remove('hidden');
-    body.innerHTML = Object.entries(cart).map(([pid,qty]) => {
-      const p = PRODUCTS[pid];
-      return `<div class="flex items-center gap-3 py-4 border-b border-[#F5DEB3] min-w-0">
-        <div class="w-16 h-16 bg-cream rounded-xl flex items-center justify-center overflow-hidden shrink-0">
-          <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover" />
-        </div>
-        <div class="flex-1 min-w-0">
-          <div class="text-sm font-bold text-leaf-green mb-1 truncate">${p.name}</div>
-          <div class="text-xs text-muted font-medium">৳${(p.price*qty).toLocaleString('en-BD')}</div>
-        </div>
-        <div class="flex items-center gap-1 shrink-0">
-          <button class="w-7 h-7 border-2 border-[#F5DEB3] rounded-lg bg-none cursor-pointer text-sm flex items-center justify-center transition-all duration-150 text-leaf-green font-bold hover:border-mango-orange hover:bg-cream hover:text-mango-orange" onclick="adjustQty('${pid}',-1)">−</button>
-          <span class="font-extrabold min-w-6 text-center text-sm text-leaf-green">${qty}</span>
-          <button class="w-7 h-7 border-2 border-[#F5DEB3] rounded-lg bg-none cursor-pointer text-sm flex items-center justify-center transition-all duration-150 text-leaf-green font-bold hover:border-mango-orange hover:bg-cream hover:text-mango-orange" onclick="adjustQty('${pid}',1)">+</button>
-        </div>
-      </div>`;
-    }).join('');
-  }
-
-  // ═══════════════════════════════════════════════════════════════════════════
-  //  UI FUNCTIONS - Cart Drawer Toggle
-  // ═══════════════════════════════════════════════════════════════════════════
-  function openCart() { 
-    const drawer = document.getElementById('cart-drawer');
-    const overlay = document.getElementById('overlay');
-
-    drawer.classList.remove('translate-x-full');
-    drawer.classList.add('translate-x-0');
-
-    overlay.classList.remove('opacity-0', 'pointer-events-none');
-    overlay.classList.add('opacity-100', 'pointer-events-auto');
-
-    document.body.style.overflow = 'hidden'; 
-  }
-
-  function closeCart() { 
-    const drawer = document.getElementById('cart-drawer');
-    const overlay = document.getElementById('overlay');
-
-    drawer.classList.remove('translate-x-0');
-    drawer.classList.add('translate-x-full');
-
-    overlay.classList.remove('opacity-100', 'pointer-events-auto');
-    overlay.classList.add('opacity-0', 'pointer-events-none');
-
-    document.body.style.overflow = ''; 
-    directBuyPid = null;
-  }
-
-  function popBtn() { 
-    const b = document.getElementById('cart-toggle-btn'); 
-    b.classList.remove('animate-pop'); 
-    void b.offsetWidth; 
-    b.classList.add('animate-pop'); 
-  }
-
-  // ═══════════════════════════════════════════════════════════════════════════
-  //  CHECKOUT FUNCTION
-  // ═══════════════════════════════════════════════════════════════════════════
-  async function checkout() {
-    const fields = ['f-name','f-phone','f-email','f-division','f-jela','f-upojela','f-thana','f-address'];
-    fields.forEach(id => {
-      const el = document.getElementById(id);
-      if (el) {
-        el.classList.remove('error', 'valid', 'border-red-500');
-        el.classList.add('border-[#F5DEB3]');
-      }
-    });
-
-    const name     = document.getElementById('f-name').value.trim();
-    const phone    = document.getElementById('f-phone').value.trim();
-    const email    = document.getElementById('f-email').value.trim();
-    const division = document.getElementById('f-division').value.trim();
-    const jela     = document.getElementById('f-jela').value.trim();
-    const upojela  = document.getElementById('f-upojela').value.trim();
-    const thana    = document.getElementById('f-thana').value.trim();
-    const address  = document.getElementById('f-address').value.trim();
-
-    let err = false;
-
-    // Name
-    if (!name) {
-      setFieldStatus('f-name', false, '');
-      err = true;
-    } else {
-      setFieldStatus('f-name', true, '');
-    }
-
-    // Phone validation with guard rails
-    if (!phone) {
-      setFieldStatus('f-phone', false, 'ফোন নম্বর দিন');
-      err = true;
-    } else if (!validatePhone(phone)) {
-      setFieldStatus('f-phone', false, 'সঠিক বাংলাদেশি মোবাইল নম্বর দিন (01XXXXXXXXX)');
-      err = true;
-    } else {
-      setFieldStatus('f-phone', true, '✓ সঠিক');
-    }
-
-    // Email validation with guard rails
-    if (!email) {
-      setFieldStatus('f-email', false, 'ইমেইল দিন');
-      err = true;
-    } else if (!validateEmail(email)) {
-      setFieldStatus('f-email', false, 'সঠিক ইমেইল ফরম্যাট দিন');
-      err = true;
-    } else {
-      setFieldStatus('f-email', true, '✓ সঠিক');
-    }
-
-    // Address fields
-    if (!division) { setFieldStatus('f-division', false, ''); err = true; }
-    else { setFieldStatus('f-division', true, ''); }
-
-    if (!jela) { setFieldStatus('f-jela', false, ''); err = true; }
-    else { setFieldStatus('f-jela', true, ''); }
-
-    if (!upojela) { setFieldStatus('f-upojela', false, ''); err = true; }
-    else { setFieldStatus('f-upojela', true, ''); }
-
-    if (!thana) { setFieldStatus('f-thana', false, ''); err = true; }
-    else { setFieldStatus('f-thana', true, ''); }
-
-    if (!address) { setFieldStatus('f-address', false, ''); err = true; }
-    else { setFieldStatus('f-address', true, ''); }
-
-    if (err) { toast('সব ঘর সঠিকভাবে পূরণ করুন', true); return; }
-    if (cartCount() === 0) { toast('কার্ট খালি', true); return; }
-
-    const btn = document.getElementById('pay-btn');
-    const originalBtnText = btn.innerHTML;
-    btn.disabled = true;
-    btn.textContent = '⏳ PayStation-এ সংযুক্ত হচ্ছে…';
-
-    pixelInitiateCheckout();
-
-    try {
-      const res = await fetch(API_BASE + '/initiate', {
-        method:  'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          items:          cartPayload(),
-          cust_name:      name,
-          cust_phone:     phone,
-          cust_email:     email,
-          division,
-          jela,
-          upojela,
-          thana,
-          address_detail: address,
-          fbp:            getFbp(),
-          fbc:            getFbc(),
-          event_id:       'ic-' + Date.now(),
-        }),
-      });
-      const data = await res.json();
-
-      if (data.payment_url) {
-        sessionStorage.setItem('lastOrder', JSON.stringify({
-          invoice: data.invoice_number, 
-          name,
-          amount: cartTotal(),
-          items: Object.entries(cart).map(([pid,qty]) => ({ 
-            name: PRODUCTS[pid].name, 
-            image: PRODUCTS[pid].image, 
-            qty, 
-            price: PRODUCTS[pid].price 
-          })),
-        }));
-        window.location.href = data.payment_url;
-      } else {
-        toast(data.error || 'পেমেন্ট ব্যর্থ হয়েছে। আবার চেষ্টা করুন।', true);
-        btn.disabled = false;
-        btn.innerHTML = originalBtnText;
-      }
-    } catch (e) {
-      toast('নেটওয়ার্ক ত্রুটি। আবার চেষ্টা করুন।', true);
-      btn.disabled = false;
-      btn.innerHTML = originalBtnText;
-    }
-  }
-
-  // ═══════════════════════════════════════════════════════════════════════════
-  //  TOAST NOTIFICATION
-  // ═══════════════════════════════════════════════════════════════════════════
-  let _tt;
-  function toast(msg, isErr=false) {
-    const el = document.getElementById('toast');
-    el.textContent = msg;
-    el.className = `fixed bottom-6 left-1/2 -translate-x-1/2 translate-y-0 py-3.5 px-7 rounded-full text-sm font-medium z-50 transition-transform duration-300 pointer-events-none whitespace-nowrap shadow-[0_4px_20px_rgba(0,0,0,0.18)] text-white ${isErr ? 'bg-[#C0392B]' : 'bg-leaf-green'}`;
-    clearTimeout(_tt);
-    _tt = setTimeout(() => {
-      el.classList.remove('translate-y-0');
-      el.classList.add('translate-y-20');
-    }, 3200);
-  }
-
-  // ═══════════════════════════════════════════════════════════════════════════
-  //  LIVE VALIDATION LISTENERS
-  // ═══════════════════════════════════════════════════════════════════════════
-  function setupLiveValidation() {
-    const phoneEl = document.getElementById('f-phone');
-    const emailEl = document.getElementById('f-email');
-
-    if (phoneEl) {
-      phoneEl.addEventListener('input', function() {
-        // Only allow digits
-        this.value = this.value.replace(/[^0-9]/g, '');
-        if (this.value.length > 11) this.value = this.value.slice(0, 11);
-
-        if (this.value.length > 0) {
-          if (validatePhone(this.value)) {
-            setFieldStatus('f-phone', true, '✓ সঠিক');
-          } else {
-            setFieldStatus('f-phone', false, '01 দিয়ে শুরু, ১১ সংখ্যা');
-          }
-        } else {
-          setFieldStatus('f-phone', null, '');
-        }
-      });
-    }
-
-    if (emailEl) {
-      emailEl.addEventListener('input', function() {
-        if (this.value.length > 0) {
-          if (validateEmail(this.value)) {
-            setFieldStatus('f-email', true, '✓ সঠিক');
-          } else {
-            setFieldStatus('f-email', false, 'সঠিক ইমেইল ফরম্যাট');
-          }
-        } else {
-          setFieldStatus('f-email', null, '');
-        }
-      });
-    }
-  }
-
-  // ═══════════════════════════════════════════════════════════════════════════
-  //  INIT
-  // ═══════════════════════════════════════════════════════════════════════════
-  renderProducts();
-  refreshAll();
-  setupLiveValidation();
+renderProducts();
+refreshCount();
 </script>
 </body>
 </html>
