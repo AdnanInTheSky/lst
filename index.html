@@ -211,14 +211,28 @@ const PRODUCTS = {
   p8: { name: "আমের সরবত কনসেনট্রেট",       price: 280, image: "https://images.unsplash.com/photo-1546173159-315724a31696?w=600&q=80", desc: "ঘন সরবত কনসেনট্রেট, পানিতে মিশিয়ে খান। ৫০০মিলি।", label: "নতুন" },
 };
 
+// ═══════════════════════════════════════════════════════════════════════════
+//  CART STATE - load from sessionStorage on every page load
+// ═══════════════════════════════════════════════════════════════════════════
 let cart = {};
+
 try {
   const saved = sessionStorage.getItem('ambariCart');
   if (saved) cart = JSON.parse(saved);
-} catch(e) {}
+} catch(e) {
+  console.error('Failed to load cart from sessionStorage:', e);
+  cart = {};
+}
 
+// ═══════════════════════════════════════════════════════════════════════════
+//  PERSISTENCE - save cart to sessionStorage after every change
+// ═══════════════════════════════════════════════════════════════════════════
 function saveCart() {
-  sessionStorage.setItem('ambariCart', JSON.stringify(cart));
+  try {
+    sessionStorage.setItem('ambariCart', JSON.stringify(cart));
+  } catch(e) {
+    console.error('Failed to save cart:', e);
+  }
 }
 
 function addToCart(pid) {
@@ -302,6 +316,9 @@ function popBtn() {
   b.classList.add('animate-pop');
 }
 
+// ═══════════════════════════════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════════════════════════════
 renderProducts();
 refreshCount();
 </script>
