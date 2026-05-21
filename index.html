@@ -4,11 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>আমবাড়ি — সাতক্ষীরার সেরা হিমসাগর আম</title>
-  
+
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  
+
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -47,7 +47,7 @@
       }
     }
   </script>
-  
+
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap');
     html { scroll-behavior: smooth; }
@@ -57,6 +57,12 @@
     #cart-body::-webkit-scrollbar { width: 6px; }
     #cart-body::-webkit-scrollbar-track { background: #FFF8E7; }
     #cart-body::-webkit-scrollbar-thumb { background: #E8910A; border-radius: 3px; }
+    /* Form error states */
+    .form-input.error { border-color: #EF4444 !important; box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15) !important; }
+    .form-input.valid { border-color: #22C55E !important; }
+    .form-hint { font-size: 0.7rem; margin-top: 0.25rem; }
+    .form-hint.error { color: #EF4444; }
+    .form-hint.valid { color: #22C55E; }
   </style>
 
   <!-- Meta Pixel -->
@@ -71,6 +77,7 @@
   </script>
   <noscript><img height="1" width="1" style="display:none"
     src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID_HERE&ev=PageView&noscript=1"/></noscript>
+<base target="_blank">
 </head>
 <body class="bg-cream text-[#2D1810] min-h-screen overflow-x-hidden">
 
@@ -79,24 +86,28 @@
 
 <!-- Cart Drawer -->
 <div id="cart-drawer" class="fixed top-0 right-0 h-full w-[480px] max-w-full bg-white z-50 flex flex-col translate-x-full transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] shadow-[-12px_0_60px_rgba(0,0,0,0.12)]">
-  <div class="p-6 border-b-2 border-[#F5DEB3] flex items-center justify-between bg-cream">
+  <div class="p-6 border-b-2 border-[#F5DEB3] flex items-center justify-between bg-cream shrink-0">
     <span class="font-bengali text-xl font-bold text-leaf-green">🛒 আপনার কার্ট</span>
-    <button class="w-10 h-10 border-2 border-[#F5DEB3] rounded-full flex items-center justify-center text-lg text-muted transition-all duration-150 hover:bg-cream-light hover:border-mango-orange hover:text-mango-orange" onclick="closeCart()">✕</button>
+    <button class="w-10 h-10 border-2 border-[#F5DEB3] rounded-full flex items-center justify-center text-lg text-muted transition-all duration-150 hover:bg-cream-light hover:border-mango-orange hover:text-mango-orange shrink-0" onclick="closeCart()">✕</button>
   </div>
-  <div class="flex-1 overflow-y-auto p-4 px-6" id="cart-body">
+
+  <!-- Cart Items Area -->
+  <div class="flex-1 overflow-y-auto p-4 px-6 min-h-0" id="cart-body">
     <div class="text-center py-16 text-muted">
       <div class="text-[3.5rem] mb-4">🥭</div>
       <p>আপনার কার্ট খালি</p>
     </div>
   </div>
-  <div class="p-5 border-t-2 border-[#F5DEB3] bg-cream hidden" id="cart-foot">
+
+  <!-- Checkout Form Area -->
+  <div class="p-5 border-t-2 border-[#F5DEB3] bg-cream shrink-0 hidden" id="cart-foot">
     <div class="flex justify-between items-baseline mb-5">
       <span class="text-sm text-muted font-medium">মোট</span>
       <span class="font-bengali text-[1.7rem] font-extrabold text-mango-orange">৳<span id="total-val">0</span></span>
     </div>
-    
+
     <!-- Checkout Form -->
-    <div class="grid gap-2">
+    <div class="grid gap-3">
       <div>
         <label class="text-[0.72rem] font-bold tracking-wide uppercase text-muted mb-1 block">পুরো নাম</label>
         <input class="form-input w-full bg-white border-2 border-[#F5DEB3] rounded-lg px-4 py-2.5 font-inherit text-sm text-[#2D1810] outline-none transition-all duration-200 focus:border-mango-orange focus:shadow-[0_0_0_4px_rgba(232,145,10,0.1)] placeholder-[#C4B5A0]" id="f-name" placeholder="রহিম উদ্দিন" />
@@ -104,16 +115,18 @@
       <div class="grid grid-cols-2 gap-2">
         <div>
           <label class="text-[0.72rem] font-bold tracking-wide uppercase text-muted mb-1 block">ফোন</label>
-          <input class="form-input w-full bg-white border-2 border-[#F5DEB3] rounded-lg px-4 py-2.5 font-inherit text-sm text-[#2D1810] outline-none transition-all duration-200 focus:border-mango-orange focus:shadow-[0_0_0_4px_rgba(232,145,10,0.1)] placeholder-[#C4B5A0]" id="f-phone" placeholder="01XXXXXXXXX" />
+          <input class="form-input w-full bg-white border-2 border-[#F5DEB3] rounded-lg px-4 py-2.5 font-inherit text-sm text-[#2D1810] outline-none transition-all duration-200 focus:border-mango-orange focus:shadow-[0_0_0_4px_rgba(232,145,10,0.1)] placeholder-[#C4B5A0]" id="f-phone" placeholder="01XXXXXXXXX" maxlength="11" />
+          <div class="form-hint" id="hint-phone"></div>
         </div>
         <div>
           <label class="text-[0.72rem] font-bold tracking-wide uppercase text-muted mb-1 block">ইমেইল</label>
           <input class="form-input w-full bg-white border-2 border-[#F5DEB3] rounded-lg px-4 py-2.5 font-inherit text-sm text-[#2D1810] outline-none transition-all duration-200 focus:border-mango-orange focus:shadow-[0_0_0_4px_rgba(232,145,10,0.1)] placeholder-[#C4B5A0]" id="f-email" type="email" placeholder="you@example.com" />
+          <div class="form-hint" id="hint-email"></div>
         </div>
       </div>
-      
+
       <div class="text-[0.72rem] font-bold tracking-wider uppercase text-leaf-green py-2 pb-1 border-t-2 border-[#F5DEB3] mt-1">ডেলিভারি ঠিকানা</div>
-      
+
       <div class="grid grid-cols-2 gap-2">
         <div>
           <label class="text-[0.72rem] font-bold tracking-wide uppercase text-muted mb-1 block">বিভাগ</label>
@@ -124,7 +137,7 @@
           <input class="form-input w-full bg-white border-2 border-[#F5DEB3] rounded-lg px-4 py-2.5 font-inherit text-sm text-[#2D1810] outline-none transition-all duration-200 focus:border-mango-orange focus:shadow-[0_0_0_4px_rgba(232,145,10,0.1)] placeholder-[#C4B5A0]" id="f-jela" placeholder="যেমন: সাতক্ষীরা" />
         </div>
       </div>
-      
+
       <div class="grid grid-cols-2 gap-2">
         <div>
           <label class="text-[0.72rem] font-bold tracking-wide uppercase text-muted mb-1 block">উপজেলা</label>
@@ -135,13 +148,13 @@
           <input class="form-input w-full bg-white border-2 border-[#F5DEB3] rounded-lg px-4 py-2.5 font-inherit text-sm text-[#2D1810] outline-none transition-all duration-200 focus:border-mango-orange focus:shadow-[0_0_0_4px_rgba(232,145,10,0.1)] placeholder-[#C4B5A0]" id="f-thana" placeholder="যেমন: তালা" />
         </div>
       </div>
-      
+
       <div>
         <label class="text-[0.72rem] font-bold tracking-wide uppercase text-muted mb-1 block">বিস্তারিত ঠিকানা</label>
         <input class="form-input w-full bg-white border-2 border-[#F5DEB3] rounded-lg px-4 py-2.5 font-inherit text-sm text-[#2D1810] outline-none transition-all duration-200 focus:border-mango-orange focus:shadow-[0_0_0_4px_rgba(232,145,10,0.1)] placeholder-[#C4B5A0]" id="f-address" placeholder="বাড়ি, রোড, এলাকা..." />
       </div>
     </div>
-    
+
     <button class="pay-btn w-full mt-3 bg-gradient-to-br from-mango-orange to-mango-ripe text-white border-0 py-3.5 px-4 rounded-xl font-inherit text-base font-bold tracking-wide cursor-pointer transition-all duration-200 flex items-center justify-center gap-2 shadow-[0_4px_16px_rgba(232,145,10,0.3)] hover:translate-y-[-2px] hover:shadow-[0_6px_24px_rgba(232,145,10,0.4)] disabled:opacity-55 disabled:cursor-not-allowed" id="pay-btn" onclick="checkout()">🔒 PayStation-এ পেমেন্ট করুন</button>
     <div class="text-center text-xs text-muted mt-2.5 flex items-center justify-center gap-1">🛡️ SSL এনক্রিপ্টেড · PayStation BD</div>
   </div>
@@ -292,17 +305,51 @@
   let directBuyPid = null;
 
   // ═══════════════════════════════════════════════════════════════════════════
+  //  VALIDATION HELPERS
+  // ═══════════════════════════════════════════════════════════════════════════
+  function validatePhone(phone) {
+    const clean = phone.replace(/[^0-9]/g, '');
+    const bdRegex = /^01[3-9][0-9]{8}$/;
+    return bdRegex.test(clean);
+  }
+
+  function validateEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email.trim());
+  }
+
+  function setFieldStatus(id, isValid, message) {
+    const el = document.getElementById(id);
+    const hint = document.getElementById('hint-' + id.replace('f-', ''));
+    if (!el) return;
+
+    el.classList.remove('error', 'valid');
+    if (hint) {
+      hint.classList.remove('error', 'valid');
+      hint.textContent = message || '';
+    }
+
+    if (isValid === true) {
+      el.classList.add('valid');
+      if (hint) hint.classList.add('valid');
+    } else if (isValid === false) {
+      el.classList.add('error');
+      if (hint) hint.classList.add('error');
+    }
+  }
+
+  // ═══════════════════════════════════════════════════════════════════════════
   //  FACEBOOK PIXEL HELPERS
   // ═══════════════════════════════════════════════════════════════════════════
   function getFbp() { return document.cookie.match(/_fbp=([^;]+)/)?.[1] || null; }
   function getFbc() { return document.cookie.match(/_fbc=([^;]+)/)?.[1] || new URLSearchParams(location.search).get('fbclid') || null; }
-  
+
   function pixelAddToCart(pid) {
     if (typeof fbq === "undefined") return;
     const p = PRODUCTS[pid];
     fbq('track', 'AddToCart', { content_ids: [pid], content_name: p.name, content_type: 'product', value: p.price, currency: 'BDT' });
   }
-  
+
   function pixelInitiateCheckout() {
     if (typeof fbq === "undefined") return;
     fbq('track', 'InitiateCheckout', { 
@@ -324,25 +371,23 @@
     pixelAddToCart(pid);
   }
 
-  // 🔥 FIXED: Buy Now - ADDS to existing cart & opens checkout immediately
   function buyNow(pid) {
-    cart[pid] = (cart[pid] || 0) + 1; // ✅ Keeps existing items
+    cart[pid] = (cart[pid] || 0) + 1;
     directBuyPid = pid;
-    
+
     refreshAll();
     openCart();
-    
-    // Auto-scroll to checkout form after drawer opens
+
     setTimeout(() => {
       const checkoutForm = document.getElementById('cart-foot');
       if (checkoutForm) {
         checkoutForm.scrollIntoView({ behavior: 'smooth', block: 'end' });
       }
     }, 350);
-    
+
     pixelAddToCart(pid);
     pixelInitiateCheckout();
-    
+
     toast(`🛒 কার্টে যোগ হয়েছে → চেকআউটে নিয়ে যাচ্ছি`);
   }
 
@@ -351,15 +396,15 @@
     if (next <= 0) delete cart[pid]; else if (next <= 20) cart[pid] = next;
     refreshAll();
   }
-  
+
   function cartTotal() { 
     return Object.entries(cart).reduce((s,[pid,qty]) => s + (PRODUCTS[pid]?.price||0)*qty, 0); 
   }
-  
+
   function cartCount() { 
     return Object.values(cart).reduce((a,b) => a+b, 0); 
   }
-  
+
   function cartPayload() { 
     return Object.entries(cart).map(([id,qty]) => ({id,qty})); 
   }
@@ -370,7 +415,7 @@
   function renderProducts() {
     const grid = document.getElementById('product-grid');
     document.getElementById('product-count').textContent = Object.keys(PRODUCTS).length + ' প্রকার';
-    
+
     grid.innerHTML = Object.entries(PRODUCTS).map(([pid,p]) => {
       const labelBg = p.label === 'বেস্টসেলার' ? 'bg-leaf-green' : p.label === 'জনপ্রিয়' ? 'bg-mango-ripe' : 'bg-mango-orange';
       return `
@@ -401,33 +446,33 @@
     const count = cartCount();
     document.getElementById('cart-count').textContent = count;
     document.getElementById('total-val').textContent = cartTotal().toLocaleString('en-BD');
-    
+
     Object.keys(PRODUCTS).forEach(pid => {
       const el = document.getElementById('sq-'+pid);
       if (el) el.textContent = cart[pid] || 0;
     });
-    
+
     const body = document.getElementById('cart-body');
     const foot = document.getElementById('cart-foot');
-    
+
     if (count === 0) {
       body.innerHTML = `<div class="text-center py-16 text-muted"><div class="text-[3.5rem] mb-4">🥭</div><p>আপনার কার্ট খালি</p></div>`;
-      foot.style.display = 'none';
+      foot.classList.add('hidden');
       return;
     }
-    
-    foot.style.display = 'block';
+
+    foot.classList.remove('hidden');
     body.innerHTML = Object.entries(cart).map(([pid,qty]) => {
       const p = PRODUCTS[pid];
-      return `<div class="grid grid-cols-[64px_1fr_auto] gap-3 items-center py-4 border-b border-[#F5DEB3]">
-        <div class="w-16 h-16 bg-cream rounded-xl flex items-center justify-center text-2xl overflow-hidden">
+      return `<div class="flex items-center gap-3 py-4 border-b border-[#F5DEB3] min-w-0">
+        <div class="w-16 h-16 bg-cream rounded-xl flex items-center justify-center overflow-hidden shrink-0">
           <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover" />
         </div>
-        <div>
-          <div class="text-sm font-bold text-leaf-green mb-1">${p.name}</div>
+        <div class="flex-1 min-w-0">
+          <div class="text-sm font-bold text-leaf-green mb-1 truncate">${p.name}</div>
           <div class="text-xs text-muted font-medium">৳${(p.price*qty).toLocaleString('en-BD')}</div>
         </div>
-        <div class="flex items-center gap-1">
+        <div class="flex items-center gap-1 shrink-0">
           <button class="w-7 h-7 border-2 border-[#F5DEB3] rounded-lg bg-none cursor-pointer text-sm flex items-center justify-center transition-all duration-150 text-leaf-green font-bold hover:border-mango-orange hover:bg-cream hover:text-mango-orange" onclick="adjustQty('${pid}',-1)">−</button>
           <span class="font-extrabold min-w-6 text-center text-sm text-leaf-green">${qty}</span>
           <button class="w-7 h-7 border-2 border-[#F5DEB3] rounded-lg bg-none cursor-pointer text-sm flex items-center justify-center transition-all duration-150 text-leaf-green font-bold hover:border-mango-orange hover:bg-cream hover:text-mango-orange" onclick="adjustQty('${pid}',1)">+</button>
@@ -437,35 +482,35 @@
   }
 
   // ═══════════════════════════════════════════════════════════════════════════
-  //  🔧 FIXED UI FUNCTIONS - Cart Drawer Toggle
+  //  UI FUNCTIONS - Cart Drawer Toggle
   // ═══════════════════════════════════════════════════════════════════════════
   function openCart() { 
     const drawer = document.getElementById('cart-drawer');
     const overlay = document.getElementById('overlay');
-    
+
     drawer.classList.remove('translate-x-full');
     drawer.classList.add('translate-x-0');
-    
+
     overlay.classList.remove('opacity-0', 'pointer-events-none');
     overlay.classList.add('opacity-100', 'pointer-events-auto');
-    
+
     document.body.style.overflow = 'hidden'; 
   }
 
   function closeCart() { 
     const drawer = document.getElementById('cart-drawer');
     const overlay = document.getElementById('overlay');
-    
+
     drawer.classList.remove('translate-x-0');
     drawer.classList.add('translate-x-full');
-    
+
     overlay.classList.remove('opacity-100', 'pointer-events-auto');
     overlay.classList.add('opacity-0', 'pointer-events-none');
-    
+
     document.body.style.overflow = ''; 
     directBuyPid = null;
   }
-  
+
   function popBtn() { 
     const b = document.getElementById('cart-toggle-btn'); 
     b.classList.remove('animate-pop'); 
@@ -478,7 +523,13 @@
   // ═══════════════════════════════════════════════════════════════════════════
   async function checkout() {
     const fields = ['f-name','f-phone','f-email','f-division','f-jela','f-upojela','f-thana','f-address'];
-    fields.forEach(id => document.getElementById(id)?.classList.remove('error', 'border-red-500'));
+    fields.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.classList.remove('error', 'valid', 'border-red-500');
+        el.classList.add('border-[#F5DEB3]');
+      }
+    });
 
     const name     = document.getElementById('f-name').value.trim();
     const phone    = document.getElementById('f-phone').value.trim();
@@ -490,25 +541,54 @@
     const address  = document.getElementById('f-address').value.trim();
 
     let err = false;
-    const mark = id => { 
-      const el = document.getElementById(id);
-      if(el) {
-        el.classList.add('error', 'border-red-500');
-        el.classList.remove('border-[#F5DEB3]');
-      }
-      err = true; 
-    };
-    
-    if (!name)     mark('f-name');
-    if (!phone)    mark('f-phone');
-    if (!email)    mark('f-email');
-    if (!division) mark('f-division');
-    if (!jela)     mark('f-jela');
-    if (!upojela)  mark('f-upojela');
-    if (!thana)    mark('f-thana');
-    if (!address)  mark('f-address');
-    
-    if (err) { toast('সব ঘর পূরণ করুন', true); return; }
+
+    // Name
+    if (!name) {
+      setFieldStatus('f-name', false, '');
+      err = true;
+    } else {
+      setFieldStatus('f-name', true, '');
+    }
+
+    // Phone validation with guard rails
+    if (!phone) {
+      setFieldStatus('f-phone', false, 'ফোন নম্বর দিন');
+      err = true;
+    } else if (!validatePhone(phone)) {
+      setFieldStatus('f-phone', false, 'সঠিক বাংলাদেশি মোবাইল নম্বর দিন (01XXXXXXXXX)');
+      err = true;
+    } else {
+      setFieldStatus('f-phone', true, '✓ সঠিক');
+    }
+
+    // Email validation with guard rails
+    if (!email) {
+      setFieldStatus('f-email', false, 'ইমেইল দিন');
+      err = true;
+    } else if (!validateEmail(email)) {
+      setFieldStatus('f-email', false, 'সঠিক ইমেইল ফরম্যাট দিন');
+      err = true;
+    } else {
+      setFieldStatus('f-email', true, '✓ সঠিক');
+    }
+
+    // Address fields
+    if (!division) { setFieldStatus('f-division', false, ''); err = true; }
+    else { setFieldStatus('f-division', true, ''); }
+
+    if (!jela) { setFieldStatus('f-jela', false, ''); err = true; }
+    else { setFieldStatus('f-jela', true, ''); }
+
+    if (!upojela) { setFieldStatus('f-upojela', false, ''); err = true; }
+    else { setFieldStatus('f-upojela', true, ''); }
+
+    if (!thana) { setFieldStatus('f-thana', false, ''); err = true; }
+    else { setFieldStatus('f-thana', true, ''); }
+
+    if (!address) { setFieldStatus('f-address', false, ''); err = true; }
+    else { setFieldStatus('f-address', true, ''); }
+
+    if (err) { toast('সব ঘর সঠিকভাবে পূরণ করুন', true); return; }
     if (cartCount() === 0) { toast('কার্ট খালি', true); return; }
 
     const btn = document.getElementById('pay-btn');
@@ -538,7 +618,7 @@
         }),
       });
       const data = await res.json();
-      
+
       if (data.payment_url) {
         sessionStorage.setItem('lastOrder', JSON.stringify({
           invoice: data.invoice_number, 
@@ -565,7 +645,7 @@
   }
 
   // ═══════════════════════════════════════════════════════════════════════════
-  //  TOAST NOTIFICATION (FIXED)
+  //  TOAST NOTIFICATION
   // ═══════════════════════════════════════════════════════════════════════════
   let _tt;
   function toast(msg, isErr=false) {
@@ -580,10 +660,51 @@
   }
 
   // ═══════════════════════════════════════════════════════════════════════════
+  //  LIVE VALIDATION LISTENERS
+  // ═══════════════════════════════════════════════════════════════════════════
+  function setupLiveValidation() {
+    const phoneEl = document.getElementById('f-phone');
+    const emailEl = document.getElementById('f-email');
+
+    if (phoneEl) {
+      phoneEl.addEventListener('input', function() {
+        // Only allow digits
+        this.value = this.value.replace(/[^0-9]/g, '');
+        if (this.value.length > 11) this.value = this.value.slice(0, 11);
+
+        if (this.value.length > 0) {
+          if (validatePhone(this.value)) {
+            setFieldStatus('f-phone', true, '✓ সঠিক');
+          } else {
+            setFieldStatus('f-phone', false, '01 দিয়ে শুরু, ১১ সংখ্যা');
+          }
+        } else {
+          setFieldStatus('f-phone', null, '');
+        }
+      });
+    }
+
+    if (emailEl) {
+      emailEl.addEventListener('input', function() {
+        if (this.value.length > 0) {
+          if (validateEmail(this.value)) {
+            setFieldStatus('f-email', true, '✓ সঠিক');
+          } else {
+            setFieldStatus('f-email', false, 'সঠিক ইমেইল ফরম্যাট');
+          }
+        } else {
+          setFieldStatus('f-email', null, '');
+        }
+      });
+    }
+  }
+
+  // ═══════════════════════════════════════════════════════════════════════════
   //  INIT
   // ═══════════════════════════════════════════════════════════════════════════
   renderProducts();
   refreshAll();
+  setupLiveValidation();
 </script>
 </body>
 </html>
