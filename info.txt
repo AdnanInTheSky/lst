@@ -828,4 +828,601 @@
         });
     </script>
 </body>
+</html>       modify using:<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Iron Hook Boxing</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet"
+    >
+
+    <script>
+
+        tailwind.config = {
+
+            theme: {
+
+                extend: {
+
+                    fontFamily: {
+
+                        sans: ['Inter', 'sans-serif']
+
+                    },
+
+                    colors: {
+
+                        'iron-green': '#84cc16',
+                        'iron-green-dark': '#65a30d',
+                        'iron-dark': '#0a0a0a',
+                        'iron-gray': '#1a1a1a',
+                        'iron-card': '#111111'
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    </script>
+
+    <style>
+
+        body {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #84cc16;
+            border-radius: 999px;
+        }
+
+        .hero-fade {
+            background: linear-gradient(
+                to bottom,
+                rgba(0,0,0,0.2),
+                rgba(0,0,0,0.6),
+                #0a0a0a
+            );
+        }
+
+        .service-card {
+            transition: 0.35s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .program-row {
+            transition: 0.3s;
+        }
+
+        .program-row:hover {
+            transform: translateY(-5px);
+            border-left: 4px solid #84cc16;
+            background: rgba(132,204,22,0.05);
+        }
+
+        .sponsor-logo {
+            transition: 0.3s;
+            filter: grayscale(100%);
+            opacity: 0.7;
+        }
+
+        .sponsor-logo:hover {
+            filter: grayscale(0%);
+            opacity: 1;
+        }
+
+        .btn-glow:hover {
+            box-shadow: 0 0 25px rgba(132,204,22,0.4);
+        }
+
+    </style>
+
+</head>
+
+<body class="text-white font-sans antialiased">
+
+    <!-- NAVBAR -->
+
+    <nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-black/40 border-b border-white/5">
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            <div class="h-20 flex items-center justify-between">
+
+                <!-- LOGO -->
+
+                <a
+                    href="#"
+                    class="flex items-center gap-3"
+                >
+
+                    <img
+                        src="/images/logo.png"
+                        alt="Logo"
+                        class="h-12 w-12 rounded-full object-cover"
+                    >
+
+                    <span class="font-black tracking-wide text-lg">
+                        IRON HOOK
+                    </span>
+
+                </a>
+
+                <!-- NAV -->
+
+                <div class="hidden md:flex items-center gap-8">
+
+                    <a
+                        href="#home"
+                        class="hover:text-iron-green transition"
+                    >
+                        Home
+                    </a>
+
+                    <a
+                        href="#about"
+                        class="hover:text-iron-green transition"
+                    >
+                        About
+                    </a>
+
+                    <a
+                        href="#services"
+                        class="hover:text-iron-green transition"
+                    >
+                        Services
+                    </a>
+
+                    <a
+                        href="#programs"
+                        class="hover:text-iron-green transition"
+                    >
+                        Programs
+                    </a>
+
+                    <a
+                        href="#sponsors"
+                        class="hover:text-iron-green transition"
+                    >
+                        Sponsors
+                    </a>
+
+                </div>
+
+                <!-- CTA -->
+
+                <a
+                    href="#programs"
+                    class="hidden md:inline-flex px-6 py-3 rounded-full bg-iron-green text-black font-bold btn-glow"
+                >
+                    JOIN NOW
+                </a>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+    <!-- HERO -->
+
+    <section
+        id="home"
+        class="relative min-h-screen flex items-center justify-center overflow-hidden"
+    >
+
+        <!-- DESKTOP HERO -->
+
+        <div
+            class="hidden md:block absolute inset-0 bg-cover bg-center bg-no-repeat"
+            style="background-image:url('/images/hero-desktop.jpg');"
+        ></div>
+
+        <!-- MOBILE HERO -->
+
+        <div
+            class="block md:hidden absolute inset-0 bg-cover bg-center bg-no-repeat"
+            style="background-image:url('/images/hero-mobile.jpg');"
+        ></div>
+
+        <!-- OVERLAY -->
+
+        <div class="absolute inset-0 bg-black/60"></div>
+
+        <!-- CONTENT -->
+
+        <div class="relative z-10 text-center max-w-5xl px-4 pt-24">
+
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-black leading-tight">
+
+                Founded on
+                <span class="text-iron-green block">
+                    Brotherhood.
+                </span>
+
+                Built on
+                <span class="text-iron-green block">
+                    Discipline.
+                </span>
+
+            </h1>
+
+            <div class="mt-10 flex flex-col sm:flex-row justify-center gap-4">
+
+                <a
+                    href="#programs"
+                    class="px-8 py-4 rounded-full bg-iron-green text-black font-black btn-glow"
+                >
+                    VIEW PROGRAMS
+                </a>
+
+                <a
+                    href="#sponsors"
+                    class="px-8 py-4 rounded-full border border-white/20 hover:border-iron-green hover:text-iron-green transition"
+                >
+                    OUR SPONSORS
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="absolute bottom-0 left-0 right-0 h-52 hero-fade"></div>
+
+    </section>
+
+    <!-- ABOUT -->
+
+    <section
+        id="about"
+        class="py-24"
+    >
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            <div class="grid lg:grid-cols-2 gap-20 items-center">
+
+                <!-- IMAGES -->
+
+                <div class="relative h-[650px]">
+
+                    <!-- BACK IMAGE -->
+
+                    <div class="absolute top-10 left-0 w-[45%] h-[70%] rounded-3xl overflow-hidden border border-white/10">
+
+                        <img
+                            src="/images/about-1.jpg"
+                            alt="Gym"
+                            class="w-full h-full object-cover"
+                        >
+
+                    </div>
+
+                    <!-- FRONT IMAGE -->
+
+                    <div class="absolute right-0 top-0 w-[65%] h-full rounded-3xl overflow-hidden border border-white/10 shadow-2xl">
+
+                        <img
+                            src="/images/about-2.jpg"
+                            alt="Boxing"
+                            class="w-full h-full object-cover"
+                        >
+
+                    </div>
+
+                </div>
+
+                <!-- CONTENT -->
+
+                <div>
+
+                    <h2 class="text-5xl font-black mb-8">
+                        About Us
+                    </h2>
+
+                    <p class="text-gray-400 text-lg leading-relaxed mb-10">
+
+                        Iron Hook Boxing is focused on building confidence,
+                        discipline, fitness, and strong community culture
+                        through boxing and structured training.
+
+                    </p>
+
+                    <div class="grid grid-cols-2 gap-4">
+
+                        <div class="bg-iron-green text-black font-bold text-center py-4 rounded-full">
+                            Brotherhood
+                        </div>
+
+                        <div class="bg-iron-green text-black font-bold text-center py-4 rounded-full">
+                            Discipline
+                        </div>
+
+                        <div class="bg-iron-green text-black font-bold text-center py-4 rounded-full">
+                            Respect
+                        </div>
+
+                        <div class="bg-iron-green text-black font-bold text-center py-4 rounded-full">
+                            Community
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- SERVICES -->
+
+    <section
+        id="services"
+        class="py-24"
+    >
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            <h2 class="text-5xl font-black text-center mb-16">
+                Offered Services
+            </h2>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+                <!-- CARD -->
+
+                <div class="service-card rounded-3xl overflow-hidden border border-white/10 bg-iron-card">
+
+                    <div class="relative aspect-[4/5]">
+
+                        <img
+                            src="/images/service-1.jpg"
+                            alt=""
+                            class="absolute inset-0 w-full h-full object-cover"
+                        >
+
+                        <div class="absolute inset-0 bg-black/40"></div>
+
+                        <div class="absolute bottom-0 p-6">
+
+                            <h3 class="text-2xl font-black">
+                                Group Boxing
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- CARD -->
+
+                <div class="service-card rounded-3xl overflow-hidden border border-white/10 bg-iron-card">
+
+                    <div class="relative aspect-[4/5]">
+
+                        <img
+                            src="/images/service-2.jpg"
+                            alt=""
+                            class="absolute inset-0 w-full h-full object-cover"
+                        >
+
+                        <div class="absolute inset-0 bg-black/40"></div>
+
+                        <div class="absolute bottom-0 p-6">
+
+                            <h3 class="text-2xl font-black">
+                                Personal Training
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- CARD -->
+
+                <div class="service-card rounded-3xl overflow-hidden border border-white/10 bg-iron-card">
+
+                    <div class="relative aspect-[4/5]">
+
+                        <img
+                            src="/images/service-3.jpg"
+                            alt=""
+                            class="absolute inset-0 w-full h-full object-cover"
+                        >
+
+                        <div class="absolute inset-0 bg-black/40"></div>
+
+                        <div class="absolute bottom-0 p-6">
+
+                            <h3 class="text-2xl font-black">
+                                Youth Programs
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- CARD -->
+
+                <div class="service-card rounded-3xl overflow-hidden border border-white/10 bg-iron-card">
+
+                    <div class="relative aspect-[4/5]">
+
+                        <img
+                            src="/images/service-4.jpg"
+                            alt=""
+                            class="absolute inset-0 w-full h-full object-cover"
+                        >
+
+                        <div class="absolute inset-0 bg-black/40"></div>
+
+                        <div class="absolute bottom-0 p-6">
+
+                            <h3 class="text-2xl font-black">
+                                Competition Coaching
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- PROGRAMS -->
+
+    <section
+        id="programs"
+        class="py-24"
+    >
+
+        <div class="max-w-5xl mx-auto px-4">
+
+            <div class="mb-14">
+
+                <h2 class="text-5xl font-black">
+                    Workout Programs
+                </h2>
+
+                <p class="text-gray-400 text-2xl mt-2">
+                    Made For You
+                </p>
+
+            </div>
+
+            <!-- DYNAMIC CONTENT -->
+
+            <div class="space-y-5">
+
+                {{PROGRAMS}}
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- SPONSORS -->
+
+    <section
+        id="sponsors"
+        class="py-24 border-t border-white/10"
+    >
+
+        <div class="max-w-7xl mx-auto px-4">
+
+            <h2 class="text-5xl font-black text-center mb-16">
+                Proud Sponsors
+            </h2>
+
+            <!-- DYNAMIC CONTENT -->
+
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-8">
+
+                {{SPONSORS}}
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- INSTAGRAM -->
+
+    <section class="py-24 border-t border-white/10">
+
+        <div class="max-w-7xl mx-auto px-4">
+
+            <div class="text-center mb-14">
+
+                <h2 class="text-5xl font-black mb-4">
+                    Follow Us
+                </h2>
+
+                <p class="text-gray-400 text-xl">
+                    Latest updates & training
+                </p>
+
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+                <img
+                    src="/images/insta-1.jpg"
+                    class="rounded-3xl w-full aspect-[4/5] object-cover"
+                >
+
+                <img
+                    src="/images/insta-2.jpg"
+                    class="rounded-3xl w-full aspect-[4/5] object-cover"
+                >
+
+                <img
+                    src="/images/insta-3.jpg"
+                    class="rounded-3xl w-full aspect-[4/5] object-cover"
+                >
+
+                <img
+                    src="/images/insta-4.jpg"
+                    class="rounded-3xl w-full aspect-[4/5] object-cover"
+                >
+
+            </div>
+
+        </div>
+
+    </section>
+
+</body>
+
 </html>
