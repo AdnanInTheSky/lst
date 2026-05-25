@@ -150,8 +150,6 @@
 
 <!-- Hero - Banner Only -->
 <section class="hero relative min-h-[85vh] flex items-center justify-center overflow-hidden">
-  
-  <!-- Background Image -->
   <div class="absolute inset-0">
     <img 
       src="https://lst-mu.vercel.app/images/hero.jpg" 
@@ -159,10 +157,8 @@
       class="w-full h-full object-cover"
       loading="eager"
     />
-    <!-- Dark overlay for button contrast -->
     <div class="absolute inset-0 bg-black/30"></div>
   </div>
-
 </section>
 
 <!-- Trust Section -->
@@ -202,104 +198,190 @@
 
 </div>
 
-<!-- CART PAGE -->
+<!-- CART PAGE - TWO COLUMN LAYOUT -->
 <div id="page-cart" class="page">
-  <div class="cart-page max-w-4xl mx-auto px-4 sm:px-6 py-12">
+  <div class="cart-page max-w-7xl mx-auto px-4 sm:px-6 py-8 lg:py-12">
     <h1 class="font-serif text-3xl font-semibold mb-2 text-gray-900">আপনার কার্ট</h1>
-    <p class="text-sm text-gray-500 mb-8" id="cart-summary">কার্টে কোনো পণ্য নেই</p>
+    <p class="text-sm text-gray-500 mb-6 lg:mb-8" id="cart-summary">কার্টে কোনো পণ্য নেই</p>
 
-    <div class="cart-items flex flex-col gap-4 mb-8" id="cart-items"></div>
-
+    <!-- Empty State -->
     <div id="empty-state" class="empty-state text-center py-16" style="display:none">
       <div class="text-6xl mb-4">🥭</div>
       <p class="text-sm text-gray-500 mb-6">আপনার কার্ট এখনো খালি</p>
       <button class="bg-green-800 text-white px-6 py-3 rounded-xl text-sm font-medium hover:bg-green-900 transition-all" onclick="goShop()">কেনাকাটা শুরু করুন</button>
     </div>
 
-    <div id="checkout-section" style="display:none">
-      <!-- Order Summary -->
-      <div class="bg-white rounded-2xl border border-gray-200 p-6 mb-6">
-        <div class="text-xs font-bold tracking-widest uppercase text-gray-500 pb-4 mb-4 border-b border-gray-200">অর্ডার সারাংশ</div>
-        <div id="summary-lines"></div>
-        <div class="flex justify-between items-baseline pt-4 border-t border-gray-200 mt-4">
-          <span class="text-base font-semibold">মোট মূল্য</span>
-          <span class="font-serif text-3xl font-semibold text-green-700">৳<span id="final-total">0</span></span>
+    <!-- Desktop: Two-Column Layout (Products Left + Form Right) -->
+    <div id="checkout-layout" class="hidden lg:grid lg:grid-cols-2 lg:gap-8 lg:items-start">
+      
+      <!-- LEFT: Cart Items -->
+      <div class="space-y-4" id="cart-items"></div>
+
+      <!-- RIGHT: Order Summary + Checkout Form (Sticky) -->
+      <div class="lg:sticky lg:top-24 space-y-6">
+        
+        <!-- Order Summary -->
+        <div class="bg-white rounded-2xl border border-gray-200 p-6">
+          <div class="text-xs font-bold tracking-widest uppercase text-gray-500 pb-4 mb-4 border-b border-gray-200">অর্ডার সারাংশ</div>
+          <div id="summary-lines"></div>
+          <div class="flex justify-between items-baseline pt-4 border-t border-gray-200 mt-4">
+            <span class="text-base font-semibold">মোট মূল্য</span>
+            <span class="font-serif text-3xl font-semibold text-green-700">৳<span id="final-total">0</span></span>
+          </div>
+        </div>
+
+        <!-- Checkout Form -->
+        <div class="bg-white rounded-2xl border border-gray-200 p-6">
+          
+          <!-- Personal Info Section -->
+          <div class="text-xs font-bold tracking-widest uppercase text-gray-500 my-6 pt-6 border-t border-gray-200 first:mt-0 first:pt-0 first:border-t-0">ব্যক্তিগত তথ্য</div>
+          <div class="mb-5">
+            <label class="block text-xs font-semibold text-gray-700 mb-2">পুরো নাম *</label>
+            <input class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm" id="f-name" placeholder="রহিম উদ্দিন" />
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
+            <div>
+              <label class="block text-xs font-semibold text-gray-700 mb-2">ফোন নম্বর *</label>
+              <input class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm" id="f-phone" placeholder="01XXXXXXXXX" maxlength="11" inputmode="numeric" />
+              <div class="text-xs mt-1" id="hint-phone"></div>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-700 mb-2">ইমেইল *</label>
+              <input class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm" id="f-email" type="email" placeholder="you@example.com" inputmode="email" />
+              <div class="text-xs mt-1" id="hint-email"></div>
+            </div>
+          </div>
+
+          <!-- Delivery Address Section -->
+          <div class="text-xs font-bold tracking-widest uppercase text-gray-500 my-6 pt-6 border-t border-gray-200">ডেলিভারি ঠিকানা</div>
+          
+          <!-- Division & District Row -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+            <div>
+              <label class="block text-xs font-semibold text-gray-700 mb-2">বিভাগ *</label>
+              <select class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm" id="f-division" onchange="updateDistricts()">
+                <option value="">বিভাগ নির্বাচন করুন</option>
+                <option value="Barisal">বরিশাল</option>
+                <option value="Chattogram">চট্টগ্রাম</option>
+                <option value="Dhaka">ঢাকা</option>
+                <option value="Khulna">খুলনা</option>
+                <option value="Rajshahi">রাজশাহী</option>
+                <option value="Rangpur">রংপুর</option>
+                <option value="Sylhet">সিলেট</option>
+                <option value="Mymensingh">ময়মনসিংহ</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-700 mb-2">জেলা *</label>
+              <select class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm" id="f-jela" onchange="updateUpozelas()" disabled>
+                <option value="">প্রথমে বিভাগ নির্বাচন করুন</option>
+              </select>
+            </div>
+          </div>
+          
+          <!-- Upazila & Thana Row -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+            <div>
+              <label class="block text-xs font-semibold text-gray-700 mb-2">উপজেলা *</label>
+              <input class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm" id="f-upojela" placeholder="উপজেলা লিখুন" disabled />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-700 mb-2">থানা *</label>
+              <input class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm" id="f-thana" placeholder="থানা লিখুন" disabled />
+            </div>
+          </div>
+          
+          <!-- Address Detail -->
+          <div class="mb-6">
+            <label class="block text-xs font-semibold text-gray-700 mb-2">বিস্তারিত ঠিকানা *</label>
+            <textarea class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm resize-none" id="f-address" rows="2" placeholder="বাড়ি নম্বর, রোড, এলাকা, ল্যান্ডমার্ক…" disabled></textarea>
+          </div>
+
+          <!-- Pay Button -->
+          <button class="w-full bg-green-800 text-white py-4 rounded-xl text-sm font-medium transition-all flex items-center justify-center gap-2 hover:bg-green-900 active:scale-98 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-xl shadow-green-800/20" id="pay-btn" onclick="checkout()">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            PayStation-এ পেমেন্ট করুন
+          </button>
+          <p class="text-center text-xs text-gray-500 mt-3">SSL এনক্রিপ্টেড · PayStation BD · নিরাপদ লেনদেন</p>
         </div>
       </div>
+    </div>
 
-      <!-- Checkout Form -->
-      <div class="bg-white rounded-2xl border border-gray-200 p-6">
-        
-        <!-- Personal Info Section -->
-        <div class="text-xs font-bold tracking-widest uppercase text-gray-500 my-6 pt-6 border-t border-gray-200 first:mt-0 first:pt-0 first:border-t-0">ব্যক্তিগত তথ্য</div>
-        <div class="mb-5">
-          <label class="block text-xs font-semibold text-gray-700 mb-2">পুরো নাম *</label>
-          <input class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm" id="f-name" placeholder="রহিম উদ্দিন" />
-        </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
-          <div>
-            <label class="block text-xs font-semibold text-gray-700 mb-2">ফোন নম্বর *</label>
-            <input class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm" id="f-phone" placeholder="01XXXXXXXXX" maxlength="11" inputmode="numeric" />
-            <div class="text-xs mt-1" id="hint-phone"></div>
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-gray-700 mb-2">ইমেইল *</label>
-            <input class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm" id="f-email" type="email" placeholder="you@example.com" inputmode="email" />
-            <div class="text-xs mt-1" id="hint-email"></div>
+    <!-- Mobile: Stacked Layout -->
+    <div id="checkout-layout-mobile" class="lg:hidden">
+      <div class="cart-items flex flex-col gap-4 mb-6" id="cart-items-mobile"></div>
+      <div id="checkout-section-mobile">
+        <!-- Order Summary -->
+        <div class="bg-white rounded-2xl border border-gray-200 p-6 mb-6">
+          <div class="text-xs font-bold tracking-widest uppercase text-gray-500 pb-4 mb-4 border-b border-gray-200">অর্ডার সারাংশ</div>
+          <div id="summary-lines-mobile"></div>
+          <div class="flex justify-between items-baseline pt-4 border-t border-gray-200 mt-4">
+            <span class="text-base font-semibold">মোট মূল্য</span>
+            <span class="font-serif text-3xl font-semibold text-green-700">৳<span id="final-total-mobile">0</span></span>
           </div>
         </div>
-
-        <!-- Delivery Address Section -->
-        <div class="text-xs font-bold tracking-widest uppercase text-gray-500 my-6 pt-6 border-t border-gray-200">ডেলিভারি ঠিকানা</div>
-        
-        <!-- Division & District Row -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-          <div>
-            <label class="block text-xs font-semibold text-gray-700 mb-2">বিভাগ *</label>
-            <select class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm" id="f-division" onchange="updateDistricts()">
-              <option value="">বিভাগ নির্বাচন করুন</option>
-              <option value="Barisal">বরিশাল</option>
-              <option value="Chattogram">চট্টগ্রাম</option>
-              <option value="Dhaka">ঢাকা</option>
-              <option value="Khulna">খুলনা</option>
-              <option value="Rajshahi">রাজশাহী</option>
-              <option value="Rangpur">রংপুর</option>
-              <option value="Sylhet">সিলেট</option>
-              <option value="Mymensingh">ময়মনসিংহ</option>
-            </select>
+        <!-- Checkout Form -->
+        <div class="bg-white rounded-2xl border border-gray-200 p-6">
+          <div class="text-xs font-bold tracking-widest uppercase text-gray-500 my-6 pt-6 border-t border-gray-200 first:mt-0 first:pt-0 first:border-t-0">ব্যক্তিগত তথ্য</div>
+          <div class="mb-5">
+            <label class="block text-xs font-semibold text-gray-700 mb-2">পুরো নাম *</label>
+            <input class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm" id="f-name-m" placeholder="রহিম উদ্দিন" />
           </div>
-          <div>
-            <label class="block text-xs font-semibold text-gray-700 mb-2">জেলা *</label>
-            <select class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm" id="f-jela" onchange="updateUpozelas()" disabled>
-              <option value="">প্রথমে বিভাগ নির্বাচন করুন</option>
-            </select>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
+            <div>
+              <label class="block text-xs font-semibold text-gray-700 mb-2">ফোন নম্বর *</label>
+              <input class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm" id="f-phone-m" placeholder="01XXXXXXXXX" maxlength="11" inputmode="numeric" />
+              <div class="text-xs mt-1" id="hint-phone-m"></div>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-700 mb-2">ইমেইল *</label>
+              <input class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm" id="f-email-m" type="email" placeholder="you@example.com" inputmode="email" />
+              <div class="text-xs mt-1" id="hint-email-m"></div>
+            </div>
           </div>
+          <div class="text-xs font-bold tracking-widest uppercase text-gray-500 my-6 pt-6 border-t border-gray-200">ডেলিভারি ঠিকানা</div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+            <div>
+              <label class="block text-xs font-semibold text-gray-700 mb-2">বিভাগ *</label>
+              <select class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm" id="f-division-m" onchange="updateDistrictsMobile()">
+                <option value="">বিভাগ নির্বাচন করুন</option>
+                <option value="Barisal">বরিশাল</option>
+                <option value="Chattogram">চট্টগ্রাম</option>
+                <option value="Dhaka">ঢাকা</option>
+                <option value="Khulna">খুলনা</option>
+                <option value="Rajshahi">রাজশাহী</option>
+                <option value="Rangpur">রংপুর</option>
+                <option value="Sylhet">সিলেট</option>
+                <option value="Mymensingh">ময়মনসিংহ</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-700 mb-2">জেলা *</label>
+              <select class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm" id="f-jela-m" onchange="updateUpozelasMobile()" disabled>
+                <option value="">প্রথমে বিভাগ নির্বাচন করুন</option>
+              </select>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+            <div>
+              <label class="block text-xs font-semibold text-gray-700 mb-2">উপজেলা *</label>
+              <input class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm" id="f-upojela-m" placeholder="উপজেলা লিখুন" disabled />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-700 mb-2">থানা *</label>
+              <input class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm" id="f-thana-m" placeholder="থানা লিখুন" disabled />
+            </div>
+          </div>
+          <div class="mb-6">
+            <label class="block text-xs font-semibold text-gray-700 mb-2">বিস্তারিত ঠিকানা *</label>
+            <textarea class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm resize-none" id="f-address-m" rows="2" placeholder="বাড়ি নম্বর, রোড, এলাকা, ল্যান্ডমার্ক…" disabled></textarea>
+          </div>
+          <button class="w-full bg-green-800 text-white py-4 rounded-xl text-sm font-medium transition-all flex items-center justify-center gap-2 hover:bg-green-900 active:scale-98 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-xl shadow-green-800/20" id="pay-btn-m" onclick="checkoutMobile()">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            PayStation-এ পেমেন্ট করুন
+          </button>
+          <p class="text-center text-xs text-gray-500 mt-3">SSL এনক্রিপ্টেড · PayStation BD · নিরাপদ লেনদেন</p>
         </div>
-        
-        <!-- Upazila & Thana Row -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-          <div>
-            <label class="block text-xs font-semibold text-gray-700 mb-2">উপজেলা *</label>
-            <input class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm" id="f-upojela" placeholder="উপজেলা লিখুন" disabled />
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-gray-700 mb-2">থানা *</label>
-            <input class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm" id="f-thana" placeholder="থানা লিখুন" disabled />
-          </div>
-        </div>
-        
-        <!-- Address Detail -->
-        <div class="mb-6">
-          <label class="block text-xs font-semibold text-gray-700 mb-2">বিস্তারিত ঠিকানা *</label>
-          <textarea class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm resize-none" id="f-address" rows="2" placeholder="বাড়ি নম্বর, রোড, এলাকা, ল্যান্ডমার্ক…" disabled></textarea>
-        </div>
-
-        <!-- Pay Button -->
-        <button class="w-full bg-green-800 text-white py-4 rounded-xl text-sm font-medium transition-all flex items-center justify-center gap-2 hover:bg-green-900 active:scale-98 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-xl shadow-green-800/20" id="pay-btn" onclick="checkout()">
-          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-          PayStation-এ পেমেন্ট করুন
-        </button>
-        <p class="text-center text-xs text-gray-500 mt-3">SSL এনক্রিপ্টেড · PayStation BD · নিরাপদ লেনদেন</p>
       </div>
     </div>
   </div>
@@ -416,7 +498,6 @@ var districtsData = {
   "Thakurgaon": ["Thakurgaon Sadar", "Baliadangi", "Haripur", "Pirganj", "Ranishankail"]
 };
 
-// === Districts by Division for cascading dropdown ===
 var districtsByDivision = {
   "Barisal": ["Barguna", "Barisal", "Bhola", "Jhalakathi", "Patuakhali", "Pirojpur"],
   "Chattogram": ["Bandarban", "Brahmanbaria", "Chandpur", "Chattogram", "Comilla", "Cox's Bazar", "Feni", "Khagrachhari", "Lakshmipur", "Noakhali", "Rangamati"],
@@ -554,30 +635,59 @@ function renderProducts() {
   grid.innerHTML = html;
 }
 
+// === Sync form values between desktop/mobile inputs ===
+function syncFormToMobile() {
+  ['name','phone','email','division','jela','upojela','thana','address'].forEach(function(field) {
+    var desktop = document.getElementById('f-' + field);
+    var mobile = document.getElementById('f-' + field + '-m');
+    if (desktop && mobile) mobile.value = desktop.value;
+  });
+}
+function syncFormToDesktop() {
+  ['name','phone','email','division','jela','upojela','thana','address'].forEach(function(field) {
+    var mobile = document.getElementById('f-' + field + '-m');
+    var desktop = document.getElementById('f-' + field);
+    if (mobile && desktop) desktop.value = mobile.value;
+  });
+}
+
+// === Mobile dropdown handlers ===
+function updateDistrictsMobile() {
+  updateDistricts();
+  var desktopSel = document.getElementById('f-jela');
+  var mobileSel = document.getElementById('f-jela-m');
+  if (desktopSel && mobileSel) mobileSel.innerHTML = desktopSel.innerHTML;
+}
+function updateUpozelasMobile() {
+  updateUpozelas();
+}
+
+// === Updated renderCart for both layouts ===
 function renderCart() {
   var count = cartCount();
-  var itemsEl = document.getElementById('cart-items');
   var emptyEl = document.getElementById('empty-state');
-  var checkoutEl = document.getElementById('checkout-section');
+  var checkoutLayout = document.getElementById('checkout-layout');
+  var checkoutLayoutMobile = document.getElementById('checkout-layout-mobile');
   var summaryEl = document.getElementById('cart-summary');
 
   if (count === 0) {
-    itemsEl.innerHTML = '';
     emptyEl.style.display = 'block';
-    checkoutEl.style.display = 'none';
+    checkoutLayout.classList.add('hidden');
+    checkoutLayoutMobile.classList.add('hidden');
     summaryEl.textContent = 'কার্ট খালি';
     return;
   }
 
   emptyEl.style.display = 'none';
-  checkoutEl.style.display = 'block';
+  checkoutLayout.classList.remove('hidden');
+  checkoutLayoutMobile.classList.remove('hidden');
   summaryEl.textContent = count + 'টি পণ্য · মোট ৳' + cartTotal().toLocaleString('en-BD');
 
-  var html = '';
+  var itemsHtml = '';
   for (var pid in cart) {
     if (!cart.hasOwnProperty(pid)) continue;
     var qty = cart[pid]; var p = PRODUCTS[pid]; if (!p) continue;
-    html += '<div class="bg-white rounded-2xl border border-gray-200 p-4 flex gap-4 items-center">' +
+    itemsHtml += '<div class="bg-white rounded-2xl border border-gray-200 p-4 flex gap-4 items-center">' +
       '<img src="' + p.image + '" alt="' + p.name + '" class="w-20 h-20 object-contain bg-gray-50 rounded-lg" />' +
       '<div class="flex-1">' +
         '<h4 class="font-medium text-gray-900 mb-1">' + p.name + '</h4>' +
@@ -597,7 +707,8 @@ function renderCart() {
       '<button onclick="removeItem(\'' + pid + '\')" class="text-gray-400 hover:text-red-600 transition-colors p-2">×</button>' +
     '</div>';
   }
-  itemsEl.innerHTML = html;
+  document.getElementById('cart-items').innerHTML = itemsHtml;
+  document.getElementById('cart-items-mobile').innerHTML = itemsHtml;
 
   var shtml = '';
   for (var pid in cart) {
@@ -606,10 +717,12 @@ function renderCart() {
     shtml += '<div class="flex justify-between text-sm text-gray-600 mb-2"><span>' + p.name + ' <span class="text-gray-400">× ' + qty + '</span></span><strong class="text-gray-900">৳' + (p.price * qty).toLocaleString('en-BD') + '</strong></div>';
   }
   document.getElementById('summary-lines').innerHTML = shtml;
+  document.getElementById('summary-lines-mobile').innerHTML = shtml;
   document.getElementById('final-total').textContent = cartTotal().toLocaleString('en-BD');
+  document.getElementById('final-total-mobile').textContent = cartTotal().toLocaleString('en-BD');
 }
 
-// === Address Form Logic: Division → District → Upazila/Thana ===
+// === Address Form Logic ===
 function updateDistricts() {
   var division = document.getElementById('f-division').value;
   var districtSelect = document.getElementById('f-jela');
@@ -652,7 +765,6 @@ function updateUpozelas() {
   }
 }
 
-// ✅ FIX: Save order to sessionStorage BEFORE redirect
 function saveOrderToSession(customerName, totalAmount) {
   var items = Object.keys(cart).map(function(pid) {
     var p = PRODUCTS[pid];
@@ -682,9 +794,11 @@ function saveOrderToSession(customerName, totalAmount) {
 
 function validatePhone(p) { return /^01[3-9][0-9]{8}$/.test(p.replace(/[^0-9]/g,'')); }
 function validateEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.trim()); }
+
 function setFieldStatus(id, ok, msg) {
   var el = document.getElementById(id);
-  var hint = document.getElementById('hint-' + id.replace('f-',''));
+  var baseId = id.replace('f-', '').replace('-m', '');
+  var hint = document.getElementById('hint-' + baseId);
   if (!el) return;
   if (hint) { hint.textContent = msg || ''; hint.className = 'text-xs mt-1 ' + (ok === false ? 'text-red-600' : ok === true ? 'text-green-600' : ''); }
 }
@@ -693,26 +807,34 @@ function getFbp() { var m = document.cookie.match(/_fbp=([^;]+)/); return m ? m[
 function getFbc() { var m = document.cookie.match(/_fbc=([^;]+)/); return m ? m[1] : new URLSearchParams(location.search).get('fbclid') || null; }
 
 function checkout() {
-  var name = document.getElementById('f-name').value.trim();
-  var phone = document.getElementById('f-phone').value.trim();
-  var email = document.getElementById('f-email').value.trim();
-  var division = document.getElementById('f-division').value.trim();
-  var jela = document.getElementById('f-jela').value.trim();
-  var upojela = document.getElementById('f-upojela').value.trim();
-  var thana = document.getElementById('f-thana').value.trim();
-  var address = document.getElementById('f-address').value.trim();
+  syncFormToMobile();
+  _doCheckout('');
+}
+function checkoutMobile() {
+  syncFormToDesktop();
+  _doCheckout('-m');
+}
+function _doCheckout(prefix) {
+  var name = document.getElementById('f-name' + prefix).value.trim();
+  var phone = document.getElementById('f-phone' + prefix).value.trim();
+  var email = document.getElementById('f-email' + prefix).value.trim();
+  var division = document.getElementById('f-division' + prefix).value.trim();
+  var jela = document.getElementById('f-jela' + prefix).value.trim();
+  var upojela = document.getElementById('f-upojela' + prefix).value.trim();
+  var thana = document.getElementById('f-thana' + prefix).value.trim();
+  var address = document.getElementById('f-address' + prefix).value.trim();
 
   var err = false;
   
-  if (!name) { setFieldStatus('f-name', false, 'নাম দিন'); err = true; } else setFieldStatus('f-name', true, '');
+  if (!name) { setFieldStatus('f-name' + prefix, false, 'নাম দিন'); err = true; } else setFieldStatus('f-name' + prefix, true, '');
   
-  if (!phone) { setFieldStatus('f-phone', false, 'ফোন নম্বর দিন'); err = true; }
-  else if (!validatePhone(phone)) { setFieldStatus('f-phone', false, 'সঠিক বাংলাদেশি নম্বর দিন (01XXXXXXXXX)'); err = true; }
-  else setFieldStatus('f-phone', true, '✓ সঠিক');
+  if (!phone) { setFieldStatus('f-phone' + prefix, false, 'ফোন নম্বর দিন'); err = true; }
+  else if (!validatePhone(phone)) { setFieldStatus('f-phone' + prefix, false, 'সঠিক বাংলাদেশি নম্বর দিন (01XXXXXXXXX)'); err = true; }
+  else setFieldStatus('f-phone' + prefix, true, '✓ সঠিক');
   
-  if (!email) { setFieldStatus('f-email', false, 'ইমেইল দিন'); err = true; }
-  else if (!validateEmail(email)) { setFieldStatus('f-email', false, 'সঠিক ইমেইল ফরম্যাট'); err = true; }
-  else setFieldStatus('f-email', true, '✓ সঠিক');
+  if (!email) { setFieldStatus('f-email' + prefix, false, 'ইমেইল দিন'); err = true; }
+  else if (!validateEmail(email)) { setFieldStatus('f-email' + prefix, false, 'সঠিক ইমেইল ফরম্যাট'); err = true; }
+  else setFieldStatus('f-email' + prefix, true, '✓ সঠিক');
   
   if (!division) { alert('বিভাগ নির্বাচন করুন'); err = true; }
   if (!jela) { alert('জেলা নির্বাচন করুন'); err = true; }
@@ -724,11 +846,9 @@ function checkout() {
   if (cartCount() === 0) { toast('কার্ট খালি', true); return; }
 
   var total = cartTotal();
-  
-  // ✅ SAVE ORDER TO SESSION STORAGE BEFORE REDIRECT
   saveOrderToSession(name, total);
 
-  var btn = document.getElementById('pay-btn');
+  var btn = document.getElementById('pay-btn' + prefix);
   var orig = btn.innerHTML;
   btn.disabled = true;
   btn.innerHTML = '<span class="animate-pulse">সংযুক্ত হচ্ছে…</span>';
@@ -779,25 +899,27 @@ function toast(msg, isErr) {
 }
 
 function setupLiveValidation() {
-  var phoneEl = document.getElementById('f-phone');
-  var emailEl = document.getElementById('f-email');
-  if (phoneEl) {
-    phoneEl.addEventListener('input', function() {
-      this.value = this.value.replace(/[^0-9]/g, '').slice(0, 11);
-      if (this.value.length > 0) {
-        if (validatePhone(this.value)) setFieldStatus('f-phone', true, '✓ সঠিক');
-        else setFieldStatus('f-phone', false, '01 দিয়ে শুরু, ১১ সংখ্যা');
-      } else setFieldStatus('f-phone', null, '');
-    });
-  }
-  if (emailEl) {
-    emailEl.addEventListener('input', function() {
-      if (this.value.length > 0) {
-        if (validateEmail(this.value)) setFieldStatus('f-email', true, '✓ সঠিক');
-        else setFieldStatus('f-email', false, 'সঠিক ইমেইল ফরম্যাট');
-      } else setFieldStatus('f-email', null, '');
-    });
-  }
+  ['',' -m'].forEach(function(suffix) {
+    var phoneEl = document.getElementById('f-phone' + suffix);
+    var emailEl = document.getElementById('f-email' + suffix);
+    if (phoneEl) {
+      phoneEl.addEventListener('input', function() {
+        this.value = this.value.replace(/[^0-9]/g, '').slice(0, 11);
+        if (this.value.length > 0) {
+          if (validatePhone(this.value)) setFieldStatus(this.id, true, '✓ সঠিক');
+          else setFieldStatus(this.id, false, '01 দিয়ে শুরু, ১১ সংখ্যা');
+        } else setFieldStatus(this.id, null, '');
+      });
+    }
+    if (emailEl) {
+      emailEl.addEventListener('input', function() {
+        if (this.value.length > 0) {
+          if (validateEmail(this.value)) setFieldStatus(this.id, true, '✓ সঠিক');
+          else setFieldStatus(this.id, false, 'সঠিক ইমেইল ফরম্যাট');
+        } else setFieldStatus(this.id, null, '');
+      });
+    }
+  });
 }
 
 // Initialize
