@@ -12,14 +12,14 @@
       theme: {
         extend: {
           colors: {
-            'primary': '#166534',        // Green-800 - Dark forest green
-            'primary-dark': '#14532d',   // Green-900 - Darker green
-            'primary-light': '#f0fdf4',  // Green-50 - Very light green
-            'primary-accent': '#22c55e', // Green-500 - Bright green for accents
-            'secondary': '#16a34a',      // Green-600 - For savings
-            'text-dark': '#1f2937',      // Gray-800
-            'text-muted': '#6b7280',     // Gray-500
-            'border-light': '#e5e7eb',   // Gray-200
+            'primary': '#166534',
+            'primary-dark': '#14532d',
+            'primary-light': '#f0fdf4',
+            'primary-accent': '#22c55e',
+            'secondary': '#16a34a',
+            'text-dark': '#1f2937',
+            'text-muted': '#6b7280',
+            'border-light': '#e5e7eb',
           },
           fontFamily: {
             'bengali': ['"Noto Sans Bengali"', 'sans-serif'],
@@ -48,11 +48,10 @@
     a { color: inherit; text-decoration: none; }
     button { font-family: 'Noto Sans Bengali', sans-serif; cursor: pointer; border: none; }
     img { display: block; max-width: 100%; }
-    textarea, input { font-family: 'Noto Sans Bengali', sans-serif; }
+    textarea, input, select { font-family: 'Noto Sans Bengali', sans-serif; }
     .page { display: none; }
     .page.active { display: block; }
     
-    /* Product card hover effects */
     .product-card { 
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       box-shadow: 0 1px 3px rgba(0,0,0,0.08);
@@ -62,7 +61,6 @@
       box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
     }
     
-    /* Toast */
     #toast {
       position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
       background: #166534; color: white;
@@ -79,13 +77,12 @@
     #toast.show { transform: translateX(-50%) translateY(0); }
     #toast.err { background: #dc2626; }
     
-    /* Form focus */
     .form-input:focus, .form-select:focus { 
       border-color: #166534; 
       box-shadow: 0 0 0 3px rgba(22, 101, 52, 0.15); 
       outline: none;
     }
-    
+ 
     @media (max-width: 768px) {
       .hero-grid { grid-template-columns: 1fr !important; }
       .trust-grid { grid-template-columns: repeat(2, 1fr) !important; }
@@ -96,6 +93,24 @@
       .hero { padding: 24px 16px !important; }
       .products, .trust, .cart-page { padding-left: 16px !important; padding-right: 16px !important; }
     }
+    @keyframes fade-in-up {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fade-in {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes gradient {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+    .animate-fade-in-up { animation: fade-in-up 0.6s ease-out forwards; }
+    .animate-fade-in { animation: fade-in 0.8s ease-out forwards; }
+    .animate-gradient { 
+      background-size: 200% 200%; 
+      animation: gradient 8s ease infinite; 
+    }
   </style>
   <base target="_blank">
 </head>
@@ -105,7 +120,12 @@
 <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-200">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
     <a href="#" onclick="goShop(event)" class="flex items-center gap-3">
-      <div class="w-10 h-10 bg-gradient-to-br from-green-700 to-emerald-600 rounded-xl flex items-center justify-center text-xl shadow-lg">🥭</div>
+      <img 
+        src="https://mango-project-rho.vercel.app/static/images/logo.png" 
+        alt="Urbor Essentials Logo" 
+        class="w-10 h-10 object-contain rounded-xl shadow-lg"
+        onerror="this.parentElement.innerHTML='<div class=\'w-10 h-10 bg-gradient-to-br from-green-700 to-emerald-600 rounded-xl flex items-center justify-center text-xl shadow-lg\'>🥭</div>' + this.parentElement.innerHTML"
+      />
       <div>
         <div class="font-serif text-xl font-semibold tracking-tight text-gray-900">Urbor Essentials</div>
         <div class="text-xs text-gray-500 -mt-0.5">রাজশাহীর প্রাকৃতিক আম</div>
@@ -128,73 +148,143 @@
 <!-- SHOP PAGE -->
 <div id="page-shop" class="page active">
 
-  <!-- Hero -->
-  <section class="hero max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
-    <div class="hero-grid grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-      <div>
-        <p class="text-xs font-bold tracking-widest uppercase text-green-700 mb-3">রাজশাহী · প্রাকৃতিক স্বাদ</p>
-        <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-semibold leading-tight mb-5 text-gray-900">
-          ঐতিহ্যবাহী ও<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-green-700 to-emerald-600">প্রাকৃতিক স্বাদের আম</span>
-        </h1>
-        <p class="text-sm text-gray-600 leading-relaxed max-w-lg mb-7">
-          Urbor Essentials বাংলাদেশের ঐতিহ্যবাহী ও প্রাকৃতিক স্বাদের আম সবার কাছে পৌঁছে দেওয়ার লক্ষ্য নিয়ে যাত্রা শুরু করেছে। রাজশাহীর বাগান থেকে সংগ্রহ করা গাছপাকা, সম্পূর্ণ কার্বাইড ও ফরমালিন মুক্ত আম।
-        </p>
-        <div class="flex gap-3 flex-wrap mb-8">
-          <a href="#products" onclick="scrollToProducts(event)" class="bg-green-800 text-white px-7 py-3.5 rounded-xl text-sm font-medium hover:bg-green-900 transition-all active:scale-95 shadow-xl shadow-green-800/20">এখনই অর্ডার করুন</a>
-          <a href="#products" onclick="scrollToProducts(event)" class="bg-white text-gray-700 border-2 border-gray-200 px-7 py-3.5 rounded-xl text-sm font-medium hover:border-green-600 hover:text-green-700 transition-all">প্যাকেজ দেখুন</a>
-        </div>
-        <div class="flex flex-wrap gap-2">
-          <span class="text-xs text-gray-600 border border-gray-300 rounded-full px-4 py-1.5 bg-white">কার্বাইড মুক্ত</span>
-          <span class="text-xs text-gray-600 border border-gray-300 rounded-full px-4 py-1.5 bg-white">ফরমালিন মুক্ত</span>
-          <span class="text-xs text-gray-600 border border-gray-300 rounded-full px-4 py-1.5 bg-white">এক্সপোর্ট কোয়ালিটি</span>
-          <span class="text-xs text-gray-600 border border-gray-300 rounded-full px-4 py-1.5 bg-white">বাগান থেকে সরাসরি</span>
-        </div>
+<!-- Hero -->
+<section class="hero relative max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-24 overflow-hidden">
+  <div class="absolute -top-20 -right-20 w-72 h-72 bg-green-200/30 rounded-full blur-3xl pointer-events-none"></div>
+  <div class="absolute -bottom-20 -left-20 w-72 h-72 bg-emerald-200/30 rounded-full blur-3xl pointer-events-none"></div>
+
+  <div class="hero-grid grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center relative z-10">
+    
+    <div class="space-y-6 animate-fade-in-up">
+      <div class="inline-flex items-center gap-2 px-4 py-2 bg-green-50 border border-green-200 rounded-full">
+        <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+        <p class="text-xs font-semibold tracking-wide uppercase text-green-800">রাজশাহী · প্রাকৃতিক স্বাদ</p>
       </div>
-      <div class="flex flex-col gap-3">
-        <img class="w-full aspect-[4/3] object-cover rounded-2xl shadow-2xl" src="https://images.unsplash.com/photo-1553279768-865429fa0078?w=800&q=80" alt="রাজশাহীর আম গাছে" />
-        <div class="grid grid-cols-2 gap-3">
-          <img class="w-full aspect-video object-cover rounded-xl shadow-lg" src="https://images.unsplash.com/photo-1623065422902-30a2d299bbe4?w=400&q=80" alt="কাটা আম" />
-          <img class="w-full aspect-video object-cover rounded-xl shadow-lg" src="https://images.unsplash.com/photo-1591073113125-e46713c829ed?w=400&q=80" alt="পাকা আম" />
-        </div>
+      
+      <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight text-gray-900">
+        ঐতিহ্যবাহী ও
+        <span class="block text-transparent bg-clip-text bg-gradient-to-r from-green-700 via-emerald-600 to-teal-500 animate-gradient">
+          প্রাকৃতিক স্বাদের আম
+        </span>
+      </h1>
+      
+      <p class="text-base text-gray-600 leading-relaxed max-w-lg">
+        Urbor Essentials বাংলাদেশের ঐতিহ্যবাহী ও প্রাকৃতিক স্বাদের আম সবার কাছে পৌঁছে দেওয়ার লক্ষ্য নিয়ে যাত্রা শুরু করেছে। 
+        রাজশাহীর বাগান থেকে সংগ্রহ করা <strong class="text-gray-900">গাছপাকা, সম্পূর্ণ কার্বাইড ও ফরমালিন মুক্ত</strong> আম।
+      </p>
+      
+      <div class="flex flex-wrap gap-4 pt-2">
+        <a href="#products" onclick="scrollToProducts(event)" 
+           class="group relative bg-gradient-to-r from-green-700 to-emerald-600 text-white px-8 py-4 rounded-2xl text-sm font-semibold 
+                  hover:shadow-2xl hover:shadow-green-500/30 transition-all duration-300 active:scale-95 overflow-hidden">
+          <span class="relative z-10 flex items-center gap-2">
+            এখনই অর্ডার করুন
+            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </span>
+          <div class="absolute inset-0 bg-gradient-to-r from-emerald-600 to-teal-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+        </a>
+        
+        <a href="#products" onclick="scrollToProducts(event)" 
+           class="px-8 py-4 rounded-2xl text-sm font-semibold text-gray-700 bg-white border-2 border-gray-200 
+                  hover:border-green-500 hover:text-green-700 hover:shadow-lg transition-all duration-300 active:scale-95">
+          প্যাকেজ দেখুন
+        </a>
+      </div>
+      
+      <div class="flex flex-wrap gap-3 pt-4">
+        <span class="inline-flex items-center gap-2 text-xs font-medium text-gray-700 bg-white border border-gray-200 rounded-full px-4 py-2 shadow-sm hover:shadow transition-shadow">
+          <svg class="w-3.5 h-3.5 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+          কার্বাইড মুক্ত
+        </span>
+        <span class="inline-flex items-center gap-2 text-xs font-medium text-gray-700 bg-white border border-gray-200 rounded-full px-4 py-2 shadow-sm hover:shadow transition-shadow">
+          <svg class="w-3.5 h-3.5 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+          ফরমালিন মুক্ত
+        </span>
+        <span class="inline-flex items-center gap-2 text-xs font-medium text-gray-700 bg-white border border-gray-200 rounded-full px-4 py-2 shadow-sm hover:shadow transition-shadow">
+          <svg class="w-3.5 h-3.5 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+          এক্সপোর্ট কোয়ালিটি
+        </span>
+        <span class="inline-flex items-center gap-2 text-xs font-medium text-gray-700 bg-white border border-gray-200 rounded-full px-4 py-2 shadow-sm hover:shadow transition-shadow">
+          <svg class="w-3.5 h-3.5 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+          বাগান থেকে সরাসরি
+        </span>
       </div>
     </div>
-  </section>
 
-  <!-- Trust -->
-  <div class="trust max-w-7xl mx-auto px-4 sm:px-6 mb-12">
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-      <div class="bg-white p-6 rounded-2xl border border-gray-200 hover:border-green-300 transition-colors">
-        <div class="text-3xl mb-3">🌿</div>
-        <div class="text-sm font-semibold mb-1 text-gray-900">১০০% প্রাকৃতিক</div>
-        <div class="text-xs text-gray-500 leading-relaxed">কার্বাইড ও ফরমালিন মুক্ত, গাছপাকা আম</div>
+    <div class="flex flex-col gap-4 animate-fade-in">
+      <div class="relative group aspect-video rounded-3xl overflow-hidden shadow-2xl ring-1 ring-black/5">
+        <iframe 
+          class="w-full h-full"
+          src="https://www.youtube.com/embed/VIDEO_ID?rel=0&modestbranding=1&autoplay=0&mute=1" 
+          title="Urbor Essentials - রাজশাহীর আম"
+          frameborder="0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+          allowfullscreen
+          loading="lazy">
+        </iframe>
+        <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors pointer-events-none"></div>
       </div>
-      <div class="bg-white p-6 rounded-2xl border border-gray-200 hover:border-green-300 transition-colors">
-        <div class="text-3xl mb-3">🏡</div>
-        <div class="text-sm font-semibold mb-1 text-gray-900">বাগান থেকে সরাসরি</div>
-        <div class="text-xs text-gray-500 leading-relaxed">রাজশাহীর বাগান থেকে ফ্রেশ অবস্থায় আপনার ঘরে</div>
-      </div>
-      <div class="bg-white p-6 rounded-2xl border border-gray-200 hover:border-green-300 transition-colors">
-        <div class="text-3xl mb-3">✓</div>
-        <div class="text-sm font-semibold mb-1 text-gray-900">এক্সপোর্ট কোয়ালিটি</div>
-        <div class="text-xs text-gray-500 leading-relaxed">আন্তর্জাতিক মান নিশ্চিত, সঠিক সময়ে সংগ্রহ</div>
-      </div>
-      <div class="bg-white p-6 rounded-2xl border border-gray-200 hover:border-green-300 transition-colors">
-        <div class="text-3xl mb-3">🤝</div>
-        <div class="text-sm font-semibold mb-1 text-gray-900">বিশ্বস্ত সরবরাহ</div>
-        <div class="text-xs text-gray-500 leading-relaxed">স্থানীয় কৃষকদের সাথে কাজ, নিরাপদ ও স্বাস্থ্যসম্মত</div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div class="group relative aspect-video rounded-2xl overflow-hidden shadow-xl ring-1 ring-black/5">
+          <img 
+            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+            src="https://lst-mu.vercel.app/images/image.png" 
+            alt="প্রাকৃতিক আম" 
+            loading="lazy"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+        </div>
+        <div class="group relative aspect-video rounded-2xl overflow-hidden shadow-xl ring-1 ring-black/5">
+          <img 
+            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+            src="https://lst-mu.vercel.app/images/image.png" 
+            alt="গাছপাকা আম" 
+            loading="lazy"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+        </div>
       </div>
     </div>
   </div>
+</section>
 
-  <!-- Products -->
-  <div class="products max-w-7xl mx-auto px-4 sm:px-6 pb-20" id="products">
-    <div class="flex items-baseline justify-between pb-6 mb-8">
-      <h2 class="font-serif text-3xl font-semibold text-gray-900">Top Selling Products</h2>
-      <span class="text-sm text-gray-500" id="product-count"></span>
+<!-- Trust Section -->
+<section class="trust max-w-7xl mx-auto px-4 sm:px-6 py-8">
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <div class="bg-white rounded-xl p-4 border border-gray-200 text-center">
+      <div class="text-2xl mb-2">🌿</div>
+      <div class="text-sm font-semibold text-gray-900">১০০% প্রাকৃতিক</div>
+      <div class="text-xs text-gray-500 mt-1">কোনো কার্বাইড নেই</div>
     </div>
-    <!-- 2 columns like reference image -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="product-grid"></div>
+    <div class="bg-white rounded-xl p-4 border border-gray-200 text-center">
+      <div class="text-2xl mb-2">🚚</div>
+      <div class="text-sm font-semibold text-gray-900">দ্রুত ডেলিভারি</div>
+      <div class="text-xs text-gray-500 mt-1">২৪-৪৮ ঘণ্টায়</div>
+    </div>
+    <div class="bg-white rounded-xl p-4 border border-gray-200 text-center">
+      <div class="text-2xl mb-2">🔒</div>
+      <div class="text-sm font-semibold text-gray-900">নিরাপদ পেমেন্ট</div>
+      <div class="text-xs text-gray-500 mt-1">SSL এনক্রিপ্টেড</div>
+    </div>
+    <div class="bg-white rounded-xl p-4 border border-gray-200 text-center">
+      <div class="text-2xl mb-2">↩</div>
+      <div class="text-sm font-semibold text-gray-900">রিফান্ড গ্যারান্টি</div>
+      <div class="text-xs text-gray-500 mt-1">৭ দিনের রিটার্ন</div>
+    </div>
   </div>
+</section>
+
+<!-- Products -->
+<section class="products max-w-7xl mx-auto px-4 sm:px-6 py-8" id="products">
+  <div class="flex items-baseline justify-between pb-6 mb-8">
+    <h2 class="font-serif text-3xl font-semibold text-gray-900">Top Selling Products</h2>
+    <span class="text-sm text-gray-500" id="product-count"></span>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="product-grid"></div>
+</section>
 
 </div>
 
@@ -213,6 +303,7 @@
     </div>
 
     <div id="checkout-section" style="display:none">
+      <!-- Order Summary -->
       <div class="bg-white rounded-2xl border border-gray-200 p-6 mb-6">
         <div class="text-xs font-bold tracking-widest uppercase text-gray-500 pb-4 mb-4 border-b border-gray-200">অর্ডার সারাংশ</div>
         <div id="summary-lines"></div>
@@ -222,13 +313,16 @@
         </div>
       </div>
 
+      <!-- Checkout Form -->
       <div class="bg-white rounded-2xl border border-gray-200 p-6">
+        
+        <!-- Personal Info Section -->
         <div class="text-xs font-bold tracking-widest uppercase text-gray-500 my-6 pt-6 border-t border-gray-200 first:mt-0 first:pt-0 first:border-t-0">ব্যক্তিগত তথ্য</div>
-        <div class="mb-4">
+        <div class="mb-5">
           <label class="block text-xs font-semibold text-gray-700 mb-2">পুরো নাম *</label>
           <input class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm" id="f-name" placeholder="রহিম উদ্দিন" />
         </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
           <div>
             <label class="block text-xs font-semibold text-gray-700 mb-2">ফোন নম্বর *</label>
             <input class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm" id="f-phone" placeholder="01XXXXXXXXX" maxlength="11" inputmode="numeric" />
@@ -241,26 +335,52 @@
           </div>
         </div>
 
+        <!-- Delivery Address Section -->
         <div class="text-xs font-bold tracking-widest uppercase text-gray-500 my-6 pt-6 border-t border-gray-200">ডেলিভারি ঠিকানা</div>
+        
+        <!-- Division & District Row -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
           <div>
-            <label class="block text-xs font-semibold text-gray-700 mb-2">জেলা *</label>
-            <select class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm" id="f-district" onchange="updateThanas()">
-              <option value="">জেলা নির্বাচন করুন</option>
+            <label class="block text-xs font-semibold text-gray-700 mb-2">বিভাগ *</label>
+            <select class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm" id="f-division" onchange="updateDistricts()">
+              <option value="">বিভাগ নির্বাচন করুন</option>
+              <option value="Barisal">বরিশাল</option>
+              <option value="Chattogram">চট্টগ্রাম</option>
+              <option value="Dhaka">ঢাকা</option>
+              <option value="Khulna">খুলনা</option>
+              <option value="Rajshahi">রাজশাহী</option>
+              <option value="Rangpur">রংপুর</option>
+              <option value="Sylhet">সিলেট</option>
+              <option value="Mymensingh">ময়মনসিংহ</option>
             </select>
           </div>
           <div>
-            <label class="block text-xs font-semibold text-gray-700 mb-2">থানা/উপজেলা *</label>
-            <select class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm" id="f-thana" disabled>
-              <option value="">প্রথমে জেলা নির্বাচন করুন</option>
+            <label class="block text-xs font-semibold text-gray-700 mb-2">জেলা *</label>
+            <select class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm" id="f-jela" onchange="updateUpozelas()" disabled>
+              <option value="">প্রথমে বিভাগ নির্বাচন করুন</option>
             </select>
           </div>
         </div>
+        
+        <!-- Upazila & Thana Row -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+          <div>
+            <label class="block text-xs font-semibold text-gray-700 mb-2">উপজেলা *</label>
+            <input class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm" id="f-upojela" placeholder="উপজেলা লিখুন" disabled />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-700 mb-2">থানা *</label>
+            <input class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm" id="f-thana" placeholder="থানা লিখুন" disabled />
+          </div>
+        </div>
+        
+        <!-- Address Detail -->
         <div class="mb-6">
           <label class="block text-xs font-semibold text-gray-700 mb-2">বিস্তারিত ঠিকানা *</label>
-          <textarea class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm resize-none" id="f-address" rows="2" placeholder="বাড়ি নম্বর, রোড, এলাকা, ল্যান্ডমার্ক…"></textarea>
+          <textarea class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm resize-none" id="f-address" rows="2" placeholder="বাড়ি নম্বর, রোড, এলাকা, ল্যান্ডমার্ক…" disabled></textarea>
         </div>
 
+        <!-- Pay Button -->
         <button class="w-full bg-green-800 text-white py-4 rounded-xl text-sm font-medium transition-all flex items-center justify-center gap-2 hover:bg-green-900 active:scale-98 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-xl shadow-green-800/20" id="pay-btn" onclick="checkout()">
           <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
           PayStation-এ পেমেন্ট করুন
@@ -272,11 +392,11 @@
 </div>
 
 <!-- FOOTER -->
-<footer class="bg-green-900 text-gray-300 py-12 px-4 sm:px-6">
+<footer class="bg-green-900 text-gray-300 py-12 px-4 sm:px-6 mt-12">
   <div class="max-w-7xl mx-auto">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-8">
       <div>
-        <div class="font-serif text-lg text-white mb-3">🥭 Urbor Essentials</div>
+        <div class="font-serif text-lg text-white mb-3">Urbor Essentials</div>
         <p class="text-sm leading-relaxed text-gray-400">রাজশাহীর হারিয়ে যাওয়া ঐতিহ্যবাহী আমের আসল স্বাদকে আবার মানুষের কাছে ফিরিয়ে আনা। বাগান থেকে সরাসরি আপনার ঘরে — ফ্রেশ, নিরাপদ ও আসল স্বাদের আম।</p>
       </div>
       <div>
@@ -316,6 +436,7 @@ var PRODUCTS = {
   p8: { name: "আমের সরবত কনসেনট্রেট", price: 280, originalPrice: 350, image: "https://lst-mu.vercel.app/images/image.png", desc: "ঘন সরবত কনসেনট্রেট, পানিতে মিশিয়ে খান। ৫০০মিলি।", label: "Best Selling", bestSeller: true },
 };
 
+// === Bangladesh Districts & Thanas Data ===
 var districtsData = {
   "Bagerhat": ["Bagerhat Sadar", "Chitalmari", "Fakirhat", "Kachua", "Mollahat", "Mongla", "Morrelganj", "Rampal", "Sarankhola"],
   "Bandarban": ["Bandarban Sadar", "Ali Kadam", "Lama", "Naikhongchhari", "Rowangchhari", "Ruma", "Thanchi"],
@@ -381,6 +502,18 @@ var districtsData = {
   "Thakurgaon": ["Thakurgaon Sadar", "Baliadangi", "Haripur", "Pirganj", "Ranishankail"]
 };
 
+// === Districts by Division for cascading dropdown ===
+var districtsByDivision = {
+  "Barisal": ["Barguna", "Barisal", "Bhola", "Jhalakathi", "Patuakhali", "Pirojpur"],
+  "Chattogram": ["Bandarban", "Brahmanbaria", "Chandpur", "Chattogram", "Comilla", "Cox's Bazar", "Feni", "Khagrachhari", "Lakshmipur", "Noakhali", "Rangamati"],
+  "Dhaka": ["Dhaka", "Faridpur", "Gazipur", "Gopalganj", "Kishoreganj", "Madaripur", "Manikganj", "Munshiganj", "Narayanganj", "Narsingdi", "Rajbari", "Shariatpur", "Tangail"],
+  "Khulna": ["Bagerhat", "Chuadanga", "Jashore", "Jhenaidah", "Khulna", "Kushtia", "Magura", "Meherpur", "Narail", "Satkhira"],
+  "Rajshahi": ["Bogura", "Chapainawabganj", "Joypurhat", "Naogaon", "Natore", "Pabna", "Rajshahi", "Sirajganj"],
+  "Rangpur": ["Dinajpur", "Gaibandha", "Kurigram", "Lalmonirhat", "Nilphamari", "Panchagarh", "Rangpur", "Thakurgaon"],
+  "Sylhet": ["Habiganj", "Moulvibazar", "Sunamganj", "Sylhet"],
+  "Mymensingh": ["Jamalpur", "Mymensingh", "Netrokona", "Sherpur"]
+};
+
 var cart = {};
 var currentPage = 'shop';
 
@@ -402,13 +535,13 @@ function scrollToProducts(e) {
 function addToCart(pid) {
   cart[pid] = (cart[pid] || 0) + 1;
   refreshCount();
-  renderProducts(); // Re-render to show quantity control
+  renderProducts();
   toast('✓ ' + PRODUCTS[pid].name + ' কার্টে যোগ হয়েছে');
 }
 function buyNow(pid) {
   cart[pid] = (cart[pid] || 0) + 1;
   refreshCount();
-  renderProducts(); // Re-render to show quantity control
+  renderProducts();
   goCart();
 }
 function adjustQty(pid, delta) {
@@ -419,13 +552,13 @@ function adjustQty(pid, delta) {
     cart[pid] = next;
   }
   refreshCount();
-  renderProducts(); // Re-render product cards
+  renderProducts();
   if (currentPage === 'cart') renderCart();
 }
 function removeItem(pid) {
   delete cart[pid];
   refreshCount();
-  renderProducts(); // Re-render product cards
+  renderProducts();
   renderCart();
   toast('পণ্য সরানো হয়েছে');
 }
@@ -458,30 +591,24 @@ function renderProducts() {
     var savings = p.originalPrice - p.price;
     var qty = cart[pid] || 0;
     
-    // Horizontal card layout with quantity control
     html += '<div class="product-card bg-white rounded-2xl border border-gray-200 overflow-hidden">' +
       '<div class="flex flex-col sm:flex-row">' +
-        // Image section
         '<div class="sm:w-2/5 bg-gray-50 p-6 flex items-center justify-center relative">' +
           (p.bestSeller ? '<span class="absolute top-3 right-3 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full">Best Selling</span>' : '') +
           '<img src="' + p.image + '" alt="' + p.name + '" loading="lazy" class="w-full h-48 sm:h-full object-contain mix-blend-multiply" />' +
         '</div>' +
-        // Content section
         '<div class="sm:w-3/5 p-5 sm:p-6 flex flex-col justify-between">' +
           '<div>' +
             '<h3 class="font-semibold text-lg text-gray-900 mb-2">' + p.name + '</h3>' +
             '<p class="text-sm text-gray-500 mb-4 leading-relaxed">' + p.desc + '</p>' +
           '</div>' +
           '<div>' +
-            // Price section
             '<div class="flex items-center gap-3 mb-4">' +
               '<span class="text-2xl font-bold text-green-700">৳' + p.price.toLocaleString('en-BD') + '</span>' +
               '<span class="text-sm text-gray-400 line-through">৳' + p.originalPrice.toLocaleString('en-BD') + '</span>' +
               (savings > 0 ? '<span class="bg-green-100 text-green-700 text-xs font-bold px-2.5 py-1 rounded-full">Save ৳' + savings.toLocaleString('en-BD') + '</span>' : '') +
             '</div>' +
-            // Quantity Control or Add to Cart Button
             (qty > 0 ? 
-              // Quantity Control
               '<div class="flex items-center gap-3">' +
                 '<div class="flex items-center border-2 border-green-700 rounded-xl overflow-hidden">' +
                   '<button onclick="adjustQty(\'' + pid + '\', -1)" class="w-10 h-10 flex items-center justify-center text-green-700 hover:bg-green-50 transition-colors font-semibold text-lg">−</button>' +
@@ -494,7 +621,6 @@ function renderProducts() {
                 '</button>' +
               '</div>'
               :
-              // Add to Cart Button
               '<div class="flex gap-3">' +
                 '<button onclick="addToCart(\'' + pid + '\')" class="flex-1 border-2 border-green-700 text-green-700 px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-green-50 transition-all flex items-center justify-center gap-2">' +
                   '<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>' +
@@ -569,36 +695,47 @@ function renderCart() {
   document.getElementById('final-total').textContent = cartTotal().toLocaleString('en-BD');
 }
 
-function populateDistricts() {
-  var select = document.getElementById('f-district');
-  var districts = Object.keys(districtsData).sort();
-  for (var i = 0; i < districts.length; i++) {
-    var option = document.createElement('option');
-    option.value = districts[i];
-    option.textContent = districts[i];
-    select.appendChild(option);
+// === Address Form Logic: Division → District → Upazila/Thana ===
+function updateDistricts() {
+  var division = document.getElementById('f-division').value;
+  var districtSelect = document.getElementById('f-jela');
+  var upojelaInput = document.getElementById('f-upojela');
+  var thanaInput = document.getElementById('f-thana');
+  var addressInput = document.getElementById('f-address');
+  
+  // Reset all dependent fields
+  districtSelect.innerHTML = '<option value="">জেলা নির্বাচন করুন</option>';
+  upojelaInput.value = ''; thanaInput.value = ''; addressInput.value = '';
+  upojelaInput.disabled = true; thanaInput.disabled = true; addressInput.disabled = true;
+  
+  if (division && districtsByDivision[division]) {
+    var districts = districtsByDivision[division];
+    for (var i = 0; i < districts.length; i++) {
+      var option = document.createElement('option');
+      option.value = districts[i];
+      option.textContent = districts[i];
+      districtSelect.appendChild(option);
+    }
+    districtSelect.disabled = false;
+  } else {
+    districtSelect.disabled = true;
   }
 }
 
-function updateThanas() {
-  var districtSelect = document.getElementById('f-district');
-  var thanaSelect = document.getElementById('f-thana');
-  var selectedDistrict = districtSelect.value;
+function updateUpozelas() {
+  var district = document.getElementById('f-jela').value;
+  var upojelaInput = document.getElementById('f-upojela');
+  var thanaInput = document.getElementById('f-thana');
+  var addressInput = document.getElementById('f-address');
   
-  thanaSelect.innerHTML = '<option value="">থানা নির্বাচন করুন</option>';
-  
-  if (selectedDistrict && districtsData[selectedDistrict]) {
-    var thanas = districtsData[selectedDistrict];
-    for (var i = 0; i < thanas.length; i++) {
-      var option = document.createElement('option');
-      option.value = thanas[i];
-      option.textContent = thanas[i];
-      thanaSelect.appendChild(option);
-    }
-    thanaSelect.disabled = false;
+  if (district) {
+    upojelaInput.disabled = false;
+    thanaInput.disabled = false;
+    addressInput.disabled = false;
+    upojelaInput.focus();
   } else {
-    thanaSelect.disabled = true;
-    thanaSelect.innerHTML = '<option value="">প্রথমে জেলা নির্বাচন করুন</option>';
+    upojelaInput.disabled = true; thanaInput.disabled = true; addressInput.disabled = true;
+    upojelaInput.value = ''; thanaInput.value = ''; addressInput.value = '';
   }
 }
 
@@ -615,26 +752,35 @@ function getFbp() { var m = document.cookie.match(/_fbp=([^;]+)/); return m ? m[
 function getFbc() { var m = document.cookie.match(/_fbc=([^;]+)/); return m ? m[1] : new URLSearchParams(location.search).get('fbclid') || null; }
 
 function checkout() {
-  var fields = ['f-name','f-phone','f-email','f-district','f-thana','f-address'];
-  
+  // Get form values with CORRECT field IDs matching original data flow
   var name = document.getElementById('f-name').value.trim();
   var phone = document.getElementById('f-phone').value.trim();
   var email = document.getElementById('f-email').value.trim();
-  var district = document.getElementById('f-district').value.trim();
+  var division = document.getElementById('f-division').value.trim();
+  var jela = document.getElementById('f-jela').value.trim();
+  var upojela = document.getElementById('f-upojela').value.trim();
   var thana = document.getElementById('f-thana').value.trim();
   var address = document.getElementById('f-address').value.trim();
 
   var err = false;
+  
+  // Personal info validation
   if (!name) { setFieldStatus('f-name', false, 'নাম দিন'); err = true; } else setFieldStatus('f-name', true, '');
+  
   if (!phone) { setFieldStatus('f-phone', false, 'ফোন নম্বর দিন'); err = true; }
   else if (!validatePhone(phone)) { setFieldStatus('f-phone', false, 'সঠিক বাংলাদেশি নম্বর দিন (01XXXXXXXXX)'); err = true; }
   else setFieldStatus('f-phone', true, '✓ সঠিক');
+  
   if (!email) { setFieldStatus('f-email', false, 'ইমেইল দিন'); err = true; }
   else if (!validateEmail(email)) { setFieldStatus('f-email', false, 'সঠিক ইমেইল ফরম্যাট'); err = true; }
   else setFieldStatus('f-email', true, '✓ সঠিক');
-  if (!district) { alert('জেলা নির্বাচন করুন'); err = true; }
-  if (!thana) { alert('থানা নির্বাচন করুন'); err = true; }
-  if (!address) { alert('ঠিকানা দিন'); err = true; }
+  
+  // Address validation - CORRECT FIELD NAMES for API payload
+  if (!division) { alert('বিভাগ নির্বাচন করুন'); err = true; }
+  if (!jela) { alert('জেলা নির্বাচন করুন'); err = true; }
+  if (!upojela) { alert('উপজেলা লিখুন'); err = true; }
+  if (!thana) { alert('থানা লিখুন'); err = true; }
+  if (!address) { alert('বিস্তারিত ঠিকানা দিন'); err = true; }
 
   if (err) { toast('সব ঘর সঠিকভাবে পূরণ করুন', true); return; }
   if (cartCount() === 0) { toast('কার্ট খালি', true); return; }
@@ -644,14 +790,26 @@ function checkout() {
   btn.disabled = true;
   btn.innerHTML = '<span class="animate-pulse">সংযুক্ত হচ্ছে…</span>';
 
+  // === PAYLOAD WITH CORRECT DATA FLOW STRUCTURE ===
   var payload = {
-    items: cartPayload(), cust_name: name, cust_phone: phone, cust_email: email,
-    district: district, thana: thana,
-    address_detail: address, fbp: getFbp(), fbc: getFbc(), event_id: 'ic-' + Date.now(),
+    items: cartPayload(),
+    cust_name: name,
+    cust_phone: phone,
+    cust_email: email,
+    division: division,       // ✓ Original key
+    jela: jela,               // ✓ Original key  
+    upojela: upojela,         // ✓ Original key
+    thana: thana,             // ✓ Original key
+    address_detail: address,  // ✓ Original key
+    fbp: getFbp(),
+    fbc: getFbc(),
+    event_id: 'ic-' + Date.now(),
   };
 
   fetch(API_BASE + '/initiate', {
-    method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload),
+    method: 'POST', 
+    headers: {'Content-Type': 'application/json'}, 
+    body: JSON.stringify(payload),
   })
   .then(function(r) { return r.json(); })
   .then(function(data) {
@@ -701,7 +859,6 @@ function setupLiveValidation() {
 }
 
 // Initialize
-populateDistricts();
 renderProducts();
 refreshCount();
 setupLiveValidation();
