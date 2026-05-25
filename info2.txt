@@ -1,6 +1,11 @@
 // api/initiate.js
 // POST /api/initiate
-// Simplified: Only collects District (Jela), Thana, and Address Detail
+// 1. Validates customer + cart
+// 2. Calculates total server-side
+// 3. Saves order to MongoDB
+// 4. Calls PayStation
+// 5. Fires Meta CAPI InitiateCheckout (non-blocking)
+// Returns { payment_url, invoice_number, event_id }
 
 const { ObjectId }       = require("mongodb");
 const { getDb }          = require("./_db");
@@ -53,24 +58,24 @@ module.exports = async function handler(req, res) {
   const {
     items,
     cust_name, cust_phone, cust_email,
-    jela, thana, address_detail,  // ✅ Simplified: Only these 3 address fields
-    fbp, fbc, event_id,
+    division, jela, upojela, thana, address_detail,
+    fbp, fbc, event_id,            // from browser pixel for deduplication
   } = req.body || {};
 
   // ── Input validation ─────────────────────────────────────────────────────────
   const name    = sanitise(cust_name, 100);
   const phone   = sanitise(cust_phone, 20).replace(/\s/g, "");
   const email   = sanitise(cust_email, 200);
-  const jl      = sanitise(jela, 50);           // District
-  const thn     = sanitise(thana, 50);          // Thana
-  const detail  = sanitise(address_detail, 300); // More Info / Address Detail
+  const div     = sanitise(division, 50);
+  const jl      = sanitise(jela, 50);
+  const upj     = sanitise(upojela, 50);
+  const thn     = sanitise(thana, 50);
+  const detail  = sanitise(address_detail, 300);
 
   if (!name)                      return res.status(400).json({ error: "Name is required" });
   if (!validatePhone(phone))      return res.status(400).json({ error: "Invalid phone number (01XXXXXXXXX)" });
   if (!validateEmail(email))      return res.status(400).json({ error: "Invalid email address" });
-  if (!jl)                        return res.status(400).json({ error: "District (Jela) is required" });
-  if (!thn)                       return res.status(400).json({ error: "Thana is required" });
-  if (!detail)                    return res.status(400).json({ error: "Address details are required" });
+  if (!div || !jl || !upj || !thn) return res.status(400).json({ error: "Division, Jela, Upojela and Thana are required" });
 
   // ── Server-side price calculation ────────────────────────────────────────────
   let total, lineItems;
@@ -80,12 +85,9 @@ module.exports = async function handler(req, res) {
     return res.status(400).json({ error: err.message });
   }
 
-  // ── Generate invoice & build address ─────────────────────────────────────────
+  // ── Generate invoice & build full address ────────────────────────────────────
   const invoice_number = generateInvoice();
-  
-  // ✅ Simplified address format: "Detail, Thana, District"
-  const full_address = [detail, thn, jl].filter(Boolean).join(", ");
-  
+  const full_address   = [detail, thn, upj, jl, div].filter(Boolean).join(", ");
   const APP_URL        = process.env.APP_URL || "https://your-project.vercel.app";
   const callback_url   = `${APP_URL}/success.html?invoice_number=${invoice_number}`;
   const checkout_items = lineItems.map(i => `${i.name} x${i.qty}`).join(", ");
@@ -97,6 +99,7 @@ module.exports = async function handler(req, res) {
     ordersCol = client.db("paystation_demo").collection("orders");
   } catch (err) {
     console.error("MongoDB connect error:", err.message);
+    // Non-fatal — proceed without DB
   }
 
   const orderDoc = {
@@ -105,16 +108,7 @@ module.exports = async function handler(req, res) {
     currency:       "BDT",
     status:         "initiated",
     verified:       false,
-    customer: { 
-      name, 
-      phone, 
-      email, 
-      // ✅ Simplified address structure
-      jela: jl, 
-      thana: thn, 
-      address_detail: detail, 
-      full_address 
-    },
+    customer: { name, phone, email, division: div, jela: jl, upojela: upj, thana: thn, address_detail: detail, full_address },
     items:          lineItems,
     checkout_items,
     callback_url,
@@ -131,10 +125,11 @@ module.exports = async function handler(req, res) {
       await ordersCol.insertOne(orderDoc);
     } catch (err) {
       if (err.code === 11000) {
-        console.error("Duplicate invoice:", invoice_number);
+        console.error("Duplicate invoice (should never happen with ObjectId):", invoice_number);
       } else {
         console.error("MongoDB insertOne error:", err.message);
       }
+      // Non-fatal — proceed to PayStation
     }
   }
 
@@ -149,7 +144,7 @@ module.exports = async function handler(req, res) {
     cust_name:      name,
     cust_phone:     phone,
     cust_email:     email,
-    cust_address:   full_address,  // ✅ "Detail, Thana, District"
+    cust_address:   full_address,
     callback_url,
     checkout_items,
   });
