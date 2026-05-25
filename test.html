@@ -1,831 +1,895 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="bn">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iron Hook Boxing | Founded on Brotherhood. Built on Discipline.</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    colors: {
-                        'iron-green': '#84cc16',
-                        'iron-green-dark': '#65a30d',
-                        'iron-dark': '#0a0a0a',
-                        'iron-gray': '#1a1a1a',
-                        'iron-card': '#111111',
-                    }
-                }
-            }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Urbor Essentials — রাজশাহীর প্রাকৃতিক আম</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'primary': '#166534',
+            'primary-dark': '#14532d',
+            'primary-light': '#f0fdf4',
+            'primary-accent': '#22c55e',
+            'secondary': '#16a34a',
+            'text-dark': '#1f2937',
+            'text-muted': '#6b7280',
+            'border-light': '#e5e7eb',
+          },
+          fontFamily: {
+            'bengali': ['"Noto Sans Bengali"', 'sans-serif'],
+            'serif': ['"Cormorant Garamond"', 'Georgia', 'serif'],
+          }
         }
-    </script>
-    <style>
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0a0a0a;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #84cc16;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #65a30d;
-        }
-
-        /* Gradient overlays for service cards */
-        .gradient-green { background: linear-gradient(135deg, rgba(132, 204, 22, 0.3) 0%, rgba(132, 204, 22, 0.1) 100%); }
-        .gradient-purple { background: linear-gradient(135deg, rgba(168, 85, 247, 0.3) 0%, rgba(168, 85, 247, 0.1) 100%); }
-        .gradient-yellow { background: linear-gradient(135deg, rgba(234, 179, 8, 0.3) 0%, rgba(234, 179, 8, 0.1) 100%); }
-        .gradient-red { background: linear-gradient(135deg, rgba(239, 68, 68, 0.3) 0%, rgba(239, 68, 68, 0.1) 100%); }
-
-        /* Hero gradient fade */
-        .hero-fade {
-            background: linear-gradient(to bottom, rgba(10,10,10,0) 0%, rgba(10,10,10,0.4) 60%, rgba(10,10,10,1) 100%);
-        }
-
-        /* Smooth hover transitions */
-        .service-card {
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .service-card:hover {
-            transform: translateY(-8px);
-        }
-
-        /* Button glow effect */
-        .btn-glow:hover {
-            box-shadow: 0 0 20px rgba(132, 204, 22, 0.4);
-        }
-
-        /* Nav blur */
-        .nav-blur {
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-        }
-
-        /* Mobile menu animation */
-        .mobile-menu {
-            transition: transform 0.3s ease-in-out;
-        }
-
-        /* Instagram embed placeholder styling */
-        .insta-embed {
-            background: #1a1a1a;
-            border: 1px solid #333;
-            transition: border-color 0.3s;
-        }
-        .insta-embed:hover {
-            border-color: #84cc16;
-        }
-
-        /* Text gradient for headings */
-        .text-gradient {
-            background: linear-gradient(135deg, #fff 0%, #a3a3a3 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* Program row hover */
-        .program-row {
-            transition: all 0.3s ease;
-        }
-        .program-row:hover {
-            background: rgba(132, 204, 22, 0.05);
-            border-left: 3px solid #84cc16;
-        }
-
-        /* Sponsor logo placeholder */
-        .sponsor-logo {
-            filter: grayscale(100%);
-            opacity: 0.6;
-            transition: all 0.3s;
-        }
-        .sponsor-logo:hover {
-            filter: grayscale(0%);
-            opacity: 1;
-        }
-    </style>
-<base target="_blank">
-</head>
-<body class="bg-iron-dark text-white font-sans antialiased">
-
-    <!-- Navigation -->
-    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-20">
-                <!-- Logo -->
-               <div class="flex-shrink-0">
-                  <a href="#" class="block">
-                     <img src="/path/to/your-logo.png" alt="IRON HOOK Boxing" class="h-10 w-auto object-contain" />
-                  </a>
-               </div>
-
-                <!-- Desktop Menu -->
-                <div class="hidden md:flex items-center space-x-8">
-                    <a href="#home" class="text-sm font-medium text-white hover:text-iron-green transition-colors">Home</a>
-                    <a href="#membership" class="text-sm font-medium text-gray-400 hover:text-iron-green transition-colors">Membership</a>
-                    <a href="#contact" class="text-sm font-medium text-gray-400 hover:text-iron-green transition-colors">Contact Us</a>
-                    <a href="#login" class="text-sm font-medium text-gray-400 hover:text-iron-green transition-colors">Login</a>
-                </div>
-
-                <!-- CTA Button -->
-                <div class="hidden md:block">
-                    <a href="tel:+0000000000" class="inline-flex items-center px-5 py-2.5 bg-iron-green text-black text-sm font-bold rounded-full hover:bg-iron-green-dark transition-all btn-glow">
-                        CALL US NOW
-                    </a>
-                </div>
-
-                <!-- Mobile menu button -->
-                <div class="md:hidden">
-                    <button id="mobile-menu-btn" class="text-white p-2">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="md:hidden hidden bg-iron-gray border-t border-gray-800">
-            <div class="px-4 pt-2 pb-6 space-y-1">
-                <a href="#home" class="block px-3 py-3 text-base font-medium text-white bg-iron-green/20 rounded-lg">Home</a>
-                <a href="#membership" class="block px-3 py-3 text-base font-medium text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg transition-colors">Membership</a>
-                <a href="#contact" class="block px-3 py-3 text-base font-medium text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg transition-colors">Contact us</a>
-                <a href="#login" class="block px-3 py-3 text-base font-medium text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg transition-colors">Login</a>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section id="home" class="relative min-h-screen flex items-center justify-center overflow-hidden">
-        <!-- Background Image Placeholder -->
-<div class="absolute inset-0 bg-gray-900">
-    <!-- Background PNG Layer -->
-    <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" 
-         style="background-image: url('/path/to/your-hero.png');">
-    </div>
+      }
+    }
+  </script>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-tap-highlight-color: transparent; }
+    body { 
+      font-family: 'Noto Sans Bengali', sans-serif; 
+      background-color: #fafafa;
+      color: #1f2937;
+      min-height: 100vh;
+      overflow-x: hidden;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font-family: 'Noto Sans Bengali', sans-serif; cursor: pointer; border: none; }
+    img { display: block; max-width: 100%; }
+    textarea, input, select { font-family: 'Noto Sans Bengali', sans-serif; }
+    .page { display: none; }
+    .page.active { display: block; }
     
-    <!-- Dark Gradient Overlay (keeps content readable) -->
-    <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-iron-dark"></div>
-</div>
+    .product-card { 
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+    .product-card:hover { 
+      transform: translateY(-4px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+    
+    #toast {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
+      background: #166534; color: white;
+      padding: 12px 28px; border-radius: 9999px;
+      font-size: 14px; font-weight: 500;
+      z-index: 100;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      pointer-events: none;
+      white-space: nowrap;
+      max-width: 90vw;
+      text-align: center;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+    }
+    #toast.show { transform: translateX(-50%) translateY(0); }
+    #toast.err { background: #dc2626; }
+    
+    .form-input:focus, .form-select:focus { 
+      border-color: #166534; 
+      box-shadow: 0 0 0 3px rgba(22, 101, 52, 0.15); 
+      outline: none;
+    }
+ 
+    @media (max-width: 768px) {
+      .hero-grid { grid-template-columns: 1fr !important; }
+      .trust-grid { grid-template-columns: repeat(2, 1fr) !important; }
+      .footer-grid { grid-template-columns: 1fr !important; }
+    }
+    @media (max-width: 480px) {
+      .header-phone { display: none; }
+      .hero { padding: 24px 16px !important; }
+      .products, .trust, .cart-page { padding-left: 16px !important; padding-right: 16px !important; }
+    }
+    @keyframes fade-in-up {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fade-in {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes gradient {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+    .animate-fade-in-up { animation: fade-in-up 0.6s ease-out forwards; }
+    .animate-fade-in { animation: fade-in 0.8s ease-out forwards; }
+    .animate-gradient { 
+      background-size: 200% 200%; 
+      animation: gradient 8s ease infinite; 
+    }
+  </style>
+  <base target="_blank">
+</head>
+<body class="bg-gray-50">
 
-        <!-- Hero Content -->
-        <div class="relative z-10 max-w-5xl mx-auto px-4 text-center pt-20">
-            <h1 class="text-5xl md:text-7xl lg:text-8xl font-black leading-tight mb-8">
-                <span class="block">Founded on</span>
-                <span class="block text-iron-green">Brotherhood.</span>
-                <span class="block">Built on</span>
-                <span class="block text-iron-green">Discipline.</span>
-            </h1>
-
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10">
-                <a href="#free-class" class="inline-flex items-center px-8 py-4 bg-iron-green text-black font-bold rounded-full hover:bg-iron-green-dark transition-all btn-glow text-sm tracking-wide">
-                    EXPERIENCE YOUR FREE CLASS
-                </a>
-                <a href="#membership" class="inline-flex items-center px-8 py-4 bg-transparent border-2 border-white/30 text-white font-bold rounded-full hover:border-iron-green hover:text-iron-green transition-all text-sm tracking-wide">
-                    CLAIM YOUR MEMBERSHIP
-                </a>
-            </div>
-        </div>
-
-        <!-- Bottom fade -->
-        <div class="absolute bottom-0 left-0 right-0 h-40 hero-fade"></div>
-    </section>
-
-    <!-- About Us Section -->
-    <section id="about" class="py-20 md:py-32 bg-iron-dark">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-                
-                <!-- Images Column (Overlapping Layout) -->
-                <div class="relative h-[500px] md:h-[600px] lg:h-[650px] w-full flex items-center justify-center">
-                    
-                    <!-- Background Image (Left) -->
-                    <!-- Positioned absolute, to the left, slightly lower/offset, behind the main image -->
-                    <div class="absolute top-12 left-0 w-1/2 lg:w-[40%] h-3/4 md:h-[70%] z-0 rounded-2xl overflow-hidden border border-gray-800 shadow-2xl">
-                        <div class="w-full h-full bg-gray-800 flex items-center justify-center">
-                            <span class="text-gray-600 text-sm text-center px-4">Image 2<br>(Background Left)</span>
-                        </div>
-                    </div>
-
-                    <!-- Main Portrait Image (Right/Foreground) -->
-                    <!-- Pushed to the right, overlaps the background image, sits on top -->
-                    <div class="relative w-2/3 lg:w-[60%] h-4/5 md:h-full ml-8 lg:ml-16 z-10 rounded-2xl overflow-hidden border border-gray-800 shadow-2xl">
-                        <div class="w-full h-full bg-gray-800 flex items-center justify-center">
-                            <span class="text-gray-600 text-sm text-center px-4">Image 1<br>(Main Portrait)</span>
-                        </div>
-                    </div>
-
-                    <!-- Optional: Decorative element behind everything -->
-                    <div class="absolute -bottom-6 -right-6 w-32 h-32 bg-iron-green/10 rounded-full blur-3xl z-0"></div>
-                </div>
-
-                <!-- Content Column -->
-                <div>
-                    <h2 class="text-4xl md:text-5xl font-black mb-8">About Us</h2>
-                    <p class="text-gray-400 leading-relaxed mb-10 text-lg">
-                        Iron Hook Boxing is a community-oriented fitness and boxing gym based in Holden Hill, South Australia. It focuses on boxing and general fitness training for people of all ages and skill levels, offering programs that build strength, discipline, confidence, and character in a supportive environment. The gym runs classes for kids, teens, adults, and women, including beginner and intermediate sessions as well as group and one-on-one training. The ethos emphasizes community, respect, and personal growth through structured training. Iron Hook Boxing is a community.
-                    </p>
-
-                    <!-- Value Tags -->
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="px-6 py-4 bg-iron-green text-black font-bold rounded-full text-center hover:bg-iron-green-dark transition-colors cursor-default">
-                            Community
-                        </div>
-                        <div class="px-6 py-4 bg-iron-green text-black font-bold rounded-full text-center hover:bg-iron-green-dark transition-colors cursor-default">
-                            Brotherhood
-                        </div>
-                        <div class="px-6 py-4 bg-iron-green text-black font-bold rounded-full text-center hover:bg-iron-green-dark transition-colors cursor-default">
-                            Discipline
-                        </div>
-                        <div class="px-6 py-4 bg-iron-green text-black font-bold rounded-full text-center hover:bg-iron-green-dark transition-colors cursor-default">
-                            Respect
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Offered Services Section -->
-    <section id="services" class="py-20 md:py-32 bg-iron-dark">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-4xl md:text-5xl font-black text-center mb-16">Offered Services</h2>
-
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- Service Card 1 - Green -->
-                <div class="service-card group relative rounded-2xl overflow-hidden bg-iron-card border border-gray-800">
-                    <div class="aspect-[4/5] relative">
-                        <div class="absolute inset-0 bg-gray-800 flex items-center justify-center">
-                            <span class="text-gray-600 text-sm text-center">Group Boxing<br>Classes Image</span>
-                        </div>
-                        <div class="absolute inset-0 gradient-green opacity-60 group-hover:opacity-80 transition-opacity"></div>
-                        <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/90 to-transparent">
-                            <h3 class="text-xl font-bold text-white">Group Boxing Classes</h3>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Service Card 2 - Purple -->
-                <div class="service-card group relative rounded-2xl overflow-hidden bg-iron-card border border-gray-800">
-                    <div class="aspect-[4/5] relative">
-                        <div class="absolute inset-0 bg-gray-800 flex items-center justify-center">
-                            <span class="text-gray-600 text-sm text-center">Personal<br>Training Image</span>
-                        </div>
-                        <div class="absolute inset-0 gradient-purple opacity-60 group-hover:opacity-80 transition-opacity"></div>
-                        <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/90 to-transparent">
-                            <h3 class="text-xl font-bold text-white">Personal Training</h3>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Service Card 3 - Yellow -->
-                <div class="service-card group relative rounded-2xl overflow-hidden bg-iron-card border border-gray-800">
-                    <div class="aspect-[4/5] relative">
-                        <div class="absolute inset-0 bg-gray-800 flex items-center justify-center">
-                            <span class="text-gray-600 text-sm text-center">Youth & Beginner<br>Programs Image</span>
-                        </div>
-                        <div class="absolute inset-0 gradient-yellow opacity-60 group-hover:opacity-80 transition-opacity"></div>
-                        <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/90 to-transparent">
-                            <h3 class="text-xl font-bold text-white">Youth & Beginner Programs</h3>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Service Card 4 - Red -->
-                <div class="service-card group relative rounded-2xl overflow-hidden bg-iron-card border border-gray-800">
-                    <div class="aspect-[4/5] relative">
-                        <div class="absolute inset-0 bg-gray-800 flex items-center justify-center">
-                            <span class="text-gray-600 text-sm text-center">Athlete & Competition<br>Coaching Image</span>
-                        </div>
-                        <div class="absolute inset-0 gradient-red opacity-60 group-hover:opacity-80 transition-opacity"></div>
-                        <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/90 to-transparent">
-                            <h3 class="text-xl font-bold text-white">Athlete & Competition Coaching</h3>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Best Workout Programs Section -->
-    <section id="programs" class="py-20 md:py-32 bg-iron-dark">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="mb-12">
-                <h2 class="text-4xl md:text-5xl font-black mb-2">Best Workout Programs</h2>
-                <p class="text-2xl text-gray-400 font-light">Made For You!</p>
-            </div>
-
-            <div class="space-y-4">
-                <!-- Program 1 -->
-                <div class="program-row bg-iron-card border border-gray-800 rounded-xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
-                    <div class="flex-1">
-                        <h3 class="text-lg font-bold text-white mb-1">Kids Boxing Classes</h3>
-                        <div class="text-gray-400 text-sm space-y-1">
-                            <p>Tue & Thur: 5:00-5:55 PM</p>
-                            <p>Wed: 4:00-4:45 PM</p>
-                        </div>
-                    </div>
-                    <a href="#" class="inline-flex items-center px-6 py-2.5 bg-iron-green text-black text-sm font-bold rounded-full hover:bg-iron-green-dark transition-all btn-glow whitespace-nowrap">
-                        VIEW ALL CLASSES
-                    </a>
-                </div>
-
-                <!-- Program 2 -->
-                <div class="program-row bg-iron-card border border-gray-800 rounded-xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
-                    <div class="flex-1">
-                        <h3 class="text-lg font-bold text-white mb-1">Teens Boxing Classes</h3>
-                        <div class="text-gray-400 text-sm space-y-1">
-                            <p>Mon-Wed-Fri</p>
-                            <p>5:00-6:00 PM</p>
-                        </div>
-                    </div>
-                    <a href="#" class="inline-flex items-center px-6 py-2.5 bg-iron-green text-black text-sm font-bold rounded-full hover:bg-iron-green-dark transition-all btn-glow whitespace-nowrap">
-                        VIEW ALL CLASSES
-                    </a>
-                </div>
-
-                <!-- Program 3 -->
-                <div class="program-row bg-iron-card border border-gray-800 rounded-xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
-                    <div class="flex-1">
-                        <h3 class="text-lg font-bold text-white mb-1">Advanced Boxing Classes</h3>
-                        <div class="text-gray-400 text-sm space-y-1">
-                            <p>Mon, Tue, Wed, Fri</p>
-                            <p>6:00-7:00 PM</p>
-                        </div>
-                    </div>
-                    <a href="#" class="inline-flex items-center px-6 py-2.5 bg-iron-green text-black text-sm font-bold rounded-full hover:bg-iron-green-dark transition-all btn-glow whitespace-nowrap">
-                        VIEW ALL CLASSES
-                    </a>
-                </div>
-
-                <!-- Program 4 -->
-                <div class="program-row bg-iron-card border border-gray-800 rounded-xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
-                    <div class="flex-1">
-                        <h3 class="text-lg font-bold text-white mb-1">Beginners Introductory Boxing Classes</h3>
-                        <div class="text-gray-400 text-sm space-y-1">
-                            <p>Mon-Wed-Fri</p>
-                            <p>7:10-8:10 PM</p>
-                        </div>
-                    </div>
-                    <a href="#" class="inline-flex items-center px-6 py-2.5 bg-iron-green text-black text-sm font-bold rounded-full hover:bg-iron-green-dark transition-all btn-glow whitespace-nowrap">
-                        VIEW ALL CLASSES
-                    </a>
-                </div>
-
-                <!-- Program 5 -->
-                <div class="program-row bg-iron-card border border-gray-800 rounded-xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
-                    <div class="flex-1">
-                        <h3 class="text-lg font-bold text-white mb-1">Fighters Class</h3>
-                        <div class="text-gray-400 text-sm space-y-1">
-                            <p>Thur</p>
-                            <p>6:00-7:00 PM</p>
-                        </div>
-                    </div>
-                    <a href="#" class="inline-flex items-center px-6 py-2.5 bg-iron-green text-black text-sm font-bold rounded-full hover:bg-iron-green-dark transition-all btn-glow whitespace-nowrap">
-                        VIEW ALL CLASSES
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Proud Sponsors Section -->
-    <section id="sponsors" class="py-20 md:py-24 bg-iron-dark border-t border-gray-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl md:text-4xl font-black text-center mb-16">Proud Sponsors</h2>
-
-            <div class="grid grid-cols-2 md:grid-cols-5 gap-8 items-center">
-                <!-- Sponsor placeholders -->
-                <div class="sponsor-logo bg-iron-card border border-gray-800 rounded-xl p-6 flex items-center justify-center aspect-[3/2]">
-                    <span class="text-gray-600 font-bold text-lg">Sponsor 1</span>
-                </div>
-                <div class="sponsor-logo bg-iron-card border border-gray-800 rounded-xl p-6 flex items-center justify-center aspect-[3/2]">
-                    <span class="text-gray-600 font-bold text-lg">Sponsor 2</span>
-                </div>
-                <div class="sponsor-logo bg-iron-card border border-gray-800 rounded-xl p-6 flex items-center justify-center aspect-[3/2]">
-                    <span class="text-gray-600 font-bold text-lg">Sponsor 3</span>
-                </div>
-                <div class="sponsor-logo bg-iron-card border border-gray-800 rounded-xl p-6 flex items-center justify-center aspect-[3/2]">
-                    <span class="text-gray-600 font-bold text-lg">Sponsor 4</span>
-                </div>
-                <div class="sponsor-logo bg-iron-card border border-gray-800 rounded-xl p-6 flex items-center justify-center aspect-[3/2]">
-                    <span class="text-gray-600 font-bold text-lg">Sponsor 5</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-<!-- Instagram / Social Section -->
-<section id="social" class="py-20 md:py-32 bg-iron-dark border-t border-gray-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <!-- Section Header -->
-        <div class="text-center mb-16">
-            <h2 class="text-4xl md:text-5xl font-black mb-4">Follow us on Social</h2>
-            <p class="text-xl text-gray-400">Never miss an update!</p>
-        </div>
-
-        <!-- Instagram Grid: Responsive 1→2→4 columns with 4:5 Aspect Ratio -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 justify-center">
-            
-            <!-- Box 1: Reel -->
-            <div class="bg-white rounded-xl p-3 shadow-lg flex-shrink-0 w-full max-w-[340px] mx-auto">
-                <div class="aspect-[4/5] w-full overflow-hidden rounded-lg bg-gray-50">
-                    <blockquote class="instagram-media" 
-                        data-instgrm-captioned 
-                        data-instgrm-permalink="https://www.instagram.com/reel/DXogRySD0CX/?utm_source=ig_embed&utm_campaign=loading" 
-                        data-instgrm-version="14" 
-                        style="background:#FFF;border:0;border-radius:3px;box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15);margin:0;width:100%;max-width:100%;min-width:0;height:100%;">
-                        <div style="padding:16px;height:100%;"> 
-                            <a href="https://www.instagram.com/reel/DXogRySD0CX/?utm_source=ig_embed&utm_campaign=loading" 
-                                style="background:#FFFFFF;line-height:0;padding:0 0;text-align:center;text-decoration:none;width:100%;height:100%;display:block;" 
-                                target="_blank"> 
-                                <!-- Loading Placeholder -->
-                                <div style="display:flex;flex-direction:row;align-items:center;"> 
-                                    <div style="background-color:#F4F4F4;border-radius:50%;flex-grow:0;height:40px;margin-right:14px;width:40px;"></div> 
-                                    <div style="display:flex;flex-direction:column;flex-grow:1;justify-content:center;"> 
-                                        <div style="background-color:#F4F4F4;border-radius:4px;flex-grow:0;height:14px;margin-bottom:6px;width:100px;"></div> 
-                                        <div style="background-color:#F4F4F4;border-radius:4px;flex-grow:0;height:14px;width:60px;"></div>
-                                    </div>
-                                </div>
-                                <div style="padding:19% 0;"></div> 
-                                <div style="display:block;height:50px;margin:0 auto 12px;width:50px;">
-                                    <svg width="50px" height="50px" viewBox="0 0 60 60" version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g transform="translate(-511.000000,-20.000000)" fill="#000000"><g><path d="M556.869,30.41 C554.814,30.41 553.148,32.076 553.148,34.131 C553.148,36.186 554.814,37.852 556.869,37.852 C558.924,37.852 560.59,36.186 560.59,34.131 C560.59,32.076 558.924,30.41 556.869,30.41 M541,60.657 C535.114,60.657 530.342,55.887 530.342,50 C530.342,44.114 535.114,39.342 541,39.342 C546.887,39.342 551.658,44.114 551.658,50 C551.658,55.887 546.887,60.657 541,60.657 M541,33.886 C532.1,33.886 524.886,41.1 524.886,50 C524.886,58.899 532.1,66.113 541,66.113 C549.9,66.113 557.115,58.899 557.115,50 C557.115,41.1 549.9,33.886 541,33.886 M565.378,62.101 C565.244,65.022 564.756,66.606 564.346,67.663 C563.803,69.06 563.154,70.057 562.106,71.106 C561.058,72.155 560.06,72.803 558.662,73.347 C557.607,73.757 556.021,74.244 553.102,74.378 C549.944,74.521 548.997,74.552 541,74.552 C533.003,74.552 532.056,74.521 528.898,74.378 C525.979,74.244 524.393,73.757 523.338,73.347 C521.94,72.803 520.942,72.155 519.894,71.106 C518.846,70.057 518.197,69.06 517.654,67.663 C517.244,66.606 516.755,65.022 516.623,62.101 C516.479,58.943 516.448,57.996 516.448,50 C516.448,42.003 516.479,41.056 516.623,37.899 C516.755,34.978 517.244,33.391 517.654,32.338 C518.197,30.938 518.846,29.942 519.894,28.894 C520.942,27.846 521.94,27.196 523.338,26.654 C524.393,26.244 525.979,25.756 528.898,25.623 C532.057,25.479 533.004,25.448 541,25.448 C548.997,25.448 549.943,25.479 553.102,25.623 C556.021,25.756 557.607,26.244 558.662,26.654 C560.06,27.196 561.058,27.846 562.106,28.894 C563.154,29.942 563.803,30.938 564.346,32.338 C564.756,33.391 565.244,34.978 565.378,37.899 C565.522,41.056 565.552,42.003 565.552,50 C565.552,57.996 565.522,58.943 565.378,62.101 M570.82,37.631 C570.674,34.438 570.167,32.258 569.425,30.349 C568.659,28.377 567.633,26.702 565.965,25.035 C564.297,23.368 562.623,22.342 560.652,21.575 C558.743,20.834 556.562,20.326 553.369,20.18 C550.169,20.033 549.148,20 541,20 C532.853,20 531.831,20.033 528.631,20.18 C525.438,20.326 523.257,20.834 521.349,21.575 C519.376,22.342 517.703,23.368 516.035,25.035 C514.368,26.702 513.342,28.377 512.574,30.349 C511.834,32.258 511.326,34.438 511.181,37.631 C511.035,40.831 511,41.851 511,50 C511,58.147 511.035,59.17 511.181,62.369 C511.326,65.562 511.834,67.743 512.574,69.651 C513.342,71.625 514.368,73.296 516.035,74.965 C517.703,76.634 519.376,77.658 521.349,78.425 C523.257,79.167 525.438,79.673 528.631,79.82 C531.831,79.965 532.853,80.001 541,80.001 C549.148,80.001 550.169,79.965 553.369,79.82 C556.562,79.673 558.743,79.167 560.652,78.425 C562.623,77.658 564.297,76.634 565.965,74.965 C567.633,73.296 568.659,71.625 569.425,69.651 C570.167,67.743 570.674,65.562 570.82,62.369 C570.966,59.17 571,58.147 571,50 C571,41.851 570.966,40.831 570.82,37.631"></path></g></g></g></svg>
-                                </div>
-                                <div style="padding-top:8px;"> 
-                                    <div style="color:#3897f0;font-family:Arial,sans-serif;font-size:14px;font-style:normal;font-weight:550;line-height:18px;">View this post on Instagram</div>
-                                </div>
-                                <div style="padding:12.5% 0;"></div> 
-                                <div style="display:flex;flex-direction:row;margin-bottom:14px;align-items:center;">
-                                    <div> 
-                                        <div style="background-color:#F4F4F4;border-radius:50%;height:12.5px;width:12.5px;transform:translateX(0px) translateY(7px);"></div> 
-                                        <div style="background-color:#F4F4F4;height:12.5px;transform:rotate(-45deg) translateX(3px) translateY(1px);width:12.5px;flex-grow:0;margin-right:14px;margin-left:2px;"></div> 
-                                        <div style="background-color:#F4F4F4;border-radius:50%;height:12.5px;width:12.5px;transform:translateX(9px) translateY(-18px);"></div>
-                                    </div>
-                                    <div style="margin-left:8px;"> 
-                                        <div style="background-color:#F4F4F4;border-radius:50%;flex-grow:0;height:20px;width:20px;"></div> 
-                                        <div style="width:0;height:0;border-top:2px solid transparent;border-left:6px solid #f4f4f4;border-bottom:2px solid transparent;transform:translateX(16px) translateY(-4px) rotate(30deg)"></div>
-                                    </div>
-                                    <div style="margin-left:auto;"> 
-                                        <div style="width:0px;border-top:8px solid #F4F4F4;border-right:8px solid transparent;transform:translateY(16px);"></div> 
-                                        <div style="background-color:#F4F4F4;flex-grow:0;height:12px;width:16px;transform:translateY(-4px);"></div> 
-                                        <div style="width:0;height:0;border-top:8px solid #F4F4F4;border-left:8px solid transparent;transform:translateY(-4px) translateX(8px);"></div>
-                                    </div>
-                                </div> 
-                                <div style="display:flex;flex-direction:column;flex-grow:1;justify-content:center;margin-bottom:24px;"> 
-                                    <div style="background-color:#F4F4F4;border-radius:4px;flex-grow:0;height:14px;margin-bottom:6px;width:224px;"></div> 
-                                    <div style="background-color:#F4F4F4;border-radius:4px;flex-grow:0;height:14px;width:144px;"></div>
-                                </div>
-                            </a>
-                            <p style="color:#c9c8cd;font-family:Arial,sans-serif;font-size:14px;line-height:17px;margin-bottom:0;margin-top:8px;overflow:hidden;padding:8px 0 7px;text-align:center;text-overflow:ellipsis;white-space:nowrap;">
-                                <a href="https://www.instagram.com/reel/DXogRySD0CX/?utm_source=ig_embed&utm_campaign=loading" style="color:#c9c8cd;font-family:Arial,sans-serif;font-size:14px;font-style:normal;font-weight:normal;line-height:17px;text-decoration:none;" target="_blank">A post shared by Ehsan Agency (@ehsanagencyau)</a>
-                            </p>
-                        </div>
-                    </blockquote>
-                </div>
-            </div>
-
-            <!-- Box 2: Post -->
-            <div class="bg-white rounded-xl p-3 shadow-lg flex-shrink-0 w-full max-w-[340px] mx-auto">
-                <div class="aspect-[4/5] w-full overflow-hidden rounded-lg bg-gray-50">
-                    <blockquote class="instagram-media" 
-                        data-instgrm-captioned 
-                        data-instgrm-permalink="https://www.instagram.com/p/DXTrzaTFXfy/?utm_source=ig_embed&utm_campaign=loading" 
-                        data-instgrm-version="14" 
-                        style="background:#FFF;border:0;border-radius:3px;box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15);margin:0;width:100%;max-width:100%;min-width:0;height:100%;">
-                        <div style="padding:16px;height:100%;">
-                            <a href="https://www.instagram.com/p/DXTrzaTFXfy/?utm_source=ig_embed&utm_campaign=loading" 
-                                style="background:#FFFFFF;line-height:0;padding:0 0;text-align:center;text-decoration:none;width:100%;height:100%;display:block;" 
-                                target="_blank">
-                                <!-- Same placeholder structure -->
-                                <div style="display:flex;flex-direction:row;align-items:center;">
-                                    <div style="background-color:#F4F4F4;border-radius:50%;flex-grow:0;height:40px;margin-right:14px;width:40px;"></div>
-                                    <div style="display:flex;flex-direction:column;flex-grow:1;justify-content:center;">
-                                        <div style="background-color:#F4F4F4;border-radius:4px;flex-grow:0;height:14px;margin-bottom:6px;width:100px;"></div>
-                                        <div style="background-color:#F4F4F4;border-radius:4px;flex-grow:0;height:14px;width:60px;"></div>
-                                    </div>
-                                </div>
-                                <div style="padding:19% 0;"></div>
-                                <div style="display:block;height:50px;margin:0 auto 12px;width:50px;">
-                                    <svg width="50px" height="50px" viewBox="0 0 60 60" version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g transform="translate(-511.000000,-20.000000)" fill="#000000"><g><path d="M556.869,30.41 C554.814,30.41 553.148,32.076 553.148,34.131 C553.148,36.186 554.814,37.852 556.869,37.852 C558.924,37.852 560.59,36.186 560.59,34.131 C560.59,32.076 558.924,30.41 556.869,30.41 M541,60.657 C535.114,60.657 530.342,55.887 530.342,50 C530.342,44.114 535.114,39.342 541,39.342 C546.887,39.342 551.658,44.114 551.658,50 C551.658,55.887 546.887,60.657 541,60.657 M541,33.886 C532.1,33.886 524.886,41.1 524.886,50 C524.886,58.899 532.1,66.113 541,66.113 C549.9,66.113 557.115,58.899 557.115,50 C557.115,41.1 549.9,33.886 541,33.886 M565.378,62.101 C565.244,65.022 564.756,66.606 564.346,67.663 C563.803,69.06 563.154,70.057 562.106,71.106 C561.058,72.155 560.06,72.803 558.662,73.347 C557.607,73.757 556.021,74.244 553.102,74.378 C549.944,74.521 548.997,74.552 541,74.552 C533.003,74.552 532.056,74.521 528.898,74.378 C525.979,74.244 524.393,73.757 523.338,73.347 C521.94,72.803 520.942,72.155 519.894,71.106 C518.846,70.057 518.197,69.06 517.654,67.663 C517.244,66.606 516.755,65.022 516.623,62.101 C516.479,58.943 516.448,57.996 516.448,50 C516.448,42.003 516.479,41.056 516.623,37.899 C516.755,34.978 517.244,33.391 517.654,32.338 C518.197,30.938 518.846,29.942 519.894,28.894 C520.942,27.846 521.94,27.196 523.338,26.654 C524.393,26.244 525.979,25.756 528.898,25.623 C532.057,25.479 533.004,25.448 541,25.448 C548.997,25.448 549.943,25.479 553.102,25.623 C556.021,25.756 557.607,26.244 558.662,26.654 C560.06,27.196 561.058,27.846 562.106,28.894 C563.154,29.942 563.803,30.938 564.346,32.338 C564.756,33.391 565.244,34.978 565.378,37.899 C565.522,41.056 565.552,42.003 565.552,50 C565.552,57.996 565.522,58.943 565.378,62.101 M570.82,37.631 C570.674,34.438 570.167,32.258 569.425,30.349 C568.659,28.377 567.633,26.702 565.965,25.035 C564.297,23.368 562.623,22.342 560.652,21.575 C558.743,20.834 556.562,20.326 553.369,20.18 C550.169,20.033 549.148,20 541,20 C532.853,20 531.831,20.033 528.631,20.18 C525.438,20.326 523.257,20.834 521.349,21.575 C519.376,22.342 517.703,23.368 516.035,25.035 C514.368,26.702 513.342,28.377 512.574,30.349 C511.834,32.258 511.326,34.438 511.181,37.631 C511.035,40.831 511,41.851 511,50 C511,58.147 511.035,59.17 511.181,62.369 C511.326,65.562 511.834,67.743 512.574,69.651 C513.342,71.625 514.368,73.296 516.035,74.965 C517.703,76.634 519.376,77.658 521.349,78.425 C523.257,79.167 525.438,79.673 528.631,79.82 C531.831,79.965 532.853,80.001 541,80.001 C549.148,80.001 550.169,79.965 553.369,79.82 C556.562,79.673 558.743,79.167 560.652,78.425 C562.623,77.658 564.297,76.634 565.965,74.965 C567.633,73.296 568.659,71.625 569.425,69.651 C570.167,67.743 570.674,65.562 570.82,62.369 C570.966,59.17 571,58.147 571,50 C571,41.851 570.966,40.831 570.82,37.631"></path></g></g></g></svg>
-                                </div>
-                                <div style="padding-top:8px;">
-                                    <div style="color:#3897f0;font-family:Arial,sans-serif;font-size:14px;font-style:normal;font-weight:550;line-height:18px;">View this post on Instagram</div>
-                                </div>
-                                <div style="padding:12.5% 0;"></div>
-                                <div style="display:flex;flex-direction:row;margin-bottom:14px;align-items:center;">
-                                    <div>
-                                        <div style="background-color:#F4F4F4;border-radius:50%;height:12.5px;width:12.5px;transform:translateX(0px) translateY(7px);"></div>
-                                        <div style="background-color:#F4F4F4;height:12.5px;transform:rotate(-45deg) translateX(3px) translateY(1px);width:12.5px;flex-grow:0;margin-right:14px;margin-left:2px;"></div>
-                                        <div style="background-color:#F4F4F4;border-radius:50%;height:12.5px;width:12.5px;transform:translateX(9px) translateY(-18px);"></div>
-                                    </div>
-                                    <div style="margin-left:8px;">
-                                        <div style="background-color:#F4F4F4;border-radius:50%;flex-grow:0;height:20px;width:20px;"></div>
-                                        <div style="width:0;height:0;border-top:2px solid transparent;border-left:6px solid #f4f4f4;border-bottom:2px solid transparent;transform:translateX(16px) translateY(-4px) rotate(30deg)"></div>
-                                    </div>
-                                    <div style="margin-left:auto;">
-                                        <div style="width:0px;border-top:8px solid #F4F4F4;border-right:8px solid transparent;transform:translateY(16px);"></div>
-                                        <div style="background-color:#F4F4F4;flex-grow:0;height:12px;width:16px;transform:translateY(-4px);"></div>
-                                        <div style="width:0;height:0;border-top:8px solid #F4F4F4;border-left:8px solid transparent;transform:translateY(-4px) translateX(8px);"></div>
-                                    </div>
-                                </div>
-                                <div style="display:flex;flex-direction:column;flex-grow:1;justify-content:center;margin-bottom:24px;">
-                                    <div style="background-color:#F4F4F4;border-radius:4px;flex-grow:0;height:14px;margin-bottom:6px;width:224px;"></div>
-                                    <div style="background-color:#F4F4F4;border-radius:4px;flex-grow:0;height:14px;width:144px;"></div>
-                                </div>
-                            </a>
-                            <p style="color:#c9c8cd;font-family:Arial,sans-serif;font-size:14px;line-height:17px;margin-bottom:0;margin-top:8px;overflow:hidden;padding:8px 0 7px;text-align:center;text-overflow:ellipsis;white-space:nowrap;">
-                                <a href="https://www.instagram.com/p/DXTrzaTFXfy/?utm_source=ig_embed&utm_campaign=loading" style="color:#c9c8cd;font-family:Arial,sans-serif;font-size:14px;font-style:normal;font-weight:normal;line-height:17px;text-decoration:none;" target="_blank">A post shared by Iron Hook Boxing (@ironhookboxing)</a>
-                            </p>
-                        </div>
-                    </blockquote>
-                </div>
-            </div>
-
-            <!-- Box 3: Post -->
-            <div class="bg-white rounded-xl p-3 shadow-lg flex-shrink-0 w-full max-w-[340px] mx-auto">
-                <div class="aspect-[4/5] w-full overflow-hidden rounded-lg bg-gray-50">
-                    <blockquote class="instagram-media" 
-                        data-instgrm-captioned 
-                        data-instgrm-permalink="https://www.instagram.com/p/DXL-i6hE87r/?utm_source=ig_embed&utm_campaign=loading" 
-                        data-instgrm-version="14" 
-                        style="background:#FFF;border:0;border-radius:3px;box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15);margin:0;width:100%;max-width:100%;min-width:0;height:100%;">
-                        <div style="padding:16px;height:100%;">
-                            <a href="https://www.instagram.com/p/DXL-i6hE87r/?utm_source=ig_embed&utm_campaign=loading" 
-                                style="background:#FFFFFF;line-height:0;padding:0 0;text-align:center;text-decoration:none;width:100%;height:100%;display:block;" 
-                                target="_blank">
-                                <!-- Placeholder structure (same as above) -->
-                                <div style="display:flex;flex-direction:row;align-items:center;">
-                                    <div style="background-color:#F4F4F4;border-radius:50%;flex-grow:0;height:40px;margin-right:14px;width:40px;"></div>
-                                    <div style="display:flex;flex-direction:column;flex-grow:1;justify-content:center;">
-                                        <div style="background-color:#F4F4F4;border-radius:4px;flex-grow:0;height:14px;margin-bottom:6px;width:100px;"></div>
-                                        <div style="background-color:#F4F4F4;border-radius:4px;flex-grow:0;height:14px;width:60px;"></div>
-                                    </div>
-                                </div>
-                                <div style="padding:19% 0;"></div>
-                                <div style="display:block;height:50px;margin:0 auto 12px;width:50px;">
-                                    <svg width="50px" height="50px" viewBox="0 0 60 60" version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g transform="translate(-511.000000,-20.000000)" fill="#000000"><g><path d="M556.869,30.41 C554.814,30.41 553.148,32.076 553.148,34.131 C553.148,36.186 554.814,37.852 556.869,37.852 C558.924,37.852 560.59,36.186 560.59,34.131 C560.59,32.076 558.924,30.41 556.869,30.41 M541,60.657 C535.114,60.657 530.342,55.887 530.342,50 C530.342,44.114 535.114,39.342 541,39.342 C546.887,39.342 551.658,44.114 551.658,50 C551.658,55.887 546.887,60.657 541,60.657 M541,33.886 C532.1,33.886 524.886,41.1 524.886,50 C524.886,58.899 532.1,66.113 541,66.113 C549.9,66.113 557.115,58.899 557.115,50 C557.115,41.1 549.9,33.886 541,33.886 M565.378,62.101 C565.244,65.022 564.756,66.606 564.346,67.663 C563.803,69.06 563.154,70.057 562.106,71.106 C561.058,72.155 560.06,72.803 558.662,73.347 C557.607,73.757 556.021,74.244 553.102,74.378 C549.944,74.521 548.997,74.552 541,74.552 C533.003,74.552 532.056,74.521 528.898,74.378 C525.979,74.244 524.393,73.757 523.338,73.347 C521.94,72.803 520.942,72.155 519.894,71.106 C518.846,70.057 518.197,69.06 517.654,67.663 C517.244,66.606 516.755,65.022 516.623,62.101 C516.479,58.943 516.448,57.996 516.448,50 C516.448,42.003 516.479,41.056 516.623,37.899 C516.755,34.978 517.244,33.391 517.654,32.338 C518.197,30.938 518.846,29.942 519.894,28.894 C520.942,27.846 521.94,27.196 523.338,26.654 C524.393,26.244 525.979,25.756 528.898,25.623 C532.057,25.479 533.004,25.448 541,25.448 C548.997,25.448 549.943,25.479 553.102,25.623 C556.021,25.756 557.607,26.244 558.662,26.654 C560.06,27.196 561.058,27.846 562.106,28.894 C563.154,29.942 563.803,30.938 564.346,32.338 C564.756,33.391 565.244,34.978 565.378,37.899 C565.522,41.056 565.552,42.003 565.552,50 C565.552,57.996 565.522,58.943 565.378,62.101 M570.82,37.631 C570.674,34.438 570.167,32.258 569.425,30.349 C568.659,28.377 567.633,26.702 565.965,25.035 C564.297,23.368 562.623,22.342 560.652,21.575 C558.743,20.834 556.562,20.326 553.369,20.18 C550.169,20.033 549.148,20 541,20 C532.853,20 531.831,20.033 528.631,20.18 C525.438,20.326 523.257,20.834 521.349,21.575 C519.376,22.342 517.703,23.368 516.035,25.035 C514.368,26.702 513.342,28.377 512.574,30.349 C511.834,32.258 511.326,34.438 511.181,37.631 C511.035,40.831 511,41.851 511,50 C511,58.147 511.035,59.17 511.181,62.369 C511.326,65.562 511.834,67.743 512.574,69.651 C513.342,71.625 514.368,73.296 516.035,74.965 C517.703,76.634 519.376,77.658 521.349,78.425 C523.257,79.167 525.438,79.673 528.631,79.82 C531.831,79.965 532.853,80.001 541,80.001 C549.148,80.001 550.169,79.965 553.369,79.82 C556.562,79.673 558.743,79.167 560.652,78.425 C562.623,77.658 564.297,76.634 565.965,74.965 C567.633,73.296 568.659,71.625 569.425,69.651 C570.167,67.743 570.674,65.562 570.82,62.369 C570.966,59.17 571,58.147 571,50 C571,41.851 570.966,40.831 570.82,37.631"></path></g></g></g></svg>
-                                </div>
-                                <div style="padding-top:8px;">
-                                    <div style="color:#3897f0;font-family:Arial,sans-serif;font-size:14px;font-style:normal;font-weight:550;line-height:18px;">View this post on Instagram</div>
-                                </div>
-                                <div style="padding:12.5% 0;"></div>
-                                <div style="display:flex;flex-direction:row;margin-bottom:14px;align-items:center;">
-                                    <div>
-                                        <div style="background-color:#F4F4F4;border-radius:50%;height:12.5px;width:12.5px;transform:translateX(0px) translateY(7px);"></div>
-                                        <div style="background-color:#F4F4F4;height:12.5px;transform:rotate(-45deg) translateX(3px) translateY(1px);width:12.5px;flex-grow:0;margin-right:14px;margin-left:2px;"></div>
-                                        <div style="background-color:#F4F4F4;border-radius:50%;height:12.5px;width:12.5px;transform:translateX(9px) translateY(-18px);"></div>
-                                    </div>
-                                    <div style="margin-left:8px;">
-                                        <div style="background-color:#F4F4F4;border-radius:50%;flex-grow:0;height:20px;width:20px;"></div>
-                                        <div style="width:0;height:0;border-top:2px solid transparent;border-left:6px solid #f4f4f4;border-bottom:2px solid transparent;transform:translateX(16px) translateY(-4px) rotate(30deg)"></div>
-                                    </div>
-                                    <div style="margin-left:auto;">
-                                        <div style="width:0px;border-top:8px solid #F4F4F4;border-right:8px solid transparent;transform:translateY(16px);"></div>
-                                        <div style="background-color:#F4F4F4;flex-grow:0;height:12px;width:16px;transform:translateY(-4px);"></div>
-                                        <div style="width:0;height:0;border-top:8px solid #F4F4F4;border-left:8px solid transparent;transform:translateY(-4px) translateX(8px);"></div>
-                                    </div>
-                                </div>
-                                <div style="display:flex;flex-direction:column;flex-grow:1;justify-content:center;margin-bottom:24px;">
-                                    <div style="background-color:#F4F4F4;border-radius:4px;flex-grow:0;height:14px;margin-bottom:6px;width:224px;"></div>
-                                    <div style="background-color:#F4F4F4;border-radius:4px;flex-grow:0;height:14px;width:144px;"></div>
-                                </div>
-                            </a>
-                            <p style="color:#c9c8cd;font-family:Arial,sans-serif;font-size:14px;line-height:17px;margin-bottom:0;margin-top:8px;overflow:hidden;padding:8px 0 7px;text-align:center;text-overflow:ellipsis;white-space:nowrap;">
-                                <a href="https://www.instagram.com/p/DXL-i6hE87r/?utm_source=ig_embed&utm_campaign=loading" style="color:#c9c8cd;font-family:Arial,sans-serif;font-size:14px;font-style:normal;font-weight:normal;line-height:17px;text-decoration:none;" target="_blank">A post shared by Iron Hook Boxing (@ironhookboxing)</a>
-                            </p>
-                        </div>
-                    </blockquote>
-                </div>
-            </div>
-
-            <!-- Box 4: Post -->
-            <div class="bg-white rounded-xl p-3 shadow-lg flex-shrink-0 w-full max-w-[340px] mx-auto">
-                <div class="aspect-[4/5] w-full overflow-hidden rounded-lg bg-gray-50">
-                    <blockquote class="instagram-media" 
-                        data-instgrm-captioned 
-                        data-instgrm-permalink="https://www.instagram.com/p/DXBXr-vE_I3/?utm_source=ig_embed&utm_campaign=loading" 
-                        data-instgrm-version="14" 
-                        style="background:#FFF;border:0;border-radius:3px;box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15);margin:0;width:100%;max-width:100%;min-width:0;height:100%;">
-                        <div style="padding:16px;height:100%;">
-                            <a href="https://www.instagram.com/p/DXBXr-vE_I3/?utm_source=ig_embed&utm_campaign=loading" 
-                                style="background:#FFFFFF;line-height:0;padding:0 0;text-align:center;text-decoration:none;width:100%;height:100%;display:block;" 
-                                target="_blank">
-                                <!-- Placeholder structure (same as above) -->
-                                <div style="display:flex;flex-direction:row;align-items:center;">
-                                    <div style="background-color:#F4F4F4;border-radius:50%;flex-grow:0;height:40px;margin-right:14px;width:40px;"></div>
-                                    <div style="display:flex;flex-direction:column;flex-grow:1;justify-content:center;">
-                                        <div style="background-color:#F4F4F4;border-radius:4px;flex-grow:0;height:14px;margin-bottom:6px;width:100px;"></div>
-                                        <div style="background-color:#F4F4F4;border-radius:4px;flex-grow:0;height:14px;width:60px;"></div>
-                                    </div>
-                                </div>
-                                <div style="padding:19% 0;"></div>
-                                <div style="display:block;height:50px;margin:0 auto 12px;width:50px;">
-                                    <svg width="50px" height="50px" viewBox="0 0 60 60" version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g transform="translate(-511.000000,-20.000000)" fill="#000000"><g><path d="M556.869,30.41 C554.814,30.41 553.148,32.076 553.148,34.131 C553.148,36.186 554.814,37.852 556.869,37.852 C558.924,37.852 560.59,36.186 560.59,34.131 C560.59,32.076 558.924,30.41 556.869,30.41 M541,60.657 C535.114,60.657 530.342,55.887 530.342,50 C530.342,44.114 535.114,39.342 541,39.342 C546.887,39.342 551.658,44.114 551.658,50 C551.658,55.887 546.887,60.657 541,60.657 M541,33.886 C532.1,33.886 524.886,41.1 524.886,50 C524.886,58.899 532.1,66.113 541,66.113 C549.9,66.113 557.115,58.899 557.115,50 C557.115,41.1 549.9,33.886 541,33.886 M565.378,62.101 C565.244,65.022 564.756,66.606 564.346,67.663 C563.803,69.06 563.154,70.057 562.106,71.106 C561.058,72.155 560.06,72.803 558.662,73.347 C557.607,73.757 556.021,74.244 553.102,74.378 C549.944,74.521 548.997,74.552 541,74.552 C533.003,74.552 532.056,74.521 528.898,74.378 C525.979,74.244 524.393,73.757 523.338,73.347 C521.94,72.803 520.942,72.155 519.894,71.106 C518.846,70.057 518.197,69.06 517.654,67.663 C517.244,66.606 516.755,65.022 516.623,62.101 C516.479,58.943 516.448,57.996 516.448,50 C516.448,42.003 516.479,41.056 516.623,37.899 C516.755,34.978 517.244,33.391 517.654,32.338 C518.197,30.938 518.846,29.942 519.894,28.894 C520.942,27.846 521.94,27.196 523.338,26.654 C524.393,26.244 525.979,25.756 528.898,25.623 C532.057,25.479 533.004,25.448 541,25.448 C548.997,25.448 549.943,25.479 553.102,25.623 C556.021,25.756 557.607,26.244 558.662,26.654 C560.06,27.196 561.058,27.846 562.106,28.894 C563.154,29.942 563.803,30.938 564.346,32.338 C564.756,33.391 565.244,34.978 565.378,37.899 C565.522,41.056 565.552,42.003 565.552,50 C565.552,57.996 565.522,58.943 565.378,62.101 M570.82,37.631 C570.674,34.438 570.167,32.258 569.425,30.349 C568.659,28.377 567.633,26.702 565.965,25.035 C564.297,23.368 562.623,22.342 560.652,21.575 C558.743,20.834 556.562,20.326 553.369,20.18 C550.169,20.033 549.148,20 541,20 C532.853,20 531.831,20.033 528.631,20.18 C525.438,20.326 523.257,20.834 521.349,21.575 C519.376,22.342 517.703,23.368 516.035,25.035 C514.368,26.702 513.342,28.377 512.574,30.349 C511.834,32.258 511.326,34.438 511.181,37.631 C511.035,40.831 511,41.851 511,50 C511,58.147 511.035,59.17 511.181,62.369 C511.326,65.562 511.834,67.743 512.574,69.651 C513.342,71.625 514.368,73.296 516.035,74.965 C517.703,76.634 519.376,77.658 521.349,78.425 C523.257,79.167 525.438,79.673 528.631,79.82 C531.831,79.965 532.853,80.001 541,80.001 C549.148,80.001 550.169,79.965 553.369,79.82 C556.562,79.673 558.743,79.167 560.652,78.425 C562.623,77.658 564.297,76.634 565.965,74.965 C567.633,73.296 568.659,71.625 569.425,69.651 C570.167,67.743 570.674,65.562 570.82,62.369 C570.966,59.17 571,58.147 571,50 C571,41.851 570.966,40.831 570.82,37.631"></path></g></g></g></svg>
-                                </div>
-                                <div style="padding-top:8px;">
-                                    <div style="color:#3897f0;font-family:Arial,sans-serif;font-size:14px;font-style:normal;font-weight:550;line-height:18px;">View this post on Instagram</div>
-                                </div>
-                                <div style="padding:12.5% 0;"></div>
-                                <div style="display:flex;flex-direction:row;margin-bottom:14px;align-items:center;">
-                                    <div>
-                                        <div style="background-color:#F4F4F4;border-radius:50%;height:12.5px;width:12.5px;transform:translateX(0px) translateY(7px);"></div>
-                                        <div style="background-color:#F4F4F4;height:12.5px;transform:rotate(-45deg) translateX(3px) translateY(1px);width:12.5px;flex-grow:0;margin-right:14px;margin-left:2px;"></div>
-                                        <div style="background-color:#F4F4F4;border-radius:50%;height:12.5px;width:12.5px;transform:translateX(9px) translateY(-18px);"></div>
-                                    </div>
-                                    <div style="margin-left:8px;">
-                                        <div style="background-color:#F4F4F4;border-radius:50%;flex-grow:0;height:20px;width:20px;"></div>
-                                        <div style="width:0;height:0;border-top:2px solid transparent;border-left:6px solid #f4f4f4;border-bottom:2px solid transparent;transform:translateX(16px) translateY(-4px) rotate(30deg)"></div>
-                                    </div>
-                                    <div style="margin-left:auto;">
-                                        <div style="width:0px;border-top:8px solid #F4F4F4;border-right:8px solid transparent;transform:translateY(16px);"></div>
-                                        <div style="background-color:#F4F4F4;flex-grow:0;height:12px;width:16px;transform:translateY(-4px);"></div>
-                                        <div style="width:0;height:0;border-top:8px solid #F4F4F4;border-left:8px solid transparent;transform:translateY(-4px) translateX(8px);"></div>
-                                    </div>
-                                </div>
-                                <div style="display:flex;flex-direction:column;flex-grow:1;justify-content:center;margin-bottom:24px;">
-                                    <div style="background-color:#F4F4F4;border-radius:4px;flex-grow:0;height:14px;margin-bottom:6px;width:224px;"></div>
-                                    <div style="background-color:#F4F4F4;border-radius:4px;flex-grow:0;height:14px;width:144px;"></div>
-                                </div>
-                            </a>
-                            <p style="color:#c9c8cd;font-family:Arial,sans-serif;font-size:14px;line-height:17px;margin-bottom:0;margin-top:8px;overflow:hidden;padding:8px 0 7px;text-align:center;text-overflow:ellipsis;white-space:nowrap;">
-                                <a href="https://www.instagram.com/p/DXBXr-vE_I3/?utm_source=ig_embed&utm_campaign=loading" style="color:#c9c8cd;font-family:Arial,sans-serif;font-size:14px;font-style:normal;font-weight:normal;line-height:17px;text-decoration:none;" target="_blank">A post shared by Iron Hook Boxing (@ironhookboxing)</a>
-                            </p>
-                        </div>
-                    </blockquote>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- Social Links -->
-        <div class="mt-12 flex justify-center gap-6">
-            <a href="https://instagram.com/ironhookboxing" class="text-gray-400 hover:text-iron-green transition-colors" target="_blank" rel="noopener noreferrer">
-                <span class="sr-only">Instagram</span>
-                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                </svg>
-            </a>
-            <a href="#" class="text-gray-400 hover:text-iron-green transition-colors">
-                <span class="sr-only">Facebook</span>
-                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                </svg>
-            </a>
-            <a href="#" class="text-gray-400 hover:text-iron-green transition-colors">
-                <span class="sr-only">TikTok</span>
-                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
-                </svg>
-            </a>
-        </div>
+<!-- HEADER -->
+<header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-200">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+    <a href="#" onclick="goShop(event)" class="flex items-center gap-3">
+      <img 
+        src="https://mango-project-rho.vercel.app/static/images/logo.png" 
+        alt="Urbor Essentials Logo" 
+        class="w-10 h-10 object-contain rounded-xl shadow-lg"
+        onerror="this.parentElement.innerHTML='<div class=\'w-10 h-10 bg-gradient-to-br from-green-700 to-emerald-600 rounded-xl flex items-center justify-center text-xl shadow-lg\'>🥭</div>' + this.parentElement.innerHTML"
+      />
+      <div>
+        <div class="font-serif text-xl font-semibold tracking-tight text-gray-900">Urbor Essentials</div>
+        <div class="text-xs text-gray-500 -mt-0.5">রাজশাহীর প্রাকৃতিক আম</div>
+      </div>
+    </a>
+    <div class="flex items-center gap-4">
+      <a href="tel:01822916488" class="hidden sm:flex items-center gap-1.5 text-sm text-gray-600 hover:text-green-700 transition-colors">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.18 11.8a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.09 1h3a2 2 0 0 1 2 1.72c.127.96.36 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 8.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.34 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        01822916488
+      </a>
+      <button class="flex items-center gap-2 bg-green-800 text-white px-5 py-2.5 rounded-xl text-sm font-medium hover:bg-green-900 transition-all active:scale-95 shadow-lg shadow-green-800/20" onclick="goCart()" id="cart-toggle-btn">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        কার্ট
+        <span class="bg-white text-green-800 text-xs font-bold min-w-[22px] h-[22px] rounded-full flex items-center justify-center px-1.5" id="cart-count">0</span>
+      </button>
     </div>
+  </div>
+</header>
+
+<!-- SHOP PAGE -->
+<div id="page-shop" class="page active">
+
+<!-- Hero -->
+<section class="hero relative max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-24 overflow-hidden">
+  <div class="absolute -top-20 -right-20 w-72 h-72 bg-green-200/30 rounded-full blur-3xl pointer-events-none"></div>
+  <div class="absolute -bottom-20 -left-20 w-72 h-72 bg-emerald-200/30 rounded-full blur-3xl pointer-events-none"></div>
+
+  <div class="hero-grid grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center relative z-10">
+    
+    <div class="space-y-6 animate-fade-in-up">
+      <div class="inline-flex items-center gap-2 px-4 py-2 bg-green-50 border border-green-200 rounded-full">
+        <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+        <p class="text-xs font-semibold tracking-wide uppercase text-green-800">রাজশাহী · প্রাকৃতিক স্বাদ</p>
+      </div>
+      
+      <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight text-gray-900">
+        ঐতিহ্যবাহী ও
+        <span class="block text-transparent bg-clip-text bg-gradient-to-r from-green-700 via-emerald-600 to-teal-500 animate-gradient">
+          প্রাকৃতিক স্বাদের আম
+        </span>
+      </h1>
+      
+      <p class="text-base text-gray-600 leading-relaxed max-w-lg">
+        Urbor Essentials বাংলাদেশের ঐতিহ্যবাহী ও প্রাকৃতিক স্বাদের আম সবার কাছে পৌঁছে দেওয়ার লক্ষ্য নিয়ে যাত্রা শুরু করেছে। 
+        রাজশাহীর বাগান থেকে সংগ্রহ করা <strong class="text-gray-900">গাছপাকা, সম্পূর্ণ কার্বাইড ও ফরমালিন মুক্ত</strong> আম।
+      </p>
+      
+      <div class="flex flex-wrap gap-4 pt-2">
+        <a href="#products" onclick="scrollToProducts(event)" 
+           class="group relative bg-gradient-to-r from-green-700 to-emerald-600 text-white px-8 py-4 rounded-2xl text-sm font-semibold 
+                  hover:shadow-2xl hover:shadow-green-500/30 transition-all duration-300 active:scale-95 overflow-hidden">
+          <span class="relative z-10 flex items-center gap-2">
+            এখনই অর্ডার করুন
+            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </span>
+          <div class="absolute inset-0 bg-gradient-to-r from-emerald-600 to-teal-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+        </a>
+        
+        <a href="#products" onclick="scrollToProducts(event)" 
+           class="px-8 py-4 rounded-2xl text-sm font-semibold text-gray-700 bg-white border-2 border-gray-200 
+                  hover:border-green-500 hover:text-green-700 hover:shadow-lg transition-all duration-300 active:scale-95">
+          প্যাকেজ দেখুন
+        </a>
+      </div>
+      
+      <div class="flex flex-wrap gap-3 pt-4">
+        <span class="inline-flex items-center gap-2 text-xs font-medium text-gray-700 bg-white border border-gray-200 rounded-full px-4 py-2 shadow-sm hover:shadow transition-shadow">
+          <svg class="w-3.5 h-3.5 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+          কার্বাইড মুক্ত
+        </span>
+        <span class="inline-flex items-center gap-2 text-xs font-medium text-gray-700 bg-white border border-gray-200 rounded-full px-4 py-2 shadow-sm hover:shadow transition-shadow">
+          <svg class="w-3.5 h-3.5 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+          ফরমালিন মুক্ত
+        </span>
+        <span class="inline-flex items-center gap-2 text-xs font-medium text-gray-700 bg-white border border-gray-200 rounded-full px-4 py-2 shadow-sm hover:shadow transition-shadow">
+          <svg class="w-3.5 h-3.5 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+          এক্সপোর্ট কোয়ালিটি
+        </span>
+        <span class="inline-flex items-center gap-2 text-xs font-medium text-gray-700 bg-white border border-gray-200 rounded-full px-4 py-2 shadow-sm hover:shadow transition-shadow">
+          <svg class="w-3.5 h-3.5 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+          বাগান থেকে সরাসরি
+        </span>
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-4 animate-fade-in">
+      <div class="relative group aspect-video rounded-3xl overflow-hidden shadow-2xl ring-1 ring-black/5">
+        <iframe 
+          class="w-full h-full"
+          src="https://www.youtube.com/embed/VIDEO_ID?rel=0&modestbranding=1&autoplay=0&mute=1" 
+          title="Urbor Essentials - রাজশাহীর আম"
+          frameborder="0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+          allowfullscreen
+          loading="lazy">
+        </iframe>
+        <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors pointer-events-none"></div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div class="group relative aspect-video rounded-2xl overflow-hidden shadow-xl ring-1 ring-black/5">
+          <img 
+            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+            src="https://lst-mu.vercel.app/images/image.png" 
+            alt="প্রাকৃতিক আম" 
+            loading="lazy"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+        </div>
+        <div class="group relative aspect-video rounded-2xl overflow-hidden shadow-xl ring-1 ring-black/5">
+          <img 
+            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+            src="https://lst-mu.vercel.app/images/image.png" 
+            alt="গাছপাকা আম" 
+            loading="lazy"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
-    <!-- Footer -->
-    <footer class="bg-iron-gray border-t border-gray-800 pt-16 pb-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid md:grid-cols-4 gap-12 mb-12">
-                <!-- Brand Column -->
-                <div class="md:col-span-1">
-                    <div class="flex flex-col mb-6">
-                        <span class="text-2xl font-black tracking-wider text-white">IRON HOOK</span>
-                        <span class="text-[10px] font-bold tracking-[0.3em] text-iron-green uppercase">Boxing</span>
-                    </div>
-                    <p class="text-gray-500 text-sm">Developed by ehsanagency</p>
-                </div>
+<!-- Trust Section -->
+<section class="trust max-w-7xl mx-auto px-4 sm:px-6 py-8">
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <div class="bg-white rounded-xl p-4 border border-gray-200 text-center">
+      <div class="text-2xl mb-2">🌿</div>
+      <div class="text-sm font-semibold text-gray-900">১০০% প্রাকৃতিক</div>
+      <div class="text-xs text-gray-500 mt-1">কোনো কার্বাইড নেই</div>
+    </div>
+    <div class="bg-white rounded-xl p-4 border border-gray-200 text-center">
+      <div class="text-2xl mb-2">🚚</div>
+      <div class="text-sm font-semibold text-gray-900">দ্রুত ডেলিভারি</div>
+      <div class="text-xs text-gray-500 mt-1">২৪-৪৮ ঘণ্টায়</div>
+    </div>
+    <div class="bg-white rounded-xl p-4 border border-gray-200 text-center">
+      <div class="text-2xl mb-2">🔒</div>
+      <div class="text-sm font-semibold text-gray-900">নিরাপদ পেমেন্ট</div>
+      <div class="text-xs text-gray-500 mt-1">SSL এনক্রিপ্টেড</div>
+    </div>
+    <div class="bg-white rounded-xl p-4 border border-gray-200 text-center">
+      <div class="text-2xl mb-2">↩</div>
+      <div class="text-sm font-semibold text-gray-900">রিফান্ড গ্যারান্টি</div>
+      <div class="text-xs text-gray-500 mt-1">৭ দিনের রিটার্ন</div>
+    </div>
+  </div>
+</section>
 
-                <!-- About Links -->
-                <div>
-                    <h4 class="text-white font-bold mb-4">About us</h4>
-                    <ul class="space-y-3">
-                        <li><a href="#" class="text-gray-400 hover:text-iron-green transition-colors text-sm">Our Story</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-iron-green transition-colors text-sm">T & C</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-iron-green transition-colors text-sm">Privacy Policy</a></li>
-                    </ul>
-                </div>
+<!-- Products -->
+<section class="products max-w-7xl mx-auto px-4 sm:px-6 py-8" id="products">
+  <div class="flex items-baseline justify-between pb-6 mb-8">
+    <h2 class="font-serif text-3xl font-semibold text-gray-900">Top Selling Products</h2>
+    <span class="text-sm text-gray-500" id="product-count"></span>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="product-grid"></div>
+</section>
 
-                <!-- Socials -->
-                <div>
-                    <h4 class="text-white font-bold mb-4">Socials</h4>
-                    <ul class="space-y-3">
-                        <li><a href="#" class="text-gray-400 hover:text-iron-green transition-colors text-sm">Instagram</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-iron-green transition-colors text-sm">Facebook</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-iron-green transition-colors text-sm">Tiktok</a></li>
-                    </ul>
-                </div>
+</div>
 
-                <!-- Visit Us -->
-                <div>
-                    <h4 class="text-white font-bold mb-4">Visit us</h4>
-                    <p class="text-gray-400 text-sm leading-relaxed">
-                        646 North East Road,<br>
-                        Adelaide, South Australia
-                    </p>
-                </div>
-            </div>
+<!-- CART PAGE -->
+<div id="page-cart" class="page">
+  <div class="cart-page max-w-4xl mx-auto px-4 sm:px-6 py-12">
+    <h1 class="font-serif text-3xl font-semibold mb-2 text-gray-900">আপনার কার্ট</h1>
+    <p class="text-sm text-gray-500 mb-8" id="cart-summary">কার্টে কোনো পণ্য নেই</p>
 
-            <!-- Bottom Bar -->
-            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-                <p class="text-gray-500 text-sm text-center md:text-left">
-                    Copyright © 2026 Iron hook | Powered by Astra WordPress Theme
-                </p>
+    <div class="cart-items flex flex-col gap-4 mb-8" id="cart-items"></div>
 
-                <!-- Scroll to Top -->
-                <button id="scroll-top" class="flex items-center gap-2 text-gray-400 hover:text-iron-green transition-colors text-sm group">
-                    <span>Scroll to Top</span>
-                    <svg class="w-4 h-4 transform group-hover:-translate-y-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
-                    </svg>
-                </button>
-            </div>
+    <div id="empty-state" class="empty-state text-center py-16" style="display:none">
+      <div class="text-6xl mb-4">🥭</div>
+      <p class="text-sm text-gray-500 mb-6">আপনার কার্ট এখনো খালি</p>
+      <button class="bg-green-800 text-white px-6 py-3 rounded-xl text-sm font-medium hover:bg-green-900 transition-all" onclick="goShop()">কেনাকাটা শুরু করুন</button>
+    </div>
+
+    <div id="checkout-section" style="display:none">
+      <!-- Order Summary -->
+      <div class="bg-white rounded-2xl border border-gray-200 p-6 mb-6">
+        <div class="text-xs font-bold tracking-widest uppercase text-gray-500 pb-4 mb-4 border-b border-gray-200">অর্ডার সারাংশ</div>
+        <div id="summary-lines"></div>
+        <div class="flex justify-between items-baseline pt-4 border-t border-gray-200 mt-4">
+          <span class="text-base font-semibold">মোট মূল্য</span>
+          <span class="font-serif text-3xl font-semibold text-green-700">৳<span id="final-total">0</span></span>
         </div>
-    </footer>
+      </div>
 
-    <!-- Instagram Embed Script (load ONCE, place before </body>) -->
-    <script async src="https://www.instagram.com/embed.js"></script>
+      <!-- Checkout Form -->
+      <div class="bg-white rounded-2xl border border-gray-200 p-6">
+        
+        <!-- Personal Info Section -->
+        <div class="text-xs font-bold tracking-widest uppercase text-gray-500 my-6 pt-6 border-t border-gray-200 first:mt-0 first:pt-0 first:border-t-0">ব্যক্তিগত তথ্য</div>
+        <div class="mb-5">
+          <label class="block text-xs font-semibold text-gray-700 mb-2">পুরো নাম *</label>
+          <input class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm" id="f-name" placeholder="রহিম উদ্দিন" />
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
+          <div>
+            <label class="block text-xs font-semibold text-gray-700 mb-2">ফোন নম্বর *</label>
+            <input class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm" id="f-phone" placeholder="01XXXXXXXXX" maxlength="11" inputmode="numeric" />
+            <div class="text-xs mt-1" id="hint-phone"></div>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-700 mb-2">ইমেইল *</label>
+            <input class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm" id="f-email" type="email" placeholder="you@example.com" inputmode="email" />
+            <div class="text-xs mt-1" id="hint-email"></div>
+          </div>
+        </div>
 
-    <!-- JavaScript -->
-    <script>
- 
-        // Navbar scroll effect
-        const navbar = document.getElementById('navbar');
-        let lastScroll = 0;
+        <!-- Delivery Address Section -->
+        <div class="text-xs font-bold tracking-widest uppercase text-gray-500 my-6 pt-6 border-t border-gray-200">ডেলিভারি ঠিকানা</div>
+        
+        <!-- Division & District Row -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+          <div>
+            <label class="block text-xs font-semibold text-gray-700 mb-2">বিভাগ *</label>
+            <select class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm" id="f-division" onchange="updateDistricts()">
+              <option value="">বিভাগ নির্বাচন করুন</option>
+              <option value="Barisal">বরিশাল</option>
+              <option value="Chattogram">চট্টগ্রাম</option>
+              <option value="Dhaka">ঢাকা</option>
+              <option value="Khulna">খুলনা</option>
+              <option value="Rajshahi">রাজশাহী</option>
+              <option value="Rangpur">রংপুর</option>
+              <option value="Sylhet">সিলেট</option>
+              <option value="Mymensingh">ময়মনসিংহ</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-700 mb-2">জেলা *</label>
+            <select class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm" id="f-jela" onchange="updateUpozelas()" disabled>
+              <option value="">প্রথমে বিভাগ নির্বাচন করুন</option>
+            </select>
+          </div>
+        </div>
+        
+        <!-- Upazila & Thana Row -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+          <div>
+            <label class="block text-xs font-semibold text-gray-700 mb-2">উপজেলা *</label>
+            <input class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm" id="f-upojela" placeholder="উপজেলা লিখুন" disabled />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-700 mb-2">থানা *</label>
+            <input class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm" id="f-thana" placeholder="থানা লিখুন" disabled />
+          </div>
+        </div>
+        
+        <!-- Address Detail -->
+        <div class="mb-6">
+          <label class="block text-xs font-semibold text-gray-700 mb-2">বিস্তারিত ঠিকানা *</label>
+          <textarea class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm resize-none" id="f-address" rows="2" placeholder="বাড়ি নম্বর, রোড, এলাকা, ল্যান্ডমার্ক…" disabled></textarea>
+        </div>
 
-        window.addEventListener('scroll', () => {
-            const currentScroll = window.pageYOffset;
+        <!-- Pay Button -->
+        <button class="w-full bg-green-800 text-white py-4 rounded-xl text-sm font-medium transition-all flex items-center justify-center gap-2 hover:bg-green-900 active:scale-98 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-xl shadow-green-800/20" id="pay-btn" onclick="checkout()">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          PayStation-এ পেমেন্ট করুন
+        </button>
+        <p class="text-center text-xs text-gray-500 mt-3">SSL এনক্রিপ্টেড · PayStation BD · নিরাপদ লেনদেন</p>
+      </div>
+    </div>
+  </div>
+</div>
 
-            if (currentScroll > 50) {
-                navbar.classList.add('bg-iron-dark/90', 'nav-blur', 'border-b', 'border-gray-800');
-            } else {
-                navbar.classList.remove('bg-iron-dark/90', 'nav-blur', 'border-b', 'border-gray-800');
-            }
+<!-- FOOTER -->
+<footer class="bg-green-900 text-gray-300 py-12 px-4 sm:px-6 mt-12">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-8">
+      <div>
+        <div class="font-serif text-lg text-white mb-3">Urbor Essentials</div>
+        <p class="text-sm leading-relaxed text-gray-400">রাজশাহীর হারিয়ে যাওয়া ঐতিহ্যবাহী আমের আসল স্বাদকে আবার মানুষের কাছে ফিরিয়ে আনা। বাগান থেকে সরাসরি আপনার ঘরে — ফ্রেশ, নিরাপদ ও আসল স্বাদের আম।</p>
+      </div>
+      <div>
+        <div class="text-xs font-bold tracking-widest uppercase text-green-700 mb-4">যোগাযোগ</div>
+        <ul class="space-y-2 text-sm">
+          <li>📞 01822916488</li>
+          <li>📧 info@urboressentials.com</li>
+          <li>📍 রাজশাহী, বাংলাদেশ</li>
+        </ul>
+      </div>
+      <div>
+        <div class="text-xs font-bold tracking-widest uppercase text-green-700 mb-4">দ্রুত লিংক</div>
+        <ul class="space-y-2 text-sm">
+          <li><a href="#" onclick="goShop(event)" class="text-gray-400 hover:text-white transition-colors">আমের সংগ্রহ</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-white transition-colors">ডেলিভারি নীতি</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-white transition-colors">রিফান্ড নীতি</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-green-800 pt-6 text-xs text-gray-500">© ২০২৬ Urbor Essentials — রাজশাহীর প্রাকৃতিক আম</div>
+  </div>
+</footer>
 
-            lastScroll = currentScroll;
-        });
+<div id="toast"></div>
 
-        // Mobile menu toggle
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
+<script>
+var API_BASE = "/api";
 
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
+var PRODUCTS = {
+  p1: { name: "হিমসাগর আম — প্রিমিয়াম", price: 180, originalPrice: 220, image: "https://lst-mu.vercel.app/images/image.png", desc: "রাজশাহীর বিখ্যাত হিমসাগর, মিষ্টি ও সুগন্ধি। প্রতি কেজি।", label: "Best Selling", bestSeller: true },
+  p2: { name: "ল্যাংড়া আম", price: 220, originalPrice: 280, image: "https://lst-mu.vercel.app/images/image.png", desc: "রাজশাহীর ঐতিহ্যবাহী ল্যাংড়া, টক-মিষ্টি স্বাদ। প্রতি কেজি।", label: "Best Selling", bestSeller: true },
+  p3: { name: "ফজলি আম", price: 200, originalPrice: 250, image: "https://lst-mu.vercel.app/images/image.png", desc: "বড় আকারের ফজলি, রাজশাহীর সেরা বাগান থেকে।", label: "Best Selling", bestSeller: true },
+  p4: { name: "আম্রপালি আম", price: 250, originalPrice: 300, image: "https://lst-mu.vercel.app/images/image.png", desc: "মিষ্টি ও রসালো আম্রপালি, প্রতি কেজি।", label: "Best Selling", bestSeller: true },
+  p5: { name: "হিমসাগর — ফ্যামিলি প্যাক", price: 850, originalPrice: 1100, image: "https://lst-mu.vercel.app/images/image.png", desc: "৫ কেজি ফ্যামিলি প্যাক, বিশেষ ডিসকাউন্টে।", label: "", bestSeller: false },
+  p6: { name: "আমের আচার — হাতে তৈরি", price: 350, originalPrice: 420, image: "https://lst-mu.vercel.app/images/image.png", desc: "পাকা আমের ঐতিহ্যবাহী আচার, কোনো প্রিজারভেটিভ নেই। ৫০০গ্রাম।", label: "Best Selling", bestSeller: true },
+  p7: { name: "আমের জুস — তাজা", price: 180, originalPrice: 220, image: "https://lst-mu.vercel.app/images/image.png", desc: "তাজা রাজশাহী আমের জুস, কোনো চিনি মিশ্রিত নয়। ১ লিটার।", label: "", bestSeller: false },
+  p8: { name: "আমের সরবত কনসেনট্রেট", price: 280, originalPrice: 350, image: "https://lst-mu.vercel.app/images/image.png", desc: "ঘন সরবত কনসেনট্রেট, পানিতে মিশিয়ে খান। ৫০০মিলি।", label: "Best Selling", bestSeller: true },
+};
 
-        // Close mobile menu on link click
-        mobileMenu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
-            });
-        });
+// === Bangladesh Districts & Thanas Data ===
+var districtsData = {
+  "Bagerhat": ["Bagerhat Sadar", "Chitalmari", "Fakirhat", "Kachua", "Mollahat", "Mongla", "Morrelganj", "Rampal", "Sarankhola"],
+  "Bandarban": ["Bandarban Sadar", "Ali Kadam", "Lama", "Naikhongchhari", "Rowangchhari", "Ruma", "Thanchi"],
+  "Barguna": ["Barguna Sadar", "Amtali", "Bamna", "Betagi", "Patharghata", "Taltali"],
+  "Barisal": ["Barisal Sadar", "Agailjhara", "Babuganj", "Bakerganj", "Banaripara", "Gaurnadi", "Hizla", "Mehendiganj", "Muladi", "Wazirpur"],
+  "Bhola": ["Bhola Sadar", "Burhanuddin", "Char Fasson", "Daulatkhan", "Lalmohan", "Manpura", "Tazumuddin"],
+  "Bogura": ["Bogura Sadar", "Adamdighi", "Dhunat", "Dhupchanchia", "Gabtali", "Kahaloo", "Nandigram", "Sahajanpur", "Sherpur", "Shibganj", "Sonatola"],
+  "Brahmanbaria": ["Brahmanbaria Sadar", "Akhaura", "Ashuganj", "Bijoynagar", "Kasba", "Nasirnagar", "Nabinagar", "Sarail"],
+  "Chandpur": ["Chandpur Sadar", "Faridganj", "Haimchar", "Haziganj", "Kachua", "Matlab North", "Matlab South", "Shahrasti"],
+  "Chapainawabganj": ["Chapainawabganj Sadar", "Bholahat", "Gomastapur", "Nachole", "Shibganj"],
+  "Chattogram": ["Chattogram Sadar", "Anwara", "Banshkhali", "Boalkhali", "Chandanaish", "Fatikchhari", "Hathazari", "Lohagara", "Mirsharai", "Patiya", "Rangunia", "Raozan", "Sandwip", "Satkania", "Sitakunda"],
+  "Chuadanga": ["Chuadanga Sadar", "Alamdanga", "Damurhuda", "Jibannagar"],
+  "Comilla": ["Comilla Sadar", "Barura", "Brahmanpara", "Burichong", "Chandina", "Chauddagram", "Daudkandi", "Debidwar", "Homna", "Laksam", "Monoharganj", "Muradnagar", "Nangalkot", "Titas"],
+  "Cox's Bazar": ["Cox's Bazar Sadar", "Chakaria", "Eidgaon", "Kutubdia", "Maheshkhali", "Pekua", "Ramu", "Teknaf", "Ukhiya"],
+  "Dhaka": ["Dhaka Sadar", "Dhamrai", "Dohar", "Keraniganj", "Nawabganj", "Savar"],
+  "Dinajpur": ["Dinajpur Sadar", "Birampur", "Biral", "Birganj", "Bochaganj", "Chirirbandar", "Fulbari", "Ghoraghat", "Hakimpur", "Kaharole", "Khansama", "Nawabganj", "Parbatipur"],
+  "Faridpur": ["Faridpur Sadar", "Alfadanga", "Bhanga", "Boalmari", "Charbhadrasan", "Madhukhali", "Nagarkanda", "Sadarpur"],
+  "Feni": ["Feni Sadar", "Chhagalnaiya", "Daganbhuiyan", "Fulgazi", "Parshuram", "Sonagazi"],
+  "Gaibandha": ["Gaibandha Sadar", "Fulchhari", "Gobindaganj", "Palashbari", "Sadullapur", "Saghata", "Sundarganj"],
+  "Gazipur": ["Gazipur Sadar", "Kaliakair", "Kaliganj", "Kapasia", "Sreepur"],
+  "Gopalganj": ["Gopalganj Sadar", "Kashiani", "Kotalipara", "Muksudpur", "Tungipara"],
+  "Habiganj": ["Habiganj Sadar", "Ajmiriganj", "Bahubal", "Baniachong", "Chunarughat", "Lakhai", "Madhabpur", "Nabiganj"],
+  "Jamalpur": ["Jamalpur Sadar", "Bakshiganj", "Dewanganj", "Islampur", "Madarganj", "Melandaha", "Sarishabari"],
+  "Jashore": ["Jashore Sadar", "Abhaynagar", "Bagherpara", "Chaugachha", "Jhikargacha", "Keshabpur", "Manirampur", "Sharsha"],
+  "Jhalakathi": ["Jhalakathi Sadar", "Kathalia", "Nalchity", "Rajapur"],
+  "Jhenaidah": ["Jhenaidah Sadar", "Harinakunda", "Kaliganj", "Kotchandpur", "Maheshpur", "Shailkupa"],
+  "Joypurhat": ["Joypurhat Sadar", "Akkelpur", "Kalai", "Khetlal", "Panchbibi"],
+  "Khagrachhari": ["Khagrachhari Sadar", "Dighinala", "Lakshmichhari", "Mahalchhari", "Manikchhari", "Matiranga", "Panchhari", "Ramgarh"],
+  "Khulna": ["Khulna Sadar", "Batiaghata", "Dacope", "Dumuria", "Koyra", "Paikgachha", "Phultala", "Rupsa", "Terokhada"],
+  "Kishoreganj": ["Pakundia", "Kishoreganj Sadar", "Austagram", "Bajitpur", "Bhairab", "Hossainpur", "Itna", "Karimganj", "Katiadi", "Kuliar Char", "Mithamain", "Nikli", "Tarail"],
+  "Kurigram": ["Kurigram Sadar", "Bhurungamari", "Chilmari", "Nageshwari", "Rajarhat", "Raomari", "Ulipur"],
+  "Kushtia": ["Kushtia Sadar", "Bheramara", "Daulatpur", "Khoksa", "Kumarkhali", "Mirpur"],
+  "Lakshmipur": ["Lakshmipur Sadar", "Kamalnagar", "Ramganj", "Raipur"],
+  "Lalmonirhat": ["Lalmonirhat Sadar", "Aditmari", "Hatibandha", "Kaliganj", "Patgram"],
+  "Madaripur": ["Madaripur Sadar", "Kalkini", "Rajoir", "Shibchar"],
+  "Magura": ["Magura Sadar", "Mohammadpur", "Shalikha", "Sreepur"],
+  "Moulvibazar": ["Moulvibazar Sadar", "Barlekha", "Juri", "Kamalganj", "Kulaura", "Rajnagar", "Sreemangal"],
+  "Munshiganj": ["Munshiganj Sadar", "Gazaria", "Lohajang", "Serajdikhan", "Sreenagar", "Tongibari"],
+  "Mymensingh": ["Mymensingh Sadar", "Bhaluka", "Dhobaura", "Fulbaria", "Gaffargaon", "Gauripur", "Haluaghat", "Ishwarganj", "Muktagachha", "Nandail", "Phulpur", "Trishal"],
+  "Naogaon": ["Naogaon Sadar", "Atrai", "Badalgachhi", "Dhamoirhat", "Manda", "Mohadevpur", "Niamatpur", "Patnitala", "Porsha", "Sapahar"],
+  "Narail": ["Narail Sadar", "Kalia", "Lohagara"],
+  "Narayanganj": ["Narayanganj Sadar", "Araihazar", "Bandar", "Rupganj", "Sonargaon"],
+  "Narsingdi": ["Narsingdi Sadar", "Belabo", "Monohardi", "Palash", "Roypura", "Shibpur"],
+  "Natore": ["Natore Sadar", "Baraigram", "Bagatipara", "Gurudaspur", "Lalpur", "Singra"],
+  "Netrokona": ["Netrokona Sadar", "Atpara", "Barhatta", "Durgapur", "Kalmakanda", "Kendua", "Khaliajuri", "Madan", "Mohanganj", "Purbadhala"],
+  "Nilphamari": ["Nilphamari Sadar", "Dimla", "Domar", "Jaldhaka", "Kishoreganj", "Saidpur"],
+  "Noakhali": ["Noakhali Sadar", "Begumganj", "Chatkhil", "Companiganj", "Hatiya", "Kabirhat", "Senbagh", "Sonaimuri", "Subarnachar"],
+  "Pabna": ["Pabna Sadar", "Atgharia", "Bera", "Bhangura", "Chatmohar", "Faridpur", "Ishwardi", "Santhia", "Sujanagar"],
+  "Panchagarh": ["Panchagarh Sadar", "Atwari", "Boda", "Debiganj", "Tentulia"],
+  "Patuakhali": ["Patuakhali Sadar", "Bauphal", "Dashmina", "Dumki", "Galachipa", "Kalapara", "Mirzaganj", "Rangabali"],
+  "Pirojpur": ["Pirojpur Sadar", "Bhandaria", "Indurkani", "Kawkhali", "Mathbaria", "Nazirpur", "Nesarabad (Swarupkati)"],
+  "Rajbari": ["Rajbari Sadar", "Baliakandi", "Goalanda", "Kalukhali", "Pangsha"],
+  "Rajshahi": ["Rajshahi Sadar", "Bagha", "Bagmara", "Charghat", "Durgapur", "Godagari", "Mohonpur", "Paba", "Puthia", "Tanore"],
+  "Rangamati": ["Rangamati Sadar", "Barkal", "Belaichhari", "Juraichhari", "Kaptai", "Kawkhali", "Langadu", "Naniarchar", "Rajasthali"],
+  "Rangpur": ["Rangpur Sadar", "Badarganj", "Gangachara", "Kaunia", "Mithapukur", "Pirgachha", "Pirganj", "Taraganj"],
+  "Satkhira": ["Satkhira Sadar", "Assasuni", "Debhata", "Kalaroa", "Kaliganj", "Shyamnagar", "Tala"],
+  "Shariatpur": ["Shariatpur Sadar", "Damudya", "Gosairhat", "Naria", "Zanjira"],
+  "Sherpur": ["Sherpur Sadar", "Jhenaigati", "Nakla", "Nalitabari", "Sreebardi"],
+  "Sirajganj": ["Sirajganj Sadar", "Belkuchi", "Chauhali", "Kamarkhanda", "Kazipur", "Raiganj", "Shahjadpur", "Tarash", "Ullahpara"],
+  "Sunamganj": ["Sunamganj Sadar", "Bishwambarpur", "Chhatak", "Dakshin Sunamganj", "Derai", "Dharmapasha", "Dowarabazar", "Jagannathpur", "Jamalganj", "Sulla"],
+  "Sylhet": ["Sylhet Sadar", "Balaganj", "Beanibazar", "Bishwanath", "Companiganj", "Fenchuganj", "Golapganj", "Gowainghat", "Jaintiapur", "Kanaighat", "Zakiganj"],
+  "Tangail": ["Tangail Sadar", "Basail", "Bhuapur", "Delduar", "Dhanbari", "Ghatail", "Gopalpur", "Kalihati", "Madhupur", "Mirzapur", "Nagarpur", "Sakhipur"],
+  "Thakurgaon": ["Thakurgaon Sadar", "Baliadangi", "Haripur", "Pirganj", "Ranishankail"]
+};
 
-        // Scroll to top
-        document.getElementById('scroll-top').addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
+// === Districts by Division for cascading dropdown ===
+var districtsByDivision = {
+  "Barisal": ["Barguna", "Barisal", "Bhola", "Jhalakathi", "Patuakhali", "Pirojpur"],
+  "Chattogram": ["Bandarban", "Brahmanbaria", "Chandpur", "Chattogram", "Comilla", "Cox's Bazar", "Feni", "Khagrachhari", "Lakshmipur", "Noakhali", "Rangamati"],
+  "Dhaka": ["Dhaka", "Faridpur", "Gazipur", "Gopalganj", "Kishoreganj", "Madaripur", "Manikganj", "Munshiganj", "Narayanganj", "Narsingdi", "Rajbari", "Shariatpur", "Tangail"],
+  "Khulna": ["Bagerhat", "Chuadanga", "Jashore", "Jhenaidah", "Khulna", "Kushtia", "Magura", "Meherpur", "Narail", "Satkhira"],
+  "Rajshahi": ["Bogura", "Chapainawabganj", "Joypurhat", "Naogaon", "Natore", "Pabna", "Rajshahi", "Sirajganj"],
+  "Rangpur": ["Dinajpur", "Gaibandha", "Kurigram", "Lalmonirhat", "Nilphamari", "Panchagarh", "Rangpur", "Thakurgaon"],
+  "Sylhet": ["Habiganj", "Moulvibazar", "Sunamganj", "Sylhet"],
+  "Mymensingh": ["Jamalpur", "Mymensingh", "Netrokona", "Sherpur"]
+};
 
-        // Smooth scroll for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            });
-        });
+var cart = {};
+var currentPage = 'shop';
 
-        // Intersection Observer for fade-in animations
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.1
-        };
+function showPage(page) {
+  currentPage = page;
+  document.getElementById('page-shop').classList.toggle('active', page === 'shop');
+  document.getElementById('page-cart').classList.toggle('active', page === 'cart');
+  window.scrollTo(0, 0);
+  if (page === 'cart') renderCart();
+}
+function goShop(e) { if (e) e.preventDefault(); showPage('shop'); }
+function goCart() { showPage('cart'); }
+function scrollToProducts(e) {
+  if (e) e.preventDefault();
+  showPage('shop');
+  setTimeout(function() { var el = document.getElementById('products'); if (el) el.scrollIntoView({ behavior: 'smooth' }); }, 50);
+}
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('opacity-100', 'translate-y-0');
-                    entry.target.classList.remove('opacity-0', 'translate-y-10');
-                }
-            });
-        }, observerOptions);
+function addToCart(pid) {
+  cart[pid] = (cart[pid] || 0) + 1;
+  refreshCount();
+  renderProducts();
+  toast('✓ ' + PRODUCTS[pid].name + ' কার্টে যোগ হয়েছে');
+}
+function buyNow(pid) {
+  cart[pid] = (cart[pid] || 0) + 1;
+  refreshCount();
+  renderProducts();
+  goCart();
+}
+function adjustQty(pid, delta) {
+  var next = (cart[pid] || 0) + delta;
+  if (next <= 0) {
+    delete cart[pid];
+  } else if (next <= 20) {
+    cart[pid] = next;
+  }
+  refreshCount();
+  renderProducts();
+  if (currentPage === 'cart') renderCart();
+}
+function removeItem(pid) {
+  delete cart[pid];
+  refreshCount();
+  renderProducts();
+  renderCart();
+  toast('পণ্য সরানো হয়েছে');
+}
+function cartTotal() {
+  var t = 0;
+  for (var pid in cart) { if (cart.hasOwnProperty(pid) && PRODUCTS[pid]) t += PRODUCTS[pid].price * cart[pid]; }
+  return t;
+}
+function cartCount() {
+  var c = 0;
+  for (var pid in cart) { if (cart.hasOwnProperty(pid)) c += cart[pid]; }
+  return c;
+}
+function cartPayload() {
+  var items = [];
+  for (var pid in cart) { if (cart.hasOwnProperty(pid)) items.push({id: pid, qty: cart[pid]}); }
+  return items;
+}
+function refreshCount() {
+  document.getElementById('cart-count').textContent = cartCount();
+}
 
-        // Observe sections for animation
-        document.querySelectorAll('section > div').forEach(section => {
-            section.classList.add('transition-all', 'duration-700', 'opacity-0', 'translate-y-10');
-            observer.observe(section);
-        });
-    </script>
+function renderProducts() {
+  var grid = document.getElementById('product-grid');
+  document.getElementById('product-count').textContent = Object.keys(PRODUCTS).length + ' প্রকার পণ্য';
+  var html = '';
+  for (var pid in PRODUCTS) {
+    if (!PRODUCTS.hasOwnProperty(pid)) continue;
+    var p = PRODUCTS[pid];
+    var savings = p.originalPrice - p.price;
+    var qty = cart[pid] || 0;
+    
+    html += '<div class="product-card bg-white rounded-2xl border border-gray-200 overflow-hidden">' +
+      '<div class="flex flex-col sm:flex-row">' +
+        '<div class="sm:w-2/5 bg-gray-50 p-6 flex items-center justify-center relative">' +
+          (p.bestSeller ? '<span class="absolute top-3 right-3 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full">Best Selling</span>' : '') +
+          '<img src="' + p.image + '" alt="' + p.name + '" loading="lazy" class="w-full h-48 sm:h-full object-contain mix-blend-multiply" />' +
+        '</div>' +
+        '<div class="sm:w-3/5 p-5 sm:p-6 flex flex-col justify-between">' +
+          '<div>' +
+            '<h3 class="font-semibold text-lg text-gray-900 mb-2">' + p.name + '</h3>' +
+            '<p class="text-sm text-gray-500 mb-4 leading-relaxed">' + p.desc + '</p>' +
+          '</div>' +
+          '<div>' +
+            '<div class="flex items-center gap-3 mb-4">' +
+              '<span class="text-2xl font-bold text-green-700">৳' + p.price.toLocaleString('en-BD') + '</span>' +
+              '<span class="text-sm text-gray-400 line-through">৳' + p.originalPrice.toLocaleString('en-BD') + '</span>' +
+              (savings > 0 ? '<span class="bg-green-100 text-green-700 text-xs font-bold px-2.5 py-1 rounded-full">Save ৳' + savings.toLocaleString('en-BD') + '</span>' : '') +
+            '</div>' +
+            (qty > 0 ? 
+              '<div class="flex items-center gap-3">' +
+                '<div class="flex items-center border-2 border-green-700 rounded-xl overflow-hidden">' +
+                  '<button onclick="adjustQty(\'' + pid + '\', -1)" class="w-10 h-10 flex items-center justify-center text-green-700 hover:bg-green-50 transition-colors font-semibold text-lg">−</button>' +
+                  '<span class="w-12 text-center text-base font-bold text-gray-900 py-2.5 bg-green-50">' + qty + '</span>' +
+                  '<button onclick="adjustQty(\'' + pid + '\', 1)" class="w-10 h-10 flex items-center justify-center text-green-700 hover:bg-green-50 transition-colors font-semibold text-lg">+</button>' +
+                '</div>' +
+                '<button onclick="buyNow(\'' + pid + '\')" class="flex-1 bg-green-700 text-white px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-green-800 transition-all flex items-center justify-center gap-2 shadow-lg shadow-green-700/30">' +
+                  '<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>' +
+                  'Buy now' +
+                '</button>' +
+              '</div>'
+              :
+              '<div class="flex gap-3">' +
+                '<button onclick="addToCart(\'' + pid + '\')" class="flex-1 border-2 border-green-700 text-green-700 px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-green-50 transition-all flex items-center justify-center gap-2">' +
+                  '<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>' +
+                  'Add To Cart' +
+                '</button>' +
+                '<button onclick="buyNow(\'' + pid + '\')" class="flex-1 bg-green-700 text-white px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-green-800 transition-all flex items-center justify-center gap-2 shadow-lg shadow-green-700/30">' +
+                  '<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>' +
+                  'Buy now' +
+                '</button>' +
+              '</div>'
+            ) +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  }
+  grid.innerHTML = html;
+}
+
+function renderCart() {
+  var count = cartCount();
+  var itemsEl = document.getElementById('cart-items');
+  var emptyEl = document.getElementById('empty-state');
+  var checkoutEl = document.getElementById('checkout-section');
+  var summaryEl = document.getElementById('cart-summary');
+
+  if (count === 0) {
+    itemsEl.innerHTML = '';
+    emptyEl.style.display = 'block';
+    checkoutEl.style.display = 'none';
+    summaryEl.textContent = 'কার্ট খালি';
+    return;
+  }
+
+  emptyEl.style.display = 'none';
+  checkoutEl.style.display = 'block';
+  summaryEl.textContent = count + 'টি পণ্য · মোট ৳' + cartTotal().toLocaleString('en-BD');
+
+  var html = '';
+  for (var pid in cart) {
+    if (!cart.hasOwnProperty(pid)) continue;
+    var qty = cart[pid]; var p = PRODUCTS[pid]; if (!p) continue;
+    html += '<div class="bg-white rounded-2xl border border-gray-200 p-4 flex gap-4 items-center">' +
+      '<img src="' + p.image + '" alt="' + p.name + '" class="w-20 h-20 object-contain bg-gray-50 rounded-lg" />' +
+      '<div class="flex-1">' +
+        '<h4 class="font-medium text-gray-900 mb-1">' + p.name + '</h4>' +
+        '<p class="text-xs text-gray-500 mb-2">' + p.desc + '</p>' +
+        '<div class="flex items-center justify-between">' +
+          '<div class="flex items-center gap-2 border border-gray-300 rounded-lg">' +
+            '<button onclick="adjustQty(\'' + pid + '\', -1)" class="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-100 rounded-l-lg">−</button>' +
+            '<span class="w-10 text-center text-sm font-medium">' + qty + '</span>' +
+            '<button onclick="adjustQty(\'' + pid + '\', 1)" class="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-100 rounded-r-lg">+</button>' +
+          '</div>' +
+          '<div class="text-right">' +
+            '<div class="font-bold text-green-700">৳' + (p.price * qty).toLocaleString('en-BD') + '</div>' +
+            '<div class="text-xs text-gray-400">৳' + p.price + ' × ' + qty + '</div>' +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+      '<button onclick="removeItem(\'' + pid + '\')" class="text-gray-400 hover:text-red-600 transition-colors p-2">×</button>' +
+    '</div>';
+  }
+  itemsEl.innerHTML = html;
+
+  var shtml = '';
+  for (var pid in cart) {
+    if (!cart.hasOwnProperty(pid)) continue;
+    var qty = cart[pid]; var p = PRODUCTS[pid]; if (!p) continue;
+    shtml += '<div class="flex justify-between text-sm text-gray-600 mb-2"><span>' + p.name + ' <span class="text-gray-400">× ' + qty + '</span></span><strong class="text-gray-900">৳' + (p.price * qty).toLocaleString('en-BD') + '</strong></div>';
+  }
+  document.getElementById('summary-lines').innerHTML = shtml;
+  document.getElementById('final-total').textContent = cartTotal().toLocaleString('en-BD');
+}
+
+// === Address Form Logic: Division → District → Upazila/Thana ===
+function updateDistricts() {
+  var division = document.getElementById('f-division').value;
+  var districtSelect = document.getElementById('f-jela');
+  var upojelaInput = document.getElementById('f-upojela');
+  var thanaInput = document.getElementById('f-thana');
+  var addressInput = document.getElementById('f-address');
+  
+  districtSelect.innerHTML = '<option value="">জেলা নির্বাচন করুন</option>';
+  upojelaInput.value = ''; thanaInput.value = ''; addressInput.value = '';
+  upojelaInput.disabled = true; thanaInput.disabled = true; addressInput.disabled = true;
+  
+  if (division && districtsByDivision[division]) {
+    var districts = districtsByDivision[division];
+    for (var i = 0; i < districts.length; i++) {
+      var option = document.createElement('option');
+      option.value = districts[i];
+      option.textContent = districts[i];
+      districtSelect.appendChild(option);
+    }
+    districtSelect.disabled = false;
+  } else {
+    districtSelect.disabled = true;
+  }
+}
+
+function updateUpozelas() {
+  var district = document.getElementById('f-jela').value;
+  var upojelaInput = document.getElementById('f-upojela');
+  var thanaInput = document.getElementById('f-thana');
+  var addressInput = document.getElementById('f-address');
+  
+  if (district) {
+    upojelaInput.disabled = false;
+    thanaInput.disabled = false;
+    addressInput.disabled = false;
+    upojelaInput.focus();
+  } else {
+    upojelaInput.disabled = true; thanaInput.disabled = true; addressInput.disabled = true;
+    upojelaInput.value = ''; thanaInput.value = ''; addressInput.value = '';
+  }
+}
+
+// ✅ FIX: Save order to sessionStorage BEFORE redirect
+function saveOrderToSession(customerName, totalAmount) {
+  var items = Object.keys(cart).map(function(pid) {
+    var p = PRODUCTS[pid];
+    return {
+      name: p.name,
+      price: p.price,
+      qty: cart[pid],
+      image: p.image,
+      id: pid
+    };
+  });
+  
+  var orderData = {
+    invoice: 'URB-' + Date.now().toString().slice(-8),
+    name: customerName,
+    amount: totalAmount,
+    items: items,
+    timestamp: new Date().toISOString()
+  };
+  
+  try {
+    sessionStorage.setItem('lastOrder', JSON.stringify(orderData));
+  } catch(e) {
+    console.warn('sessionStorage save failed:', e);
+  }
+}
+
+function validatePhone(p) { return /^01[3-9][0-9]{8}$/.test(p.replace(/[^0-9]/g,'')); }
+function validateEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.trim()); }
+function setFieldStatus(id, ok, msg) {
+  var el = document.getElementById(id);
+  var hint = document.getElementById('hint-' + id.replace('f-',''));
+  if (!el) return;
+  if (hint) { hint.textContent = msg || ''; hint.className = 'text-xs mt-1 ' + (ok === false ? 'text-red-600' : ok === true ? 'text-green-600' : ''); }
+}
+
+function getFbp() { var m = document.cookie.match(/_fbp=([^;]+)/); return m ? m[1] : null; }
+function getFbc() { var m = document.cookie.match(/_fbc=([^;]+)/); return m ? m[1] : new URLSearchParams(location.search).get('fbclid') || null; }
+
+function checkout() {
+  var name = document.getElementById('f-name').value.trim();
+  var phone = document.getElementById('f-phone').value.trim();
+  var email = document.getElementById('f-email').value.trim();
+  var division = document.getElementById('f-division').value.trim();
+  var jela = document.getElementById('f-jela').value.trim();
+  var upojela = document.getElementById('f-upojela').value.trim();
+  var thana = document.getElementById('f-thana').value.trim();
+  var address = document.getElementById('f-address').value.trim();
+
+  var err = false;
+  
+  if (!name) { setFieldStatus('f-name', false, 'নাম দিন'); err = true; } else setFieldStatus('f-name', true, '');
+  
+  if (!phone) { setFieldStatus('f-phone', false, 'ফোন নম্বর দিন'); err = true; }
+  else if (!validatePhone(phone)) { setFieldStatus('f-phone', false, 'সঠিক বাংলাদেশি নম্বর দিন (01XXXXXXXXX)'); err = true; }
+  else setFieldStatus('f-phone', true, '✓ সঠিক');
+  
+  if (!email) { setFieldStatus('f-email', false, 'ইমেইল দিন'); err = true; }
+  else if (!validateEmail(email)) { setFieldStatus('f-email', false, 'সঠিক ইমেইল ফরম্যাট'); err = true; }
+  else setFieldStatus('f-email', true, '✓ সঠিক');
+  
+  if (!division) { alert('বিভাগ নির্বাচন করুন'); err = true; }
+  if (!jela) { alert('জেলা নির্বাচন করুন'); err = true; }
+  if (!upojela) { alert('উপজেলা লিখুন'); err = true; }
+  if (!thana) { alert('থানা লিখুন'); err = true; }
+  if (!address) { alert('বিস্তারিত ঠিকানা দিন'); err = true; }
+
+  if (err) { toast('সব ঘর সঠিকভাবে পূরণ করুন', true); return; }
+  if (cartCount() === 0) { toast('কার্ট খালি', true); return; }
+
+  var total = cartTotal();
+  
+  // ✅ SAVE ORDER TO SESSION STORAGE BEFORE REDIRECT
+  saveOrderToSession(name, total);
+
+  var btn = document.getElementById('pay-btn');
+  var orig = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = '<span class="animate-pulse">সংযুক্ত হচ্ছে…</span>';
+
+  var payload = {
+    items: cartPayload(),
+    cust_name: name,
+    cust_phone: phone,
+    cust_email: email,
+    division: division,
+    jela: jela,
+    upojela: upojela,
+    thana: thana,
+    address_detail: address,
+    fbp: getFbp(),
+    fbc: getFbc(),
+    event_id: 'ic-' + Date.now(),
+  };
+
+  fetch(API_BASE + '/initiate', {
+    method: 'POST', 
+    headers: {'Content-Type': 'application/json'}, 
+    body: JSON.stringify(payload),
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (data.payment_url) {
+      window.location.href = data.payment_url;
+    } else {
+      toast(data.error || 'পেমেন্ট ব্যর্থ। আবার চেষ্টা করুন।', true);
+      btn.disabled = false; btn.innerHTML = orig;
+    }
+  })
+  .catch(function() {
+    toast('নেটওয়ার্ক ত্রুটি। আবার চেষ্টা করুন।', true);
+    btn.disabled = false; btn.innerHTML = orig;
+  });
+}
+
+var _tt;
+function toast(msg, isErr) {
+  var el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = isErr ? 'err' : '';
+  el.classList.add('show');
+  clearTimeout(_tt);
+  _tt = setTimeout(function() { el.classList.remove('show'); }, 3000);
+}
+
+function setupLiveValidation() {
+  var phoneEl = document.getElementById('f-phone');
+  var emailEl = document.getElementById('f-email');
+  if (phoneEl) {
+    phoneEl.addEventListener('input', function() {
+      this.value = this.value.replace(/[^0-9]/g, '').slice(0, 11);
+      if (this.value.length > 0) {
+        if (validatePhone(this.value)) setFieldStatus('f-phone', true, '✓ সঠিক');
+        else setFieldStatus('f-phone', false, '01 দিয়ে শুরু, ১১ সংখ্যা');
+      } else setFieldStatus('f-phone', null, '');
+    });
+  }
+  if (emailEl) {
+    emailEl.addEventListener('input', function() {
+      if (this.value.length > 0) {
+        if (validateEmail(this.value)) setFieldStatus('f-email', true, '✓ সঠিক');
+        else setFieldStatus('f-email', false, 'সঠিক ইমেইল ফরম্যাট');
+      } else setFieldStatus('f-email', null, '');
+    });
+  }
+}
+
+// Initialize
+renderProducts();
+refreshCount();
+setupLiveValidation();
+</script>
 </body>
 </html>

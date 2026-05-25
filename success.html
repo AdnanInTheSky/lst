@@ -2,233 +2,335 @@
 <html lang="bn">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>অর্ডার স্ট্যাটাস — আমবাড়ি</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>অর্ডার স্ট্যাটাস — Urbor Essentials</title>
+  
+  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  
   <script>
     tailwind.config = {
       theme: {
         extend: {
-          fontFamily: {
-            bengali: ["'Noto Sans Bengali'", "'DM Sans'", "sans-serif"],
-          },
           colors: {
-            mango: {
-              orange: '#E8910A',
-              yellow: '#F4C430',
-              ripe: '#FF9500',
-            },
-            leaf: {
-              DEFAULT: '#1B4D1B',
-              light: '#2E7D32',
-            },
-            cream: {
-              DEFAULT: '#FFF8E7',
-              light: '#FFFBF0',
-            },
-            brand: {
-              text: '#2D1810',
-              muted: '#8B6F47',
-              border: '#F5DEB3',
-              'border-dark': '#E8D5B7',
-              red: '#C0392B',
-            }
+            'primary': '#166534',
+            'primary-dark': '#14532d',
+            'primary-light': '#f0fdf4',
+            'primary-accent': '#22c55e',
+            'secondary': '#16a34a',
+            'text-dark': '#1f2937',
+            'text-muted': '#6b7280',
+            'border-light': '#e5e7eb',
+            'success-bg': '#dcfce7',
+            'success-text': '#166534',
+            'error-bg': '#fee2e2',
+            'error-text': '#991b1b',
           },
-          animation: {
-            'pulse-ring': 'pulse-ring 1.5s ease-in-out infinite',
-          },
-          keyframes: {
-            'pulse-ring': {
-              '0%': { boxShadow: '0 0 0 0 rgba(232,145,10,.4)' },
-              '70%': { boxShadow: '0 0 0 15px rgba(232,145,10,0)' },
-              '100%': { boxShadow: '0 0 0 0 rgba(232,145,10,0)' },
-            }
+          fontFamily: {
+            'bengali': ['"Noto Sans Bengali"', 'sans-serif'],
+            'serif': ['"Cormorant Garamond"', 'Georgia', 'serif'],
           }
         }
       }
     }
   </script>
+  
   <style>
-    body { font-family: 'Noto Sans Bengali', 'DM Sans', sans-serif; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-tap-highlight-color: transparent; }
+    body { 
+      font-family: 'Noto Sans Bengali', sans-serif; 
+      background-color: #fafafa;
+      color: #1f2937;
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font-family: 'Noto Sans Bengali', sans-serif; cursor: pointer; border: none; }
+    img { display: block; max-width: 100%; }
+    
+    @keyframes pulse-ring {
+      0% { box-shadow: 0 0 0 0 rgba(22, 101, 52, 0.4); }
+      70% { box-shadow: 0 0 0 15px rgba(22, 101, 52, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(22, 101, 52, 0); }
+    }
+    .animate-pulse-ring { animation: pulse-ring 1.5s ease-in-out infinite; }
+    
+    @keyframes fade-in-up {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in-up { animation: fade-in-up 0.5s ease-out forwards; }
   </style>
-<base target="_blank">
+  <base target="_blank">
 </head>
-<body class="bg-cream text-brand-text min-h-screen flex flex-col">
+<body class="bg-gray-50">
 
-  <header class="px-6 py-5 border-b border-brand-border bg-cream/95 backdrop-blur-md">
-    <a href="/" class="flex items-center gap-3 no-underline">
-      <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-mango-orange to-mango-yellow flex items-center justify-center text-xl shadow-sm">🥭</div>
-      <span class="font-bengali text-xl font-bold text-leaf">আমবাড়ি</span>
+<!-- Header (Matched with main site) -->
+<header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-200">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+    <a href="/" class="flex items-center gap-3">
+      <img 
+        src="https://mango-project-rho.vercel.app/static/images/logo.png" 
+        alt="Urbor Essentials Logo" 
+        class="w-10 h-10 object-contain rounded-xl shadow-lg"
+        onerror="this.parentElement.innerHTML='<div class=\'w-10 h-10 bg-gradient-to-br from-green-700 to-emerald-600 rounded-xl flex items-center justify-center text-xl shadow-lg\'>🥭</div>' + this.parentElement.innerHTML"
+      />
+      <div>
+        <div class="font-serif text-xl font-semibold tracking-tight text-gray-900">Urbor Essentials</div>
+        <div class="text-xs text-gray-500 -mt-0.5">রাজশাহীর প্রাকৃতিক আম</div>
+      </div>
     </a>
-  </header>
+    <a href="/" class="hidden sm:flex items-center gap-2 text-sm text-gray-600 hover:text-green-700 transition-colors">
+      <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      হোমে ফিরুন
+    </a>
+  </div>
+</header>
 
-  <main class="flex-1 flex items-center justify-center px-4 py-12">
-    <div id="invoice-card" class="bg-white border-2 border-brand-border rounded-2xl w-full max-w-xl overflow-hidden shadow-[0_20px_60px_rgba(232,145,10,0.1)]">
+<!-- Main Content -->
+<main class="flex-1 flex items-center justify-center px-4 py-12 sm:py-20">
+  <div id="invoice-card" class="bg-white border border-gray-200 rounded-2xl w-full max-w-2xl overflow-hidden shadow-xl shadow-green-800/5 animate-fade-in-up">
 
-      <div class="px-8 pt-10 pb-8 text-center border-b border-brand-border">
-        <div id="status-icon" class="w-20 h-20 rounded-full flex items-center justify-center text-4xl mx-auto mb-5 animate-pulse-ring bg-gradient-to-br from-[#fdf5e0] to-cream">
-          ⏳
-        </div>
-        <h1 id="status-title" class="font-bengali text-3xl font-bold text-leaf mb-2">পেমেন্ট যাচাই হচ্ছে…</h1>
-        <p id="status-sub" class="text-sm text-brand-muted leading-relaxed max-w-sm mx-auto">অনুগ্রহ করে অপেক্ষা করুন, আমরা আপনার লেনদেন নিশ্চিত করছি।</p>
+    <!-- Status Header -->
+    <div class="px-8 pt-10 pb-8 text-center border-b border-gray-200 bg-primary-light/30">
+      <div id="status-icon" class="w-20 h-20 rounded-full flex items-center justify-center text-4xl mx-auto mb-5 animate-pulse-ring bg-gradient-to-br from-green-100 to-primary-light">
+        ⏳
       </div>
+      <h1 id="status-title" class="font-serif text-2xl sm:text-3xl font-bold text-gray-900 mb-2">পেমেন্ট যাচাই হচ্ছে…</h1>
+      <p id="status-sub" class="text-sm text-gray-600 leading-relaxed max-w-sm mx-auto">অনুগ্রহ করে অপেক্ষা করুন, আমরা আপনার লেনদেন নিশ্চিত করছি।</p>
+    </div>
 
-      <div id="invoice-section" class="hidden px-8 py-6">
-        <div class="flex justify-between py-2.5 border-b border-dashed border-brand-border text-sm">
-          <span class="text-brand-muted font-medium">ইনভয়েস</span>
-          <span id="inv-number" class="font-bold text-brand-text">—</span>
-        </div>
-        <div class="flex justify-between py-2.5 border-b border-dashed border-brand-border text-sm">
-          <span class="text-brand-muted font-medium">কাস্টমার</span>
-          <span id="inv-name" class="font-bold text-brand-text">—</span>
-        </div>
-        <div class="flex justify-between py-2.5 border-b border-dashed border-brand-border text-sm">
-          <span class="text-brand-muted font-medium">পরিমাণ</span>
-          <span id="inv-amount" class="font-bold text-brand-text">—</span>
-        </div>
-        <div class="flex justify-between py-2.5 border-b border-dashed border-brand-border text-sm">
-          <span class="text-brand-muted font-medium">স্ট্যাটাস</span>
-          <span id="inv-status" class="font-bold text-brand-text">—</span>
-        </div>
-        <div class="flex justify-between py-2.5 text-sm">
-          <span class="text-brand-muted font-medium">ট্রানজেকশন আইডি</span>
-          <span id="inv-trxid" class="font-bold text-brand-text">—</span>
-        </div>
+    <!-- Invoice Details (Hidden by default) -->
+    <div id="invoice-section" class="hidden px-8 py-6 space-y-1">
+      <div class="flex justify-between py-3 border-b border-dashed border-gray-200 text-sm">
+        <span class="text-gray-500 font-medium">ইনভয়েস নম্বর</span>
+        <span id="inv-number" class="font-semibold text-gray-900">—</span>
       </div>
-
-      <div id="items-section" class="hidden px-8 pb-6">
-        <p class="text-xs font-bold tracking-widest uppercase text-brand-muted mb-4">অর্ডারকৃত আইটেম</p>
-        <div id="items-list"></div>
+      <div class="flex justify-between py-3 border-b border-dashed border-gray-200 text-sm">
+        <span class="text-gray-500 font-medium">কাস্টমার নাম</span>
+        <span id="inv-name" class="font-semibold text-gray-900">—</span>
       </div>
-
-      <div id="card-footer" class="hidden px-8 py-6 border-t border-brand-border bg-cream">
-        <div class="flex flex-col sm:flex-row gap-3">
-          <a href="/" id="cta-btn" class="flex-1 text-center bg-gradient-to-br from-mango-orange to-mango-ripe text-white no-underline py-3.5 rounded-xl font-bold text-sm transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(232,145,10,0.4)] shadow-[0_4px_16px_rgba(232,145,10,0.3)]">
-            ← আবার কেনাকাটা করুন
-          </a>
-          <button onclick="downloadPDF()" id="download-btn" class="flex-1 text-center bg-white border-2 border-mango-orange text-mango-orange py-3.5 rounded-xl font-bold text-sm transition-all hover:bg-mango-orange hover:text-white hover:-translate-y-0.5 shadow-sm cursor-pointer">
-            📄 PDF ডাউনলোড
-          </button>
-        </div>
-        <p id="verify-note" class="text-center text-xs text-brand-muted mt-3"></p>
+      <div class="flex justify-between py-3 border-b border-dashed border-gray-200 text-sm">
+        <span class="text-gray-500 font-medium">মোট পরিমাণ</span>
+        <span id="inv-amount" class="font-semibold text-green-700">—</span>
+      </div>
+      <div class="flex justify-between py-3 border-b border-dashed border-gray-200 text-sm">
+        <span class="text-gray-500 font-medium">পেমেন্ট স্ট্যাটাস</span>
+        <span id="inv-status" class="font-semibold">—</span>
+      </div>
+      <div class="flex justify-between py-3 text-sm">
+        <span class="text-gray-500 font-medium">ট্রানজেকশন আইডি</span>
+        <span id="inv-trxid" class="font-mono text-xs text-gray-700 break-all">—</span>
       </div>
     </div>
-  </main>
 
-  <script>
-    const API_BASE = "/api";
-    const params = new URLSearchParams(location.search);
-    const invoice = params.get('invoice_number') || '';
-    let lastOrder = null;
-    try { lastOrder = JSON.parse(sessionStorage.getItem('lastOrder')); } catch {}
+    <!-- Order Items (Hidden by default) -->
+    <div id="items-section" class="hidden px-8 pb-6 pt-2">
+      <p class="text-xs font-bold tracking-widest uppercase text-gray-500 mb-4 pb-2 border-b border-gray-200">অর্ডারকৃত আইটেম</p>
+      <div id="items-list" class="space-y-3"></div>
+    </div>
 
-    function setText(id, text) {
-      const el = document.getElementById(id);
-      if (el) el.textContent = text;
-    }
+    <!-- Footer Actions (Hidden by default) -->
+    <div id="card-footer" class="hidden px-8 py-6 border-t border-gray-200 bg-gray-50">
+      <div class="flex flex-col sm:flex-row gap-3">
+        <a href="/" id="cta-btn" class="flex-1 text-center bg-green-800 text-white py-3.5 rounded-xl font-medium text-sm transition-all hover:bg-green-900 active:scale-98 shadow-lg shadow-green-800/20">
+          ← আবার কেনাকাটা করুন
+        </a>
+        <button onclick="downloadPDF()" id="download-btn" class="flex-1 text-center bg-white border-2 border-green-700 text-green-700 py-3.5 rounded-xl font-medium text-sm transition-all hover:bg-green-50 active:scale-98 shadow-sm cursor-pointer">
+          📄 ইনভয়েস ডাউনলোড
+        </button>
+      </div>
+      <p id="verify-note" class="text-center text-xs text-gray-500 mt-4"></p>
+    </div>
 
-    async function verify(attempt = 1) {
-      if (!invoice) {
-        render('failed','❌ কোনো ইনভয়েস নেই','URL-এ ইনভয়েস নম্বর অনুপস্থিত।');
-        return;
+  </div>
+</main>
+
+<!-- Footer (Matched with main site) -->
+<footer class="bg-green-900 text-gray-300 py-8 px-4 sm:px-6">
+  <div class="max-w-7xl mx-auto text-center">
+    <div class="font-serif text-lg text-white mb-2">Urbor Essentials</div>
+    <p class="text-sm text-gray-400 mb-4">রাজশাহীর প্রাকৃতিক আম — বাগান থেকে সরাসরি আপনার ঘরে</p>
+    <div class="text-xs text-gray-500">© ২০২৬ Urbor Essentials — সকল স্বত্ব সংরক্ষিত</div>
+  </div>
+</footer>
+
+<script>
+  const API_BASE = "/api";
+  const params = new URLSearchParams(location.search);
+  const invoice = params.get('invoice_number') || '';
+  const paymentStatus = params.get('status') || '';
+  
+  // ✅ FIX: Read lastOrder from sessionStorage
+  let lastOrder = null;
+  try { 
+    const stored = sessionStorage.getItem('lastOrder');
+    if (stored) lastOrder = JSON.parse(stored);
+  } catch(e) { console.warn('sessionStorage read failed:', e); }
+
+  function setText(id, text) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = text;
+  }
+
+  function setStatusStyle(type) {
+    const icon = document.getElementById('status-icon');
+    const statusBadge = document.getElementById('inv-status');
+    
+    if (type === 'success') {
+      icon.className = 'w-20 h-20 rounded-full flex items-center justify-center text-4xl mx-auto mb-5 bg-gradient-to-br from-success-bg to-green-50';
+      icon.textContent = '✅';
+      if (statusBadge) {
+        statusBadge.className = 'font-semibold text-success-text bg-success-bg px-3 py-1 rounded-full text-xs';
       }
-      try {
-        const res = await fetch(API_BASE + '/status', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ invoice_number: invoice })
-        });
-        const data = await res.json();
-        const status = (data.trx_status || data.status || '').toLowerCase();
-        if (status === 'successful' || status === 'success') {
-          render('success','🎉 অর্ডার নিশ্চিত!','আপনার পেমেন্ট সফল হয়েছে। আমবাড়ি পরিবারের পক্ষ থেকে ধন্যবাদ!', data);
-        } else if (status === 'failed' || status === 'cancelled') {
-          render('failed','❌ পেমেন্ট ব্যর্থ','আপনার পেমেন্ট সম্পন্ন হয়নি। আপনার অ্যাকাউন্ট থেকে কোনো টাকা কাটা হয়নি।', data);
-        } else if (attempt < 12) {
-          setTimeout(() => verify(attempt + 1), 5000);
-        } else {
-          render('failed','❌ যাচাই করা যায়নি','অনুগ্রহ করে সাপোর্টের সাথে যোগাযোগ করুন।', data);
-        }
-      } catch(e) {
-        render('failed','❌ নেটওয়ার্ক ত্রুটি','ইন্টারনেট সংযোগ চেক করে আবার চেষ্টা করুন।');
+    } else if (type === 'failed') {
+      icon.className = 'w-20 h-20 rounded-full flex items-center justify-center text-4xl mx-auto mb-5 bg-gradient-to-br from-error-bg to-red-50';
+      icon.textContent = '❌';
+      if (statusBadge) {
+        statusBadge.className = 'font-semibold text-error-text bg-error-bg px-3 py-1 rounded-full text-xs';
       }
+    } else {
+      icon.className = 'w-20 h-20 rounded-full flex items-center justify-center text-4xl mx-auto mb-5 animate-pulse-ring bg-gradient-to-br from-green-100 to-primary-light';
+      icon.textContent = '⏳';
     }
+  }
 
-    function render(type, title, sub, data = {}) {
-      const icon = document.getElementById('status-icon');
-      icon.className = 'w-20 h-20 rounded-full flex items-center justify-center text-4xl mx-auto mb-5 ' +
-        (type === 'success'
-          ? 'bg-gradient-to-br from-[#e8f5ee] to-[#d4edda]'
-          : type === 'failed'
-            ? 'bg-gradient-to-br from-[#fde8e6] to-[#f5c6cb]'
-            : 'animate-pulse-ring bg-gradient-to-br from-[#fdf5e0] to-cream');
-      icon.textContent = type === 'success' ? '✅' : '❌';
-      setText('status-title', title);
-      setText('status-sub', sub);
-
-      if (invoice) {
-        setText('inv-number', invoice);
-        setText('inv-name', lastOrder?.name || data?.customer?.name || '—');
-        setText('inv-amount', lastOrder?.amount ? '৳' + Number(lastOrder.amount).toLocaleString('bn-BD') + ' BDT' : '—');
-        setText('inv-status', data?.trx_status || type);
-        setText('inv-trxid', data?.trx_id || '—');
-        document.getElementById('invoice-section').classList.remove('hidden');
-      }
-
-      if (lastOrder?.items?.length) {
-        document.getElementById('items-list').innerHTML = lastOrder.items.map(it =>
-          `<div class="flex justify-between py-2 border-b border-brand-border text-sm last:border-b-0">
-            <div class="flex items-center gap-2.5">
-              <img src="${escapeAttr(it.image)}" alt="${escapeAttr(it.name)}" class="w-10 h-10 rounded-lg object-cover" />
-              <span>${escapeHtml(it.name)} × ${it.qty}</span>
-            </div>
-            <span class="font-medium">৳${(it.price * it.qty).toLocaleString('bn-BD')}</span>
-          </div>`
-        ).join('');
-        document.getElementById('items-section').classList.remove('hidden');
-        sessionStorage.removeItem('lastOrder');
-      }
-
-      document.getElementById('card-footer').classList.remove('hidden');
-      if (type === 'failed') setText('cta-btn', '← আবার চেষ্টা করুন');
-      setText('verify-note', data?.trx_id ? 'ট্রানজেকশন আইডি: ' + data.trx_id : 'PayStation নিরাপদ গেটওয়ের মাধ্যমে যাচাইকৃত।');
+  // ✅ KEY FIX: Handle failure WITHOUT database check
+  function handlePaymentStatus() {
+    if (paymentStatus === 'failed' || paymentStatus === 'cancel' || paymentStatus === 'failure') {
+      render('failed', '❌ পেমেন্ট ব্যর্থ', 'আপনার পেমেন্ট সম্পন্ন হয়নি। আপনার অ্যাকাউন্ট থেকে কোনো টাকা কাটা হয়নি।', {});
+      return true;
     }
-
-    function escapeHtml(str) {
-      if (typeof str !== 'string') return '';
-      return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    
+    if (!invoice && !lastOrder) {
+      render('failed', '❌ তথ্য অনুপস্থিত', 'ইনভয়েস নম্বর পাওয়া যায়নি। অনুগ্রহ করে হোমে ফিরে আবার চেষ্টা করুন।');
+      return true;
     }
-    function escapeAttr(str) {
-      if (typeof str !== 'string') return '';
-      return str.replace(/"/g,'&quot;').replace(/'/g,'&#x27;');
-    }
+    
+    return false;
+  }
 
-    function downloadPDF() {
-      const element = document.getElementById('invoice-card');
-      const opt = {
-        margin:       [10, 10, 10, 10],
-        filename:     `invoice-${invoice || 'order'}.pdf`,
-        image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { scale: 2, useCORS: true, logging: false },
-        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-      };
-
-      // Temporarily hide buttons for clean PDF
-      const footer = document.getElementById('card-footer');
-      const originalDisplay = footer.style.display;
-      footer.style.display = 'none';
-
-      html2pdf().set(opt).from(element).save().then(() => {
-        footer.style.display = originalDisplay;
-      }).catch(() => {
-        footer.style.display = originalDisplay;
-        alert('PDF তৈরি করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।');
+  async function verify(attempt = 1) {
+    if (handlePaymentStatus()) return;
+    
+    try {
+      const res = await fetch(API_BASE + '/status', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ invoice_number: invoice })
       });
+      const data = await res.json();
+      const status = (data.trx_status || data.status || '').toLowerCase();
+      
+      if (status === 'successful' || status === 'success') {
+        render('success', '🎉 অর্ডার নিশ্চিত!', 'আপনার পেমেন্ট সফল হয়েছে। উরবর এসেনশিয়ালস পরিবারের পক্ষ থেকে ধন্যবাদ!', data);
+      } else if (status === 'failed' || status === 'cancelled') {
+        render('failed', '❌ পেমেন্ট ব্যর্থ', 'আপনার পেমেন্ট সম্পন্ন হয়নি। আপনার অ্যাকাউন্ট থেকে কোনো টাকা কাটা হয়নি।', data);
+      } else if (attempt < 8) {
+        setTimeout(() => verify(attempt + 1), 4000);
+      } else {
+        render('failed', '❌ যাচাই করা যায়নি', 'অনুগ্রহ করে কাস্টমার সাপোর্টের সাথে যোগাযোগ করুন: 01822916488', data);
+      }
+    } catch(e) {
+      render('failed', '❌ সংযোগ ত্রুটি', 'ইন্টারনেট সংযোগ চেক করে পেজ রিফ্রেশ করুন।', {});
+    }
+  }
+
+  function render(type, title, sub, data = {}) {
+    setStatusStyle(type);
+    setText('status-title', title);
+    setText('status-sub', sub);
+
+    // Show invoice details
+    if (invoice || lastOrder) {
+      setText('inv-number', invoice || lastOrder?.invoice || '—');
+      setText('inv-name', lastOrder?.name || data?.customer?.name || params.get('name') || '—');
+      
+      const amount = lastOrder?.amount || data?.amount || params.get('amount');
+      setText('inv-amount', amount ? '৳' + Number(amount).toLocaleString('en-BD') : '—');
+      
+      const statusText = data?.trx_status || (type === 'success' ? 'সফল' : 'ব্যর্থ');
+      setText('inv-status', statusText);
+      setText('inv-trxid', data?.trx_id || params.get('trx_id') || '—');
+      
+      document.getElementById('invoice-section').classList.remove('hidden');
     }
 
-    verify();
-  </script>
+    // ✅ FIX: Show items from lastOrder (sessionStorage)
+    if (lastOrder?.items?.length) {
+      document.getElementById('items-list').innerHTML = lastOrder.items.map(it =>
+        `<div class="flex justify-between py-3 border-b border-gray-200 text-sm last:border-b-0">
+          <div class="flex items-center gap-3">
+            <img src="${escapeAttr(it.image)}" alt="${escapeAttr(it.name)}" 
+                 class="w-12 h-12 rounded-lg object-cover bg-gray-100" 
+                 onerror="this.style.display='none'"/>
+            <div>
+              <div class="font-medium text-gray-900">${escapeHtml(it.name)}</div>
+              <div class="text-xs text-gray-500">পরিমাণ: ${it.qty}</div>
+            </div>
+          </div>
+          <span class="font-semibold text-green-700">৳${(it.price * it.qty).toLocaleString('en-BD')}</span>
+        </div>`
+      ).join('');
+      document.getElementById('items-section').classList.remove('hidden');
+      
+      // ✅ Clean up after use
+      sessionStorage.removeItem('lastOrder');
+    }
+
+    // Show footer actions
+    document.getElementById('card-footer').classList.remove('hidden');
+    
+    if (type === 'failed') {
+      setText('cta-btn', '← হোমে ফিরুন');
+      document.getElementById('download-btn').style.display = 'none';
+    } else {
+      document.getElementById('download-btn').style.display = 'block';
+    }
+    
+    const trxId = data?.trx_id || params.get('trx_id');
+    setText('verify-note', trxId ? 'ট্রানজেকশন রেফারেন্স: ' + trxId : 'PayStation নিরাপদ গেটওয়ের মাধ্যমে প্রসেসকৃত।');
+  }
+
+  function escapeHtml(str) {
+    if (typeof str !== 'string') return '';
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+  function escapeAttr(str) {
+    if (typeof str !== 'string') return '';
+    return str.replace(/"/g,'&quot;').replace(/'/g,'&#x27;').replace(/\n/g,' ');
+  }
+
+  function downloadPDF() {
+    const element = document.getElementById('invoice-card');
+    const footer = document.getElementById('card-footer');
+    const originalDisplay = footer.style.display;
+    
+    footer.style.display = 'none';
+    
+    const opt = {
+      margin: [12, 12, 12, 12],
+      filename: `invoice-${invoice || lastOrder?.invoice || 'order'}.pdf`,
+      image: { type: 'jpeg', quality: 0.95 },
+      html2canvas: { scale: 2, useCORS: true, logging: false, backgroundColor: '#ffffff' },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+
+    html2pdf().set(opt).from(element).save().then(() => {
+      footer.style.display = originalDisplay;
+    }).catch(() => {
+      footer.style.display = originalDisplay;
+      alert('PDF তৈরি করতে সমস্যা হয়েছে। পেজ রিফ্রেশ করে আবার চেষ্টা করুন।');
+    });
+  }
+
+  // Initialize
+  verify();
+</script>
 </body>
 </html>
