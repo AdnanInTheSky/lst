@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Urbor Essentials — রাজশাহীর প্রাকৃতিক আম</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #FFFFFF;
+      --bg-card:   #FFFFFF;
+      --bg-muted:  #F5F9F5;
+      --text:      #1C1009;
+      --text-2:    #2A4A2A;
+      --text-3:    #5A7A5A;
+      --border:    #C8D8C8;
+      --accent:    #2A4A2A;
+      --accent-dk: #1a301a;
+      --accent-bg: #E8F0E8;
+      --green:     #2A4A2A;
+      --serif:     'Cormorant Garamond', Georgia, serif;
+      --sans:      'Noto Sans Bengali', sans-serif;
+      --r:         8px;
+      --r-lg:      16px;
+      --shadow:    0 2px 8px rgba(42,74,42,0.08);
+    }
+
+    html { scroll-behavior: smooth; -webkit-tap-highlight-color: transparent; }
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button { font-family: var(--sans); cursor: pointer; border: none; }
+    img { display: block; max-width: 100%; }
+    textarea, input, select { font-family: var(--sans); }
+
+    /* ── HEADER ── */
+    .header {
+      position: sticky; top: 0; z-index: 40;
+      background: #FFFFFF;
+      border-bottom: 2px solid var(--accent);
+    }
+    .header-inner {
+      max-width: 900px; margin: 0 auto;
+      padding: 16px 24px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo { display: flex; align-items: center; gap: 12px; }
+    .logo-mark {
+      width: 40px; height: 40px;
+      border: 2px solid var(--accent);
+      border-radius: var(--r);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      background: var(--bg-card);
+    }
+    .logo-text { font-family: var(--serif); font-size: 22px; font-weight: 500; color: var(--accent); }
+    .logo-sub { font-size: 11px; color: var(--text-3); letter-spacing: 0.05em; margin-top: -3px; }
+
+    .header-phone { font-size: 14px; color: var(--text-2); display: flex; align-items: center; gap: 6px; }
+    .header-phone svg { width: 16px; height: 16px; stroke: var(--text-2); }
+
+    /* ── MAIN CONTAINER ── */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 24px 24px 40px;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      text-align: center;
+      padding: 32px 20px 24px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-family: var(--serif);
+      font-size: clamp(1.8rem, 4vw, 2.4rem);
+      font-weight: 400;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .hero p {
+      font-size: 14px;
+      color: var(--text-2);
+      line-height: 1.7;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* ── FORM CARD ── */
+    .form-card {
+      background: var(--bg-card);
+      border: 2px solid var(--accent);
+      border-radius: var(--r-lg);
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow);
+    }
+    .form-title {
+      font-family: var(--serif);
+      font-size: 20px;
+      color: var(--accent);
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .form-section { margin-bottom: 24px; }
+    .form-section-title {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-2);
+      letter-spacing: 0.05em;
+      margin-bottom: 14px;
+      padding-left: 8px;
+      border-left: 3px solid var(--accent);
+    }
+
+    .form-row { display: grid; gap: 16px; margin-bottom: 16px; }
+    .form-row.cols2 { grid-template-columns: 1fr 1fr; }
+    .form-row.cols3 { grid-template-columns: repeat(3, 1fr); }
+    
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-label { 
+      font-size: 12px; 
+      font-weight: 500; 
+      color: var(--text-2); 
+      letter-spacing: 0.03em;
+    }
+    .form-label .required { color: #c0392b; margin-left: 2px; }
+    
+    .form-input, .form-select {
+      background: var(--bg-muted);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 12px 14px;
+      font-size: 14px; 
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      width: 100%;
+    }
+    .form-input:focus, .form-select:focus { 
+      border-color: var(--accent); 
+      box-shadow: 0 0 0 3px rgba(42,74,42,0.12); 
+      background: #FFFFFF;
+    }
+    .form-input.error, .form-select.error { 
+      border-color: #c0392b; 
+      box-shadow: 0 0 0 3px rgba(192,57,43,0.1); 
+    }
+    .form-input.valid, .form-select.valid { 
+      border-color: var(--accent); 
+    }
+    .form-hint { font-size: 11px; color: var(--text-3); min-height: 16px; }
+    .form-hint.error { color: #c0392b; }
+    .form-hint.valid { color: var(--accent); }
+
+    textarea.form-input { resize: vertical; min-height: 80px; }
+
+    /* ── PRODUCT SELECTION ── */
+    .product-list { display: flex; flex-direction: column; gap: 12px; }
+    .product-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px;
+      background: var(--bg-muted);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      transition: border-color 0.15s;
+    }
+    .product-item:hover { border-color: var(--accent); }
+    .product-checkbox {
+      width: 20px; height: 20px;
+      accent-color: var(--accent);
+      flex-shrink: 0;
+    }
+    .product-info { flex: 1; min-width: 0; }
+    .product-name { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 2px; }
+    .product-desc { font-size: 12px; color: var(--text-3); }
+    .product-price { 
+      font-family: var(--serif); 
+      font-size: 16px; 
+      color: var(--accent); 
+      font-weight: 500;
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+    
+    .qty-control {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .qty-btn {
+      width: 28px; height: 28px;
+      background: var(--accent);
+      color: white;
+      border-radius: var(--r);
+      font-size: 14px;
+      font-weight: 500;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.15s;
+    }
+    .qty-btn:hover { background: var(--accent-dk); }
+    .qty-btn:disabled { background: var(--border); color: var(--text-3); cursor: not-allowed; }
+    .qty-val {
+      min-width: 32px; text-align: center;
+      font-size: 14px; font-weight: 500; color: var(--text);
+    }
+
+    /* ── ORDER SUMMARY ── */
+    .summary-card {
+      background: var(--accent-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 16px;
+      margin-top: 16px;
+    }
+    .summary-row { 
+      display: flex; justify-content: space-between; 
+      font-size: 13px; color: var(--text-2); 
+      margin-bottom: 8px; 
+    }
+    .summary-row.total {
+      padding-top: 12px; margin-top: 12px;
+      border-top: 1px dashed var(--border);
+      font-weight: 500;
+    }
+    .summary-row.total .amount {
+      font-family: var(--serif);
+      font-size: 20px;
+      color: var(--accent);
+    }
+
+    /* ── SUBMIT BUTTON ── */
+    .submit-btn {
+      width: 100%;
+      background: var(--accent); 
+      color: white;
+      padding: 14px 20px; 
+      border-radius: var(--r);
+      font-size: 15px; 
+      font-weight: 500;
+      border: none;
+      transition: background 0.15s, transform 0.1s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      margin-top: 8px;
+    }
+    .submit-btn:hover { background: var(--accent-dk); }
+    .submit-btn:active { transform: scale(0.98); }
+    .submit-btn:disabled { 
+      opacity: 0.6; cursor: not-allowed; transform: none; 
+      background: var(--border);
+    }
+    .submit-note { 
+      text-align: center; 
+      font-size: 11px; color: var(--text-3); 
+      margin-top: 12px; 
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--accent); 
+      color: white;
+      padding: 24px;
+      text-align: center;
+      margin-top: 40px;
+    }
+    .footer-brand { font-family: var(--serif); font-size: 16px; margin-bottom: 8px; }
+    .footer-tagline { font-size: 12px; opacity: 0.9; line-height: 1.6; }
+    .footer-contact { font-size: 12px; opacity: 0.8; margin-top: 12px; }
+
+    /* ── TOAST ── */
+    #toast {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
+      background: var(--accent); color: white;
+      padding: 12px 24px; border-radius: var(--r-lg);
+      font-size: 13px; font-weight: 400;
+      z-index: 100;
+      transition: transform 0.25s ease;
+      pointer-events: none;
+      white-space: nowrap;
+      max-width: 90vw;
+      text-align: center;
+      box-shadow: 0 4px 16px rgba(42,74,42,0.2);
+    }
+    #toast.show { transform: translateX(-50%) translateY(0); }
+    #toast.err { background: #c0392b; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      .form-row.cols2, .form-row.cols3 { grid-template-columns: 1fr; }
+      .product-item { flex-wrap: wrap; }
+      .product-price { margin-left: 0; margin-top: 8px; }
+      .header-inner { padding: 12px 16px; }
+      .container { padding: 16px; }
+      .form-card { padding: 20px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <div class="logo">
+      <div class="logo-mark">🥭</div>
+      <div>
+        <div class="logo-text">Urbor Essentials</div>
+        <div class="logo-sub">রাজশাহীর প্রাকৃতিক আম</div>
+      </div>
+    </div>
+    <a href="tel:01822916488" class="header-phone">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.18 11.8a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.09 1h3a2 2 0 0 1 2 1.72c.127.96.36 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 8.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.34 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      01822916488
+    </a>
+  </div>
+</header>
+
+<!-- MAIN FORM -->
+<div class="container">
+  
+  <!-- Hero -->
+  <section class="hero">
+    <h1>ঐতিহ্যবাহী ও প্রাকৃতিক স্বাদের আম</h1>
+    <p>Urbor Essentials বাংলাদেশের ঐতিহ্যবাহী ও প্রাকৃতিক স্বাদের আম সবার কাছে পৌঁছে দেওয়ার লক্ষ্য নিয়ে যাত্রা শুরু করেছে। রাজশাহীর বাগান থেকে সংগ্রহ করা গাছপাকা, সম্পূর্ণ কার্বাইড ও ফরমালিন মুক্ত আম।</p>
+  </section>
+
+  <!-- Order Form -->
+  <form class="form-card" id="order-form" onsubmit="handleSubmit(event)">
+    
+    <h2 class="form-title">অর্ডার ফরম</h2>
+
+    <!-- Customer Info -->
+    <div class="form-section">
+      <div class="form-section-title">ব্যক্তিগত তথ্য</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">পুরো নাম <span class="required">*</span></label>
+          <input class="form-input" id="f-name" name="cust_name" placeholder="রহিম উদ্দিন" required />
+          <div class="form-hint" id="hint-name"></div>
+        </div>
+      </div>
+      <div class="form-row cols2">
+        <div class="form-group">
+          <label class="form-label">ফোন নম্বর <span class="required">*</span></label>
+          <input class="form-input" id="f-phone" name="cust_phone" placeholder="01XXXXXXXXX" maxlength="11" inputmode="numeric" required />
+          <div class="form-hint" id="hint-phone"></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">ইমেইল <span class="required">*</span></label>
+          <input class="form-input" id="f-email" name="cust_email" type="email" placeholder="you@example.com" required />
+          <div class="form-hint" id="hint-email"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Delivery Address -->
+    <div class="form-section">
+      <div class="form-section-title">ডেলিভারি ঠিকানা</div>
+      <div class="form-row cols2">
+        <div class="form-group">
+          <label class="form-label">জেলা <span class="required">*</span></label>
+          <select class="form-select" id="f-district" name="district" required onchange="updateThanas()">
+            <option value="">জেলা নির্বাচন করুন</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">থানা/উপজেলা <span class="required">*</span></label>
+          <select class="form-select" id="f-thana" name="thana" required disabled>
+            <option value="">প্রথমে জেলা নির্বাচন করুন</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">বিস্তারিত ঠিকানা <span class="required">*</span></label>
+          <textarea class="form-input" id="f-address" name="address_detail" placeholder="বাড়ি নম্বর, রোড, এলাকা, ল্যান্ডমার্ক…" required></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product Selection -->
+    <div class="form-section">
+      <div class="form-section-title">আম নির্বাচন করুন</div>
+      <div class="product-list" id="product-list"></div>
+    </div>
+
+    <!-- Order Summary -->
+    <div class="summary-card">
+      <div class="summary-row">
+        <span>সাবটোটাল</span>
+        <span id="summary-subtotal">৳0</span>
+      </div>
+      <div class="summary-row">
+        <span>ডেলিভারি চার্জ</span>
+        <span id="summary-delivery">৳50</span>
+      </div>
+      <div class="summary-row total">
+        <span>মোট মূল্য</span>
+        <span class="amount" id="summary-total">৳50</span>
+      </div>
+    </div>
+
+    <!-- Submit -->
+    <button type="submit" class="submit-btn" id="submit-btn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      PayStation-এ পেমেন্ট করুন
+    </button>
+    <p class="submit-note">SSL এনক্রিপ্টেড · PayStation BD · নিরাপদ লেনদেন</p>
+  </form>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">🥭 Urbor Essentials</div>
+  <p class="footer-tagline">রাজশাহীর হারিয়ে যাওয়া ঐতিহ্যবাহী আমের আসল স্বাদকে আবার মানুষের কাছে ফিরিয়ে আনা। বাগান থেকে সরাসরি আপনার ঘরে — ফ্রেশ, নিরাপদ ও আসল স্বাদের আম।</p>
+  <p class="footer-contact">📞 01822916488 &nbsp;|&nbsp; 📧 info@urboressentials.com &nbsp;|&nbsp; 📍 রাজশাহী, বাংলাদেশ</p>
+</footer>
+
+<div id="toast"></div>
+
+<script>
+var API_BASE = "/api";
+
+var PRODUCTS = {
+  p1: { name: "হিমসাগর আম — প্রিমিয়াম", price: 180, desc: "রাজশাহীর বিখ্যাত হিমসাগর, মিষ্টি ও সুগন্ধি", unit: "কেজি" },
+  p2: { name: "ল্যাংড়া আম", price: 220, desc: "রাজশাহীর ঐতিহ্যবাহী ল্যাংড়া, টক-মিষ্টি স্বাদ", unit: "কেজি" },
+  p3: { name: "ফজলি আম", price: 200, desc: "বড় আকারের ফজলি, রাজশাহীর সেরা বাগান থেকে", unit: "কেজি" },
+  p4: { name: "আম্রপালি আম", price: 250, desc: "মিষ্টি ও রসালো আম্রপালি", unit: "কেজি" },
+  p5: { name: "হিমসাগর — ফ্যামিলি প্যাক", price: 850, desc: "৫ কেজি ফ্যামিলি প্যাক, বিশেষ ডিসকাউন্টে", unit: "প্যাক" },
+  p6: { name: "আমের আচার — হাতে তৈরি", price: 350, desc: "পাকা আমের ঐতিহ্যবাহী আচার, কোনো প্রিজারভেটিভ নেই", unit: "৫০০গ্রাম" },
+  p7: { name: "আমের জুস — তাজা", price: 180, desc: "তাজা রাজশাহী আমের জুস, কোনো চিনি মিশ্রিত নয়", unit: "১ লিটার" },
+  p8: { name: "আমের সরবত কনসেনট্রেট", price: 280, desc: "ঘন সরবত কনসেনট্রেট, পানিতে মিশিয়ে খান", unit: "৫০০মিলি" },
+};
+
+// Districts and Thanas data
+var districtsData = {
+  "Bagerhat": ["Bagerhat Sadar", "Chitalmari", "Fakirhat", "Kachua", "Mollahat", "Mongla", "Morrelganj", "Rampal", "Sarankhola"],
+  "Bandarban": ["Bandarban Sadar", "Ali Kadam", "Lama", "Naikhongchhari", "Rowangchhari", "Ruma", "Thanchi"],
+  "Barguna": ["Barguna Sadar", "Amtali", "Bamna", "Betagi", "Patharghata", "Taltali"],
+  "Barisal": ["Barisal Sadar", "Agailjhara", "Babuganj", "Bakerganj", "Banaripara", "Gaurnadi", "Hizla", "Mehendiganj", "Muladi", "Wazirpur"],
+  "Bhola": ["Bhola Sadar", "Burhanuddin", "Char Fasson", "Daulatkhan", "Lalmohan", "Manpura", "Tazumuddin"],
+  "Bogura": ["Bogura Sadar", "Adamdighi", "Dhunat", "Dhupchanchia", "Gabtali", "Kahaloo", "Nandigram", "Sahajanpur", "Sherpur", "Shibganj", "Sonatola"],
+  "Brahmanbaria": ["Brahmanbaria Sadar", "Akhaura", "Ashuganj", "Bijoynagar", "Kasba", "Nasirnagar", "Nabinagar", "Sarail"],
+  "Chandpur": ["Chandpur Sadar", "Faridganj", "Haimchar", "Haziganj", "Kachua", "Matlab North", "Matlab South", "Shahrasti"],
+  "Chapainawabganj": ["Chapainawabganj Sadar", "Bholahat", "Gomastapur", "Nachole", "Shibganj"],
+  "Chattogram": ["Chattogram Sadar", "Anwara", "Banshkhali", "Boalkhali", "Chandanaish", "Fatikchhari", "Hathazari", "Lohagara", "Mirsharai", "Patiya", "Rangunia", "Raozan", "Sandwip", "Satkania", "Sitakunda"],
+  "Chuadanga": ["Chuadanga Sadar", "Alamdanga", "Damurhuda", "Jibannagar"],
+  "Comilla": ["Comilla Sadar", "Barura", "Brahmanpara", "Burichong", "Chandina", "Chauddagram", "Daudkandi", "Debidwar", "Homna", "Laksam", "Monoharganj", "Muradnagar", "Nangalkot", "Titas"],
+  "Cox's Bazar": ["Cox's Bazar Sadar", "Chakaria", "Eidgaon", "Kutubdia", "Maheshkhali", "Pekua", "Ramu", "Teknaf", "Ukhiya"],
+  "Dhaka": ["Dhaka Sadar", "Dhamrai", "Dohar", "Keraniganj", "Nawabganj", "Savar"],
+  "Dinajpur": ["Dinajpur Sadar", "Birampur", "Biral", "Birganj", "Bochaganj", "Chirirbandar", "Fulbari", "Ghoraghat", "Hakimpur", "Kaharole", "Khansama", "Nawabganj", "Parbatipur"],
+  "Faridpur": ["Faridpur Sadar", "Alfadanga", "Bhanga", "Boalmari", "Charbhadrasan", "Madhukhali", "Nagarkanda", "Sadarpur"],
+  "Feni": ["Feni Sadar", "Chhagalnaiya", "Daganbhuiyan", "Fulgazi", "Parshuram", "Sonagazi"],
+  "Gaibandha": ["Gaibandha Sadar", "Fulchhari", "Gobindaganj", "Palashbari", "Sadullapur", "Saghata", "Sundarganj"],
+  "Gazipur": ["Gazipur Sadar", "Kaliakair", "Kaliganj", "Kapasia", "Sreepur"],
+  "Gopalganj": ["Gopalganj Sadar", "Kashiani", "Kotalipara", "Muksudpur", "Tungipara"],
+  "Habiganj": ["Habiganj Sadar", "Ajmiriganj", "Bahubal", "Baniachong", "Chunarughat", "Lakhai", "Madhabpur", "Nabiganj"],
+  "Jamalpur": ["Jamalpur Sadar", "Bakshiganj", "Dewanganj", "Islampur", "Madarganj", "Melandaha", "Sarishabari"],
+  "Jashore": ["Jashore Sadar", "Abhaynagar", "Bagherpara", "Chaugachha", "Jhikargacha", "Keshabpur", "Manirampur", "Sharsha"],
+  "Jhalakathi": ["Jhalakathi Sadar", "Kathalia", "Nalchity", "Rajapur"],
+  "Jhenaidah": ["Jhenaidah Sadar", "Harinakunda", "Kaliganj", "Kotchandpur", "Maheshpur", "Shailkupa"],
+  "Joypurhat": ["Joypurhat Sadar", "Akkelpur", "Kalai", "Khetlal", "Panchbibi"],
+  "Khagrachhari": ["Khagrachhari Sadar", "Dighinala", "Lakshmichhari", "Mahalchhari", "Manikchhari", "Matiranga", "Panchhari", "Ramgarh"],
+  "Khulna": ["Khulna Sadar", "Batiaghata", "Dacope", "Dumuria", "Koyra", "Paikgachha", "Phultala", "Rupsa", "Terokhada"],
+  "Kishoreganj": ["Pakundia", "Kishoreganj Sadar", "Austagram", "Bajitpur", "Bhairab", "Hossainpur", "Itna", "Karimganj", "Katiadi", "Kuliar Char", "Mithamain", "Nikli", "Tarail"],
+  "Kurigram": ["Kurigram Sadar", "Bhurungamari", "Chilmari", "Nageshwari", "Rajarhat", "Raomari", "Ulipur"],
+  "Kushtia": ["Kushtia Sadar", "Bheramara", "Daulatpur", "Khoksa", "Kumarkhali", "Mirpur"],
+  "Lakshmipur": ["Lakshmipur Sadar", "Kamalnagar", "Ramganj", "Raipur"],
+  "Lalmonirhat": ["Lalmonirhat Sadar", "Aditmari", "Hatibandha", "Kaliganj", "Patgram"],
+  "Madaripur": ["Madaripur Sadar", "Kalkini", "Rajoir", "Shibchar"],
+  "Magura": ["Magura Sadar", "Mohammadpur", "Shalikha", "Sreepur"],
+  "Moulvibazar": ["Moulvibazar Sadar", "Barlekha", "Juri", "Kamalganj", "Kulaura", "Rajnagar", "Sreemangal"],
+  "Munshiganj": ["Munshiganj Sadar", "Gazaria", "Lohajang", "Serajdikhan", "Sreenagar", "Tongibari"],
+  "Mymensingh": ["Mymensingh Sadar", "Bhaluka", "Dhobaura", "Fulbaria", "Gaffargaon", "Gauripur", "Haluaghat", "Ishwarganj", "Muktagachha", "Nandail", "Phulpur", "Trishal"],
+  "Naogaon": ["Naogaon Sadar", "Atrai", "Badalgachhi", "Dhamoirhat", "Manda", "Mohadevpur", "Niamatpur", "Patnitala", "Porsha", "Sapahar"],
+  "Narail": ["Narail Sadar", "Kalia", "Lohagara"],
+  "Narayanganj": ["Narayanganj Sadar", "Araihazar", "Bandar", "Rupganj", "Sonargaon"],
+  "Narsingdi": ["Narsingdi Sadar", "Belabo", "Monohardi", "Palash", "Roypura", "Shibpur"],
+  "Natore": ["Natore Sadar", "Baraigram", "Bagatipara", "Gurudaspur", "Lalpur", "Singra"],
+  "Netrokona": ["Netrokona Sadar", "Atpara", "Barhatta", "Durgapur", "Kalmakanda", "Kendua", "Khaliajuri", "Madan", "Mohanganj", "Purbadhala"],
+  "Nilphamari": ["Nilphamari Sadar", "Dimla", "Domar", "Jaldhaka", "Kishoreganj", "Saidpur"],
+  "Noakhali": ["Noakhali Sadar", "Begumganj", "Chatkhil", "Companiganj", "Hatiya", "Kabirhat", "Senbagh", "Sonaimuri", "Subarnachar"],
+  "Pabna": ["Pabna Sadar", "Atgharia", "Bera", "Bhangura", "Chatmohar", "Faridpur", "Ishwardi", "Santhia", "Sujanagar"],
+  "Panchagarh": ["Panchagarh Sadar", "Atwari", "Boda", "Debiganj", "Tentulia"],
+  "Patuakhali": ["Patuakhali Sadar", "Bauphal", "Dashmina", "Dumki", "Galachipa", "Kalapara", "Mirzaganj", "Rangabali"],
+  "Pirojpur": ["Pirojpur Sadar", "Bhandaria", "Indurkani", "Kawkhali", "Mathbaria", "Nazirpur", "Nesarabad (Swarupkati)"],
+  "Rajbari": ["Rajbari Sadar", "Baliakandi", "Goalanda", "Kalukhali", "Pangsha"],
+  "Rajshahi": ["Rajshahi Sadar", "Bagha", "Bagmara", "Charghat", "Durgapur", "Godagari", "Mohonpur", "Paba", "Puthia", "Tanore"],
+  "Rangamati": ["Rangamati Sadar", "Barkal", "Belaichhari", "Juraichhari", "Kaptai", "Kawkhali", "Langadu", "Naniarchar", "Rajasthali"],
+  "Rangpur": ["Rangpur Sadar", "Badarganj", "Gangachara", "Kaunia", "Mithapukur", "Pirgachha", "Pirganj", "Taraganj"],
+  "Satkhira": ["Satkhira Sadar", "Assasuni", "Debhata", "Kalaroa", "Kaliganj", "Shyamnagar", "Tala"],
+  "Shariatpur": ["Shariatpur Sadar", "Damudya", "Gosairhat", "Naria", "Zanjira"],
+  "Sherpur": ["Sherpur Sadar", "Jhenaigati", "Nakla", "Nalitabari", "Sreebardi"],
+  "Sirajganj": ["Sirajganj Sadar", "Belkuchi", "Chauhali", "Kamarkhanda", "Kazipur", "Raiganj", "Shahjadpur", "Tarash", "Ullahpara"],
+  "Sunamganj": ["Sunamganj Sadar", "Bishwambarpur", "Chhatak", "Dakshin Sunamganj", "Derai", "Dharmapasha", "Dowarabazar", "Jagannathpur", "Jamalganj", "Sulla"],
+  "Sylhet": ["Sylhet Sadar", "Balaganj", "Beanibazar", "Bishwanath", "Companiganj", "Fenchuganj", "Golapganj", "Gowainghat", "Jaintiapur", "Kanaighat", "Zakiganj"],
+  "Tangail": ["Tangail Sadar", "Basail", "Bhuapur", "Delduar", "Dhanbari", "Ghatail", "Gopalpur", "Kalihati", "Madhupur", "Mirzapur", "Nagarpur", "Sakhipur"],
+  "Thakurgaon": ["Thakurgaon Sadar", "Baliadangi", "Haripur", "Pirganj", "Ranishankail"]
+};
+
+var quantities = {};
+var DELIVERY_FEE = 50;
+
+// Populate districts dropdown
+function populateDistricts() {
+  var select = document.getElementById('f-district');
+  var districts = Object.keys(districtsData).sort();
+  for (var i = 0; i < districts.length; i++) {
+    var option = document.createElement('option');
+    option.value = districts[i];
+    option.textContent = districts[i];
+    select.appendChild(option);
+  }
+}
+
+// Update thanas based on selected district
+function updateThanas() {
+  var districtSelect = document.getElementById('f-district');
+  var thanaSelect = document.getElementById('f-thana');
+  var selectedDistrict = districtSelect.value;
+  
+  thanaSelect.innerHTML = '<option value="">থানা নির্বাচন করুন</option>';
+  
+  if (selectedDistrict && districtsData[selectedDistrict]) {
+    var thanas = districtsData[selectedDistrict];
+    for (var i = 0; i < thanas.length; i++) {
+      var option = document.createElement('option');
+      option.value = thanas[i];
+      option.textContent = thanas[i];
+      thanaSelect.appendChild(option);
+    }
+    thanaSelect.disabled = false;
+  } else {
+    thanaSelect.disabled = true;
+  }
+}
+
+// Render product list
+function renderProducts() {
+  var list = document.getElementById('product-list');
+  var html = '';
+  for (var pid in PRODUCTS) {
+    if (!PRODUCTS.hasOwnProperty(pid)) continue;
+    var p = PRODUCTS[pid];
+    var qty = quantities[pid] || 0;
+    html += '<div class="product-item">' +
+      '<input type="checkbox" class="product-checkbox" id="chk-' + pid + '" ' + (qty > 0 ? 'checked' : '') + ' onchange="toggleProduct(\'' + pid + '\', this.checked)" />' +
+      '<div class="product-info">' +
+        '<div class="product-name">' + p.name + '</div>' +
+        '<div class="product-desc">' + p.desc + ' — প্রতি ' + p.unit + '</div>' +
+        '<div class="qty-control">' +
+          '<button type="button" class="qty-btn" onclick="adjustQty(\'' + pid + '\', -1)" ' + (qty <= 0 ? 'disabled' : '') + '>−</button>' +
+          '<span class="qty-val">' + qty + '</span>' +
+          '<button type="button" class="qty-btn" onclick="adjustQty(\'' + pid + '\', 1)" ' + (qty >= 20 ? 'disabled' : '') + '>+</button>' +
+        '</div>' +
+      '</div>' +
+      '<div class="product-price">৳' + (p.price * qty).toLocaleString('en-BD') + '</div>' +
+    '</div>';
+  }
+  list.innerHTML = html;
+  updateSummary();
+}
+
+function toggleProduct(pid, checked) {
+  if (checked) {
+    quantities[pid] = quantities[pid] || 1;
+  } else {
+    delete quantities[pid];
+  }
+  renderProducts();
+}
+
+function adjustQty(pid, delta) {
+  var current = quantities[pid] || 0;
+  var next = current + delta;
+  if (next <= 0) {
+    delete quantities[pid];
+    document.getElementById('chk-' + pid).checked = false;
+  } else if (next <= 20) {
+    quantities[pid] = next;
+    document.getElementById('chk-' + pid).checked = true;
+  }
+  renderProducts();
+}
+
+function updateSummary() {
+  var subtotal = 0;
+  for (var pid in quantities) {
+    if (quantities.hasOwnProperty(pid) && PRODUCTS[pid]) {
+      subtotal += PRODUCTS[pid].price * quantities[pid];
+    }
+  }
+  var total = subtotal + (subtotal > 0 ? DELIVERY_FEE : 0);
+  
+  document.getElementById('summary-subtotal').textContent = '৳' + subtotal.toLocaleString('en-BD');
+  document.getElementById('summary-delivery').textContent = subtotal > 0 ? '৳' + DELIVERY_FEE : '৳0';
+  document.getElementById('summary-total').textContent = '৳' + total.toLocaleString('en-BD');
+}
+
+// Validation helpers
+function validatePhone(p) { return /^01[3-9][0-9]{8}$/.test(p.replace(/[^0-9]/g,'')); }
+function validateEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.trim()); }
+
+function setFieldStatus(fieldId, isValid, message) {
+  var el = document.getElementById(fieldId);
+  var hint = document.getElementById('hint-' + fieldId.replace('f-',''));
+  if (!el) return;
+  el.classList.remove('error','valid');
+  if (hint) { hint.classList.remove('error','valid'); hint.textContent = message || ''; }
+  if (isValid === true) { el.classList.add('valid'); if (hint) hint.classList.add('valid'); }
+  else if (isValid === false) { el.classList.add('error'); if (hint) hint.classList.add('error'); }
+}
+
+function getFbp() { var m = document.cookie.match(/_fbp=([^;]+)/); return m ? m[1] : null; }
+function getFbc() { var m = document.cookie.match(/_fbc=([^;]+)/); return m ? m[1] : new URLSearchParams(location.search).get('fbclid') || null; }
+
+// Form submission - SAME API CALL STRUCTURE
+function handleSubmit(e) {
+  e.preventDefault();
+  
+  // Validate fields
+  var name = document.getElementById('f-name').value.trim();
+  var phone = document.getElementById('f-phone').value.trim();
+  var email = document.getElementById('f-email').value.trim();
+  var district = document.getElementById('f-district').value.trim();
+  var thana = document.getElementById('f-thana').value.trim();
+  var address = document.getElementById('f-address').value.trim();
+  
+  var hasError = false;
+  
+  if (!name) { setFieldStatus('f-name', false, 'নাম দিন'); hasError = true; }
+  else setFieldStatus('f-name', true, '');
+  
+  if (!phone) { setFieldStatus('f-phone', false, 'ফোন নম্বর দিন'); hasError = true; }
+  else if (!validatePhone(phone)) { setFieldStatus('f-phone', false, 'সঠিক নম্বর দিন (01XXXXXXXXX)'); hasError = true; }
+  else setFieldStatus('f-phone', true, '✓');
+  
+  if (!email) { setFieldStatus('f-email', false, 'ইমেইল দিন'); hasError = true; }
+  else if (!validateEmail(email)) { setFieldStatus('f-email', false, 'সঠিক ইমেইল'); hasError = true; }
+  else setFieldStatus('f-email', true, '✓');
+  
+  if (!district) { document.getElementById('f-district').classList.add('error'); hasError = true; }
+  else document.getElementById('f-district').classList.remove('error');
+  
+  if (!thana) { document.getElementById('f-thana').classList.add('error'); hasError = true; }
+  else document.getElementById('f-thana').classList.remove('error');
+  
+  if (!address) { document.getElementById('f-address').classList.add('error'); hasError = true; }
+  else document.getElementById('f-address').classList.remove('error');
+  
+  // Check if any products selected
+  var items = [];
+  for (var pid in quantities) {
+    if (quantities.hasOwnProperty(pid) && quantities[pid] > 0) {
+      items.push({ id: pid, qty: quantities[pid] });
+    }
+  }
+  if (items.length === 0) { toast('অনুগ্রহ করে অন্তত একটি আম নির্বাচন করুন', true); return; }
+  if (hasError) { toast('সব ঘর সঠিকভাবে পূরণ করুন', true); return; }
+  
+  // Disable button
+  var btn = document.getElementById('submit-btn');
+  var origHtml = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = 'সংযুক্ত হচ্ছে…';
+  
+  // Build payload - SAME STRUCTURE AS BEFORE
+  var payload = {
+    items: items,
+    cust_name: name,
+    cust_phone: phone,
+    cust_email: email,
+    district: district,
+    thana: thana,
+    address_detail: address,
+    fbp: getFbp(),
+    fbc: getFbc(),
+    event_id: 'ic-' + Date.now(),
+  };
+  
+  // SAME API CALL
+  fetch(API_BASE + '/initiate', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(payload),
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (data.payment_url) {
+      window.location.href = data.payment_url;
+    } else {
+      toast(data.error || 'পেমেন্ট ব্যর্থ। আবার চেষ্টা করুন।', true);
+      btn.disabled = false;
+      btn.innerHTML = origHtml;
+    }
+  })
+  .catch(function() {
+    toast('নেটওয়ার্ক ত্রুটি। আবার চেষ্টা করুন।', true);
+    btn.disabled = false;
+    btn.innerHTML = origHtml;
+  });
+}
+
+// Toast notification
+var _tt;
+function toast(msg, isErr) {
+  var el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = isErr ? 'err' : '';
+  el.classList.add('show');
+  clearTimeout(_tt);
+  _tt = setTimeout(function() { el.classList.remove('show'); }, 3000);
+}
+
+// Live validation
+function setupLiveValidation() {
+  var phoneEl = document.getElementById('f-phone');
+  var emailEl = document.getElementById('f-email');
+  
+  if (phoneEl) {
+    phoneEl.addEventListener('input', function() {
+      this.value = this.value.replace(/[^0-9]/g, '').slice(0, 11);
+      if (this.value.length > 0) {
+        if (validatePhone(this.value)) setFieldStatus('f-phone', true, '✓ সঠিক');
+        else setFieldStatus('f-phone', false, '01 দিয়ে শুরু, ১১ সংখ্যা');
+      } else setFieldStatus('f-phone', null, '');
+    });
+  }
+  if (emailEl) {
+    emailEl.addEventListener('input', function() {
+      if (this.value.length > 0) {
+        if (validateEmail(this.value)) setFieldStatus('f-email', true, '✓ সঠিক');
+        else setFieldStatus('f-email', false, 'সঠিক ইমেইল ফরম্যাট');
+      } else setFieldStatus('f-email', null, '');
+    });
+  }
+}
+
+// Initialize
+populateDistricts();
+renderProducts();
+setupLiveValidation();
+</script>
+</body>
+</html>

@@ -3,717 +3,705 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>আমবাড়ি — সাতক্ষীরার সেরা হিমসাগর আম</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <title>Urbor Essentials — রাজশাহীর প্রাকৃতিক আম</title>
+  
+  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            'mango-orange': '#E8910A',
-            'mango-yellow': '#F4C430',
-            'mango-ripe': '#FF9500',
-            'leaf-green': '#1B4D1B',
-            'leaf-light': '#2E7D32',
-            'cream': '#FFF8E7',
-            'cream-light': '#FFFBF0',
-            'muted': '#8B6F47',
+            'primary': '#166534',        // Green-800 - Dark forest green
+            'primary-dark': '#14532d',   // Green-900 - Darker green
+            'primary-light': '#f0fdf4',  // Green-50 - Very light green
+            'primary-accent': '#22c55e', // Green-500 - Bright green for accents
+            'secondary': '#16a34a',      // Green-600 - For savings
+            'text-dark': '#1f2937',      // Gray-800
+            'text-muted': '#6b7280',     // Gray-500
+            'border-light': '#e5e7eb',   // Gray-200
           },
           fontFamily: {
-            bengali: ['Noto Sans Bengali', 'DM Sans', 'sans-serif'],
-          },
-          animation: {
-            'float': 'float 4s ease-in-out infinite',
-            'pop': 'pop 0.25s ease',
-          },
-          keyframes: {
-            float: {
-              '0%, 100%': { transform: 'translateY(0)' },
-              '50%': { transform: 'translateY(-8px)' },
-            },
-            pop: {
-              '0%': { transform: 'scale(1)' },
-              '40%': { transform: 'scale(1.15)' },
-              '100%': { transform: 'scale(1)' },
-            }
+            'bengali': ['"Noto Sans Bengali"', 'sans-serif'],
+            'serif': ['"Cormorant Garamond"', 'Georgia', 'serif'],
           }
         }
       }
     }
   </script>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap');
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; -webkit-tap-highlight-color: transparent; }
-    body { font-family: 'Noto Sans Bengali', 'DM Sans', sans-serif; }
-    .product-card:hover .product-img img { transform: scale(1.05); }
-    button, a { touch-action: manipulation; }
-    body { overflow-x: hidden; }
-    .form-input.error { border-color: #EF4444 !important; box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15) !important; }
-    .form-input.valid { border-color: #22C55E !important; }
-    .form-hint { font-size: 0.75rem; margin-top: 0.25rem; }
-    .form-hint.error { color: #EF4444; }
-    .form-hint.valid { color: #22C55E; }
-    .qty-btn { width: 36px; height: 36px; border: 2px solid #F5DEB3; border-radius: 10px; background: white; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.1rem; color: #1B4D1B; transition: all 0.15s; }
-    .qty-btn:hover { border-color: #E8910A; color: #E8910A; background: #FFF8E7; }
-    .qty-btn:active { transform: scale(0.92); }
-    .qty-value { min-width: 40px; text-align: center; font-weight: 800; font-size: 1rem; color: #1B4D1B; }
-    .cart-item { background: white; border: 2px solid #F5DEB3; border-radius: 16px; padding: 16px; display: flex; gap: 16px; align-items: center; transition: all 0.2s; }
-    .cart-item:hover { border-color: #E8910A; box-shadow: 0 8px 24px rgba(232,145,10,0.1); }
-    @media (max-width: 640px) {
-      .cart-item { flex-direction: column; align-items: stretch; gap: 12px; padding: 12px; }
-      .cart-item .item-info { text-align: center; }
-      .cart-item .item-actions { justify-content: center; }
+    body { 
+      font-family: 'Noto Sans Bengali', sans-serif; 
+      background-color: #fafafa;
+      color: #1f2937;
+      min-height: 100vh;
+      overflow-x: hidden;
+      font-size: 15px;
+      line-height: 1.6;
     }
-    .page-section { display: none; }
-    .page-section.active { display: block; }
+    a { color: inherit; text-decoration: none; }
+    button { font-family: 'Noto Sans Bengali', sans-serif; cursor: pointer; border: none; }
+    img { display: block; max-width: 100%; }
+    textarea, input { font-family: 'Noto Sans Bengali', sans-serif; }
+    .page { display: none; }
+    .page.active { display: block; }
+    
+    /* Product card hover effects */
+    .product-card { 
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+    .product-card:hover { 
+      transform: translateY(-4px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+    
+    /* Toast */
+    #toast {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
+      background: #166534; color: white;
+      padding: 12px 28px; border-radius: 9999px;
+      font-size: 14px; font-weight: 500;
+      z-index: 100;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      pointer-events: none;
+      white-space: nowrap;
+      max-width: 90vw;
+      text-align: center;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+    }
+    #toast.show { transform: translateX(-50%) translateY(0); }
+    #toast.err { background: #dc2626; }
+    
+    /* Form focus */
+    .form-input:focus, .form-select:focus { 
+      border-color: #166534; 
+      box-shadow: 0 0 0 3px rgba(22, 101, 52, 0.15); 
+      outline: none;
+    }
+    
+    @media (max-width: 768px) {
+      .hero-grid { grid-template-columns: 1fr !important; }
+      .trust-grid { grid-template-columns: repeat(2, 1fr) !important; }
+      .footer-grid { grid-template-columns: 1fr !important; }
+    }
+    @media (max-width: 480px) {
+      .header-phone { display: none; }
+      .hero { padding: 24px 16px !important; }
+      .products, .trust, .cart-page { padding-left: 16px !important; padding-right: 16px !important; }
+    }
   </style>
-<base target="_blank">
+  <base target="_blank">
 </head>
-<body class="bg-cream text-[#2D1810] min-h-screen overflow-x-hidden">
+<body class="bg-gray-50">
 
-<!-- ═══════════════════════════════════════════════════════════════════════ -->
-<!--  SHARED HEADER                                                        -->
-<!-- ═══════════════════════════════════════════════════════════════════════ -->
-<header class="sticky top-0 z-30 bg-cream/95 backdrop-blur-md border-b border-[#F5DEB3]">
-  <div class="max-w-6xl mx-auto px-4 sm:px-8 h-[60px] sm:h-[72px] flex items-center justify-between">
-    <a href="#" onclick="goShop(event)" class="flex items-center gap-2 sm:gap-3 no-underline">
-      <div class="w-9 h-9 sm:w-11 sm:h-11 bg-gradient-to-br from-mango-orange to-mango-yellow rounded-xl flex items-center justify-center text-lg sm:text-xl shadow-[0_2px_8px_rgba(232,145,10,0.12)]">🥭</div>
+<!-- HEADER -->
+<header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-200">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+    <a href="#" onclick="goShop(event)" class="flex items-center gap-3">
+      <div class="w-10 h-10 bg-gradient-to-br from-green-700 to-emerald-600 rounded-xl flex items-center justify-center text-xl shadow-lg">🥭</div>
       <div>
-        <div class="font-bengali text-base sm:text-xl font-bold text-leaf-green tracking-tight">আমবাড়ি</div>
-        <div class="text-[0.65rem] sm:text-xs text-muted font-medium tracking-wider hidden sm:block">সাতক্ষীরার সেরা আম</div>
+        <div class="font-serif text-xl font-semibold tracking-tight text-gray-900">Urbor Essentials</div>
+        <div class="text-xs text-gray-500 -mt-0.5">রাজশাহীর প্রাকৃতিক আম</div>
       </div>
     </a>
-    <div class="flex items-center gap-3 sm:gap-5">
-      <a href="tel:01822916488" class="flex items-center gap-1 text-leaf-green text-sm font-bold no-underline">
-        <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-        <span class="hidden sm:inline">01822916488</span>
+    <div class="flex items-center gap-4">
+      <a href="tel:01822916488" class="hidden sm:flex items-center gap-1.5 text-sm text-gray-600 hover:text-green-700 transition-colors">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.18 11.8a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.09 1h3a2 2 0 0 1 2 1.72c.127.96.36 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 8.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.34 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        01822916488
       </a>
-      <button onclick="goCart()" class="flex items-center gap-1.5 sm:gap-2 bg-mango-orange text-white border-0 py-2 sm:py-2.5 px-3 sm:px-4.5 rounded-full font-bengali text-xs sm:text-sm font-bold cursor-pointer transition-all duration-200 shadow-[0_2px_12px_rgba(232,145,10,0.3)] hover:bg-mango-ripe hover:translate-y-[-1px] active:scale-95" id="cart-toggle-btn">
-        <span class="sm:hidden">🛒</span><span class="hidden sm:inline">🛒 কার্ট</span>
-        <span class="bg-leaf-green text-white text-[0.65rem] sm:text-xs font-bold py-0.5 px-1.5 sm:px-2 rounded-full min-w-[1.3rem] text-center" id="cart-count">0</span>
+      <button class="flex items-center gap-2 bg-green-800 text-white px-5 py-2.5 rounded-xl text-sm font-medium hover:bg-green-900 transition-all active:scale-95 shadow-lg shadow-green-800/20" onclick="goCart()" id="cart-toggle-btn">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        কার্ট
+        <span class="bg-white text-green-800 text-xs font-bold min-w-[22px] h-[22px] rounded-full flex items-center justify-center px-1.5" id="cart-count">0</span>
       </button>
     </div>
   </div>
 </header>
 
-<!-- ═══════════════════════════════════════════════════════════════════════ -->
-<!--  SHOP PAGE                                                            -->
-<!-- ═══════════════════════════════════════════════════════════════════════ -->
-<div id="page-shop" class="page-section active">
+<!-- SHOP PAGE -->
+<div id="page-shop" class="page active">
 
-<!-- Hero Section -->
-<section class="max-w-6xl mx-auto px-4 sm:px-8 py-8 sm:py-16 pb-8 sm:pb-12">
-  <div class="grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-8 sm:gap-12 items-center">
-    <div>
-      <p class="text-[0.65rem] sm:text-xs font-bold tracking-widest uppercase text-mango-orange mb-3 flex items-center gap-2">
-        <span class="w-6 h-0.5 bg-mango-orange rounded"></span>
-        <span class="flex-1 max-w-16 h-0.5 bg-mango-orange rounded opacity-40"></span>
-        <span class="truncate">সাতক্ষীরার মিষ্টি কন্যা বাগান থেকে</span>
-      </p>
-      <h1 class="font-bengali text-[1.8rem] sm:text-[clamp(2.2rem,4vw,3.2rem)] leading-tight font-bold text-leaf-green mb-4 sm:mb-5">
-        প্রাকৃতিকভাবে পাকা<br><span class="text-mango-orange font-extrabold">সুমিষ্ট হিমসাগর আম</span>
-      </h1>
-      <p class="text-muted text-sm sm:text-base leading-relaxed max-w-xl mb-5 sm:mb-7">
-        ১০০% ক্যামিক্যালমুক্ত হিমসাগর আম — সাতক্ষীরার নিজস্ব বাগান থেকে সরাসরি আপনার দরজায়। কোনো স্প্রে/কার্বাইড নেই, কোনো ভেজাল নেই।
-      </p>
-      <div class="flex gap-2 sm:gap-3 mb-5 sm:mb-6 flex-wrap">
-        <a href="#products" onclick="scrollToProducts(event)" class="bg-mango-orange text-white border-0 py-3 sm:py-3.5 px-5 sm:px-7 rounded-xl font-inherit text-[0.85rem] sm:text-[0.95rem] font-bold cursor-pointer transition-all duration-200 shadow-[0_4px_16px_rgba(232,145,10,0.3)] hover:bg-mango-ripe hover:translate-y-[-2px] hover:shadow-[0_6px_20px_rgba(232,145,10,0.4)] no-underline inline-flex items-center gap-1 active:scale-95">এখনই অর্ডার করুন →</a>
-        <a href="#products" onclick="scrollToProducts(event)" class="bg-transparent text-leaf-green border-2 border-[#E8D5B7] py-3 sm:py-3.5 px-5 sm:px-7 rounded-xl font-inherit text-[0.85rem] sm:text-[0.95rem] font-medium cursor-pointer transition-all duration-200 no-underline inline-flex items-center hover:border-mango-orange hover:text-mango-orange active:scale-95">প্যাকেজ দেখুন</a>
+  <!-- Hero -->
+  <section class="hero max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
+    <div class="hero-grid grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+      <div>
+        <p class="text-xs font-bold tracking-widest uppercase text-green-700 mb-3">রাজশাহী · প্রাকৃতিক স্বাদ</p>
+        <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-semibold leading-tight mb-5 text-gray-900">
+          ঐতিহ্যবাহী ও<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-green-700 to-emerald-600">প্রাকৃতিক স্বাদের আম</span>
+        </h1>
+        <p class="text-sm text-gray-600 leading-relaxed max-w-lg mb-7">
+          Urbor Essentials বাংলাদেশের ঐতিহ্যবাহী ও প্রাকৃতিক স্বাদের আম সবার কাছে পৌঁছে দেওয়ার লক্ষ্য নিয়ে যাত্রা শুরু করেছে। রাজশাহীর বাগান থেকে সংগ্রহ করা গাছপাকা, সম্পূর্ণ কার্বাইড ও ফরমালিন মুক্ত আম।
+        </p>
+        <div class="flex gap-3 flex-wrap mb-8">
+          <a href="#products" onclick="scrollToProducts(event)" class="bg-green-800 text-white px-7 py-3.5 rounded-xl text-sm font-medium hover:bg-green-900 transition-all active:scale-95 shadow-xl shadow-green-800/20">এখনই অর্ডার করুন</a>
+          <a href="#products" onclick="scrollToProducts(event)" class="bg-white text-gray-700 border-2 border-gray-200 px-7 py-3.5 rounded-xl text-sm font-medium hover:border-green-600 hover:text-green-700 transition-all">প্যাকেজ দেখুন</a>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <span class="text-xs text-gray-600 border border-gray-300 rounded-full px-4 py-1.5 bg-white">কার্বাইড মুক্ত</span>
+          <span class="text-xs text-gray-600 border border-gray-300 rounded-full px-4 py-1.5 bg-white">ফরমালিন মুক্ত</span>
+          <span class="text-xs text-gray-600 border border-gray-300 rounded-full px-4 py-1.5 bg-white">এক্সপোর্ট কোয়ালিটি</span>
+          <span class="text-xs text-gray-600 border border-gray-300 rounded-full px-4 py-1.5 bg-white">বাগান থেকে সরাসরি</span>
+        </div>
       </div>
-      <div class="flex flex-wrap gap-2 sm:gap-2.5">
-        <span class="text-xs sm:text-sm font-medium py-1.5 px-3 sm:px-4 rounded-full border border-[#F5DEB3] bg-white text-muted flex items-center gap-1">✦ ক্যারামিলমুকুট</span>
-        <span class="text-xs sm:text-sm font-medium py-1.5 px-3 sm:px-4 rounded-full border border-[#F5DEB3] bg-white text-muted flex items-center gap-1">✦ কিং চিলিগাজী</span>
-        <span class="text-xs sm:text-sm font-medium py-1.5 px-3 sm:px-4 rounded-full border border-[#F5DEB3] bg-white text-muted flex items-center gap-1">✦ কাশ জন লোলভাজী</span>
-        <span class="text-xs sm:text-sm font-medium py-1.5 px-3 sm:px-4 rounded-full border border-[#F5DEB3] bg-white text-muted flex items-center gap-1">✦ ৪৮ ঘণ্টা ডেলিভারি</span>
+      <div class="flex flex-col gap-3">
+        <img class="w-full aspect-[4/3] object-cover rounded-2xl shadow-2xl" src="https://images.unsplash.com/photo-1553279768-865429fa0078?w=800&q=80" alt="রাজশাহীর আম গাছে" />
+        <div class="grid grid-cols-2 gap-3">
+          <img class="w-full aspect-video object-cover rounded-xl shadow-lg" src="https://images.unsplash.com/photo-1623065422902-30a2d299bbe4?w=400&q=80" alt="কাটা আম" />
+          <img class="w-full aspect-video object-cover rounded-xl shadow-lg" src="https://images.unsplash.com/photo-1591073113125-e46713c829ed?w=400&q=80" alt="পাকা আম" />
+        </div>
       </div>
     </div>
-    <div class="relative">
-      <img class="w-full aspect-[4/3] object-cover rounded-xl sm:rounded-2xl shadow-[0_12px_40px_rgba(0,0,0,0.12)] sm:shadow-[0_20px_60px_rgba(0,0,0,0.12)]" src="https://images.unsplash.com/photo-1553279768-865429fa0078?w=800&q=80" alt="হিমসাগর আম গাছে" />
-      <div class="grid grid-cols-2 gap-2 sm:gap-3 mt-2 sm:mt-3">
-        <img src="https://images.unsplash.com/photo-1623065422902-30a2d299bbe4?w=400&q=80" alt="কাটা হিমসাগর আম" class="w-full aspect-[16/10] object-cover rounded-lg sm:rounded-xl shadow-[0_4px_16px_rgba(0,0,0,0.08)] sm:shadow-[0_8px_24px_rgba(0,0,0,0.08)]" />
-        <img src="https://images.unsplash.com/photo-1591073113125-e46713c829ed?w=400&q=80" alt="পাকা হিমসাগর আম" class="w-full aspect-[16/10] object-cover rounded-lg sm:rounded-xl shadow-[0_4px_16px_rgba(0,0,0,0.08)] sm:shadow-[0_8px_24px_rgba(0,0,0,0.08)]" />
+  </section>
+
+  <!-- Trust -->
+  <div class="trust max-w-7xl mx-auto px-4 sm:px-6 mb-12">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="bg-white p-6 rounded-2xl border border-gray-200 hover:border-green-300 transition-colors">
+        <div class="text-3xl mb-3">🌿</div>
+        <div class="text-sm font-semibold mb-1 text-gray-900">১০০% প্রাকৃতিক</div>
+        <div class="text-xs text-gray-500 leading-relaxed">কার্বাইড ও ফরমালিন মুক্ত, গাছপাকা আম</div>
       </div>
-      <div class="relative sm:absolute sm:bottom-[-1rem] sm:left-[-1rem] bg-white rounded-xl py-3 sm:py-4 px-4 sm:px-5 shadow-[0_8px_32px_rgba(0,0,0,0.12)] text-sm font-bold border border-[#F5DEB3] sm:animate-float z-10 mt-3 sm:mt-0">
-        <div class="text-muted text-xs mb-1">প্রতি কেজি</div>
-        <div class="text-mango-orange text-lg sm:text-xl font-extrabold">৳১৮০</div>
-        <div class="text-leaf-green text-xs mt-1">✓ স্টকে আছে</div>
+      <div class="bg-white p-6 rounded-2xl border border-gray-200 hover:border-green-300 transition-colors">
+        <div class="text-3xl mb-3">🏡</div>
+        <div class="text-sm font-semibold mb-1 text-gray-900">বাগান থেকে সরাসরি</div>
+        <div class="text-xs text-gray-500 leading-relaxed">রাজশাহীর বাগান থেকে ফ্রেশ অবস্থায় আপনার ঘরে</div>
+      </div>
+      <div class="bg-white p-6 rounded-2xl border border-gray-200 hover:border-green-300 transition-colors">
+        <div class="text-3xl mb-3">✓</div>
+        <div class="text-sm font-semibold mb-1 text-gray-900">এক্সপোর্ট কোয়ালিটি</div>
+        <div class="text-xs text-gray-500 leading-relaxed">আন্তর্জাতিক মান নিশ্চিত, সঠিক সময়ে সংগ্রহ</div>
+      </div>
+      <div class="bg-white p-6 rounded-2xl border border-gray-200 hover:border-green-300 transition-colors">
+        <div class="text-3xl mb-3">🤝</div>
+        <div class="text-sm font-semibold mb-1 text-gray-900">বিশ্বস্ত সরবরাহ</div>
+        <div class="text-xs text-gray-500 leading-relaxed">স্থানীয় কৃষকদের সাথে কাজ, নিরাপদ ও স্বাস্থ্যসম্মত</div>
       </div>
     </div>
   </div>
-</section>
 
-<!-- Trust Strip -->
-<div class="max-w-6xl mx-auto px-4 sm:px-8 mb-10 sm:mb-16">
-  <div class="grid grid-cols-2 lg:grid-cols-4 gap-px bg-[#F5DEB3] border border-[#F5DEB3] rounded-xl sm:rounded-2xl overflow-hidden">
-    <div class="bg-white p-4 sm:p-7 text-center transition-bg duration-200 hover:bg-cream-light">
-      <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-mango-yellow to-mango-orange rounded-xl flex items-center justify-center mx-auto mb-2 sm:mb-3 text-lg sm:text-xl">🌿</div>
-      <div class="text-xs sm:text-sm font-bold text-leaf-green mb-1">১০০% ক্যামিক্যালমুক্ত</div>
-      <div class="text-[0.65rem] sm:text-xs text-muted leading-relaxed">কোনো স্প্রে বা কার্বাইড ছাড়াই প্রাকৃতিকভাবে পাকানো</div>
+  <!-- Products -->
+  <div class="products max-w-7xl mx-auto px-4 sm:px-6 pb-20" id="products">
+    <div class="flex items-baseline justify-between pb-6 mb-8">
+      <h2 class="font-serif text-3xl font-semibold text-gray-900">Top Selling Products</h2>
+      <span class="text-sm text-gray-500" id="product-count"></span>
     </div>
-    <div class="bg-white p-4 sm:p-7 text-center transition-bg duration-200 hover:bg-cream-light">
-      <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-mango-yellow to-mango-orange rounded-xl flex items-center justify-center mx-auto mb-2 sm:mb-3 text-lg sm:text-xl">🚚</div>
-      <div class="text-xs sm:text-sm font-bold text-leaf-green mb-1">দ্রুত ডেলিভারি</div>
-      <div class="text-[0.65rem] sm:text-xs text-muted leading-relaxed">ঢাকায় ২৪-৪৮ ঘণ্টা, সারাদেশে ৩-৫ দিন</div>
+    <!-- 2 columns like reference image -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="product-grid"></div>
+  </div>
+
+</div>
+
+<!-- CART PAGE -->
+<div id="page-cart" class="page">
+  <div class="cart-page max-w-4xl mx-auto px-4 sm:px-6 py-12">
+    <h1 class="font-serif text-3xl font-semibold mb-2 text-gray-900">আপনার কার্ট</h1>
+    <p class="text-sm text-gray-500 mb-8" id="cart-summary">কার্টে কোনো পণ্য নেই</p>
+
+    <div class="cart-items flex flex-col gap-4 mb-8" id="cart-items"></div>
+
+    <div id="empty-state" class="empty-state text-center py-16" style="display:none">
+      <div class="text-6xl mb-4">🥭</div>
+      <p class="text-sm text-gray-500 mb-6">আপনার কার্ট এখনো খালি</p>
+      <button class="bg-green-800 text-white px-6 py-3 rounded-xl text-sm font-medium hover:bg-green-900 transition-all" onclick="goShop()">কেনাকাটা শুরু করুন</button>
     </div>
-    <div class="bg-white p-4 sm:p-7 text-center transition-bg duration-200 hover:bg-cream-light">
-      <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-mango-yellow to-mango-orange rounded-xl flex items-center justify-center mx-auto mb-2 sm:mb-3 text-lg sm:text-xl">🔒</div>
-      <div class="text-xs sm:text-sm font-bold text-leaf-green mb-1">নিরাপদ পেমেন্ট</div>
-      <div class="text-[0.65rem] sm:text-xs text-muted leading-relaxed">PayStation-এর মাধ্যমে নিরাপদ লেনদেন</div>
-    </div>
-    <div class="bg-white p-4 sm:p-7 text-center transition-bg duration-200 hover:bg-cream-light">
-      <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-mango-yellow to-mango-orange rounded-xl flex items-center justify-center mx-auto mb-2 sm:mb-3 text-lg sm:text-xl">↩️</div>
-      <div class="text-xs sm:text-sm font-bold text-leaf-green mb-1">৭ দিনের রিটার্ন</div>
-      <div class="text-[0.65rem] sm:text-xs text-muted leading-relaxed">খারাপ আম পেলে ফুল রিফান্ড</div>
+
+    <div id="checkout-section" style="display:none">
+      <div class="bg-white rounded-2xl border border-gray-200 p-6 mb-6">
+        <div class="text-xs font-bold tracking-widest uppercase text-gray-500 pb-4 mb-4 border-b border-gray-200">অর্ডার সারাংশ</div>
+        <div id="summary-lines"></div>
+        <div class="flex justify-between items-baseline pt-4 border-t border-gray-200 mt-4">
+          <span class="text-base font-semibold">মোট মূল্য</span>
+          <span class="font-serif text-3xl font-semibold text-green-700">৳<span id="final-total">0</span></span>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-2xl border border-gray-200 p-6">
+        <div class="text-xs font-bold tracking-widest uppercase text-gray-500 my-6 pt-6 border-t border-gray-200 first:mt-0 first:pt-0 first:border-t-0">ব্যক্তিগত তথ্য</div>
+        <div class="mb-4">
+          <label class="block text-xs font-semibold text-gray-700 mb-2">পুরো নাম *</label>
+          <input class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm" id="f-name" placeholder="রহিম উদ্দিন" />
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+          <div>
+            <label class="block text-xs font-semibold text-gray-700 mb-2">ফোন নম্বর *</label>
+            <input class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm" id="f-phone" placeholder="01XXXXXXXXX" maxlength="11" inputmode="numeric" />
+            <div class="text-xs mt-1" id="hint-phone"></div>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-700 mb-2">ইমেইল *</label>
+            <input class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm" id="f-email" type="email" placeholder="you@example.com" inputmode="email" />
+            <div class="text-xs mt-1" id="hint-email"></div>
+          </div>
+        </div>
+
+        <div class="text-xs font-bold tracking-widest uppercase text-gray-500 my-6 pt-6 border-t border-gray-200">ডেলিভারি ঠিকানা</div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+          <div>
+            <label class="block text-xs font-semibold text-gray-700 mb-2">জেলা *</label>
+            <select class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm" id="f-district" onchange="updateThanas()">
+              <option value="">জেলা নির্বাচন করুন</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-700 mb-2">থানা/উপজেলা *</label>
+            <select class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm" id="f-thana" disabled>
+              <option value="">প্রথমে জেলা নির্বাচন করুন</option>
+            </select>
+          </div>
+        </div>
+        <div class="mb-6">
+          <label class="block text-xs font-semibold text-gray-700 mb-2">বিস্তারিত ঠিকানা *</label>
+          <textarea class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm resize-none" id="f-address" rows="2" placeholder="বাড়ি নম্বর, রোড, এলাকা, ল্যান্ডমার্ক…"></textarea>
+        </div>
+
+        <button class="w-full bg-green-800 text-white py-4 rounded-xl text-sm font-medium transition-all flex items-center justify-center gap-2 hover:bg-green-900 active:scale-98 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-xl shadow-green-800/20" id="pay-btn" onclick="checkout()">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          PayStation-এ পেমেন্ট করুন
+        </button>
+        <p class="text-center text-xs text-gray-500 mt-3">SSL এনক্রিপ্টেড · PayStation BD · নিরাপদ লেনদেন</p>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- Products Section -->
-<div class="max-w-6xl mx-auto px-4 sm:px-8 pb-12 sm:pb-20" id="products">
-  <div class="flex items-end justify-between mb-6 sm:mb-10 pb-4 sm:pb-6 border-b-2 border-[#F5DEB3]">
-    <h2 class="font-bengali text-xl sm:text-2xl font-bold text-leaf-green">আমাদের আমের সংগ্রহ</h2>
-    <span class="text-xs sm:text-sm text-muted font-medium" id="product-count"></span>
-  </div>
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6" id="product-grid"></div>
-</div>
-
-</div><!-- /page-shop -->
-
-<!-- ═══════════════════════════════════════════════════════════════════════ -->
-<!--  CART PAGE                                                            -->
-<!-- ═══════════════════════════════════════════════════════════════════════ -->
-<div id="page-cart" class="page-section">
-<main class="max-w-4xl mx-auto px-4 sm:px-8 py-6 sm:py-10">
-
-  <h1 class="font-bengali text-2xl sm:text-3xl font-bold text-leaf-green mb-2">🛒 আপনার কার্ট</h1>
-  <p class="text-muted text-sm sm:text-base mb-6 sm:mb-8" id="cart-summary">কার্ট খালি</p>
-
-  <!-- Cart Items -->
-  <div id="cart-items" class="space-y-3 sm:space-y-4 mb-8 sm:mb-10"></div>
-
-  <!-- Empty State -->
-  <div id="empty-state" class="text-center py-16 hidden">
-    <div class="text-[5rem] mb-4">🥭</div>
-    <p class="text-muted text-lg mb-4">আপনার কার্ট খালি</p>
-    <button onclick="goShop()" class="inline-flex items-center gap-2 bg-mango-orange text-white border-0 py-3 px-6 rounded-xl font-bold text-sm cursor-pointer transition-all duration-200 shadow-[0_4px_16px_rgba(232,145,10,0.3)] hover:bg-mango-ripe hover:translate-y-[-2px]">🛍️ কেনাকাটা করুন</button>
-  </div>
-
-  <!-- Order Summary + Checkout Form -->
-  <div id="checkout-section" class="hidden">
-
-    <!-- Order Summary Card -->
-    <div class="bg-white border-2 border-[#F5DEB3] rounded-2xl p-5 sm:p-6 mb-6 sm:mb-8">
-      <h2 class="font-bengali text-lg sm:text-xl font-bold text-leaf-green mb-4 pb-3 border-b-2 border-[#F5DEB3]">📋 অর্ডার সারাংশ</h2>
-      <div id="summary-lines" class="space-y-2 mb-4"></div>
-      <div class="flex justify-between items-center pt-4 border-t-2 border-[#F5DEB3]">
-        <span class="font-bold text-leaf-green text-base sm:text-lg">মোট মূল্য</span>
-        <span class="font-bengali text-2xl sm:text-3xl font-extrabold text-mango-orange">৳<span id="final-total">0</span></span>
+<!-- FOOTER -->
+<footer class="bg-green-900 text-gray-300 py-12 px-4 sm:px-6">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-8">
+      <div>
+        <div class="font-serif text-lg text-white mb-3">🥭 Urbor Essentials</div>
+        <p class="text-sm leading-relaxed text-gray-400">রাজশাহীর হারিয়ে যাওয়া ঐতিহ্যবাহী আমের আসল স্বাদকে আবার মানুষের কাছে ফিরিয়ে আনা। বাগান থেকে সরাসরি আপনার ঘরে — ফ্রেশ, নিরাপদ ও আসল স্বাদের আম।</p>
+      </div>
+      <div>
+        <div class="text-xs font-bold tracking-widest uppercase text-green-700 mb-4">যোগাযোগ</div>
+        <ul class="space-y-2 text-sm">
+          <li>📞 01822916488</li>
+          <li>📧 info@urboressentials.com</li>
+          <li>📍 রাজশাহী, বাংলাদেশ</li>
+        </ul>
+      </div>
+      <div>
+        <div class="text-xs font-bold tracking-widest uppercase text-green-700 mb-4">দ্রুত লিংক</div>
+        <ul class="space-y-2 text-sm">
+          <li><a href="#" onclick="goShop(event)" class="text-gray-400 hover:text-white transition-colors">আমের সংগ্রহ</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-white transition-colors">ডেলিভারি নীতি</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-white transition-colors">রিফান্ড নীতি</a></li>
+        </ul>
       </div>
     </div>
-
-    <!-- Checkout Form -->
-    <div class="bg-white border-2 border-[#F5DEB3] rounded-2xl p-5 sm:p-6">
-      <h2 class="font-bengali text-lg sm:text-xl font-bold text-leaf-green mb-5 pb-3 border-b-2 border-[#F5DEB3]">📝 চেকআউট</h2>
-
-      <div class="grid gap-3 sm:gap-4">
-        <div>
-          <label class="text-[0.75rem] sm:text-[0.8rem] font-bold tracking-wide uppercase text-muted mb-1.5 block">পুরো নাম *</label>
-          <input class="form-input w-full bg-cream-light border-2 border-[#F5DEB3] rounded-xl px-4 py-3 font-inherit text-sm sm:text-base text-[#2D1810] outline-none transition-all duration-200 focus:border-mango-orange focus:shadow-[0_0_0_4px_rgba(232,145,10,0.1)] placeholder-[#C4B5A0]" id="f-name" placeholder="রহিম উদ্দিন" />
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-          <div>
-            <label class="text-[0.75rem] sm:text-[0.8rem] font-bold tracking-wide uppercase text-muted mb-1.5 block">ফোন নম্বর *</label>
-            <input class="form-input w-full bg-cream-light border-2 border-[#F5DEB3] rounded-xl px-4 py-3 font-inherit text-sm sm:text-base text-[#2D1810] outline-none transition-all duration-200 focus:border-mango-orange focus:shadow-[0_0_0_4px_rgba(232,145,10,0.1)] placeholder-[#C4B5A0]" id="f-phone" placeholder="01XXXXXXXXX" maxlength="11" inputmode="numeric" />
-            <div class="form-hint" id="hint-phone"></div>
-          </div>
-          <div>
-            <label class="text-[0.75rem] sm:text-[0.8rem] font-bold tracking-wide uppercase text-muted mb-1.5 block">ইমেইল *</label>
-            <input class="form-input w-full bg-cream-light border-2 border-[#F5DEB3] rounded-xl px-4 py-3 font-inherit text-sm sm:text-base text-[#2D1810] outline-none transition-all duration-200 focus:border-mango-orange focus:shadow-[0_0_0_4px_rgba(232,145,10,0.1)] placeholder-[#C4B5A0]" id="f-email" type="email" placeholder="you@example.com" inputmode="email" />
-            <div class="form-hint" id="hint-email"></div>
-          </div>
-        </div>
-
-        <div class="text-[0.75rem] sm:text-[0.8rem] font-bold tracking-wider uppercase text-leaf-green py-3 pb-2 border-t-2 border-[#F5DEB3] mt-2">📍 ডেলিভারি ঠিকানা</div>
-
-        <div class="grid grid-cols-2 gap-3 sm:gap-4">
-          <div>
-            <label class="text-[0.75rem] sm:text-[0.8rem] font-bold tracking-wide uppercase text-muted mb-1.5 block">বিভাগ *</label>
-            <input class="form-input w-full bg-cream-light border-2 border-[#F5DEB3] rounded-xl px-4 py-3 font-inherit text-sm sm:text-base text-[#2D1810] outline-none transition-all duration-200 focus:border-mango-orange focus:shadow-[0_0_0_4px_rgba(232,145,10,0.1)] placeholder-[#C4B5A0]" id="f-division" placeholder="যেমন: ঢাকা" />
-          </div>
-          <div>
-            <label class="text-[0.75rem] sm:text-[0.8rem] font-bold tracking-wide uppercase text-muted mb-1.5 block">জেলা *</label>
-            <input class="form-input w-full bg-cream-light border-2 border-[#F5DEB3] rounded-xl px-4 py-3 font-inherit text-sm sm:text-base text-[#2D1810] outline-none transition-all duration-200 focus:border-mango-orange focus:shadow-[0_0_0_4px_rgba(232,145,10,0.1)] placeholder-[#C4B5A0]" id="f-jela" placeholder="যেমন: সাতক্ষীরা" />
-          </div>
-        </div>
-
-        <div class="grid grid-cols-2 gap-3 sm:gap-4">
-          <div>
-            <label class="text-[0.75rem] sm:text-[0.8rem] font-bold tracking-wide uppercase text-muted mb-1.5 block">উপজেলা *</label>
-            <input class="form-input w-full bg-cream-light border-2 border-[#F5DEB3] rounded-xl px-4 py-3 font-inherit text-sm sm:text-base text-[#2D1810] outline-none transition-all duration-200 focus:border-mango-orange focus:shadow-[0_0_0_4px_rgba(232,145,10,0.1)] placeholder-[#C4B5A0]" id="f-upojela" placeholder="যেমন: তালা" />
-          </div>
-          <div>
-            <label class="text-[0.75rem] sm:text-[0.8rem] font-bold tracking-wide uppercase text-muted mb-1.5 block">থানা *</label>
-            <input class="form-input w-full bg-cream-light border-2 border-[#F5DEB3] rounded-xl px-4 py-3 font-inherit text-sm sm:text-base text-[#2D1810] outline-none transition-all duration-200 focus:border-mango-orange focus:shadow-[0_0_0_4px_rgba(232,145,10,0.1)] placeholder-[#C4B5A0]" id="f-thana" placeholder="যেমন: তালা" />
-          </div>
-        </div>
-
-        <div>
-          <label class="text-[0.75rem] sm:text-[0.8rem] font-bold tracking-wide uppercase text-muted mb-1.5 block">বিস্তারিত ঠিকানা *</label>
-          <textarea class="form-input w-full bg-cream-light border-2 border-[#F5DEB3] rounded-xl px-4 py-3 font-inherit text-sm sm:text-base text-[#2D1810] outline-none transition-all duration-200 focus:border-mango-orange focus:shadow-[0_0_0_4px_rgba(232,145,10,0.1)] placeholder-[#C4B5A0] resize-none" id="f-address" rows="2" placeholder="বাড়ি নম্বর, রোড, এলাকা, ল্যান্ডমার্ক..."></textarea>
-        </div>
-      </div>
-
-      <button class="pay-btn w-full mt-5 sm:mt-6 bg-gradient-to-br from-mango-orange to-mango-ripe text-white border-0 py-4 px-4 rounded-xl font-inherit text-base sm:text-lg font-bold tracking-wide cursor-pointer transition-all duration-200 flex items-center justify-center gap-2 shadow-[0_4px_16px_rgba(232,145,10,0.3)] hover:translate-y-[-2px] hover:shadow-[0_6px_24px_rgba(232,145,10,0.4)] disabled:opacity-55 disabled:cursor-not-allowed active:scale-[0.98]" id="pay-btn" onclick="checkout()">🔒 PayStation-এ পেমেন্ট করুন</button>
-      <div class="text-center text-xs text-muted mt-3 flex items-center justify-center gap-1">🛡️ SSL এনক্রিপ্টেড · PayStation BD</div>
-    </div>
+    <div class="border-t border-green-800 pt-6 text-xs text-gray-500">© ২০২৬ Urbor Essentials — রাজশাহীর প্রাকৃতিক আম</div>
   </div>
-</main>
-</div><!-- /page-cart -->
-
-<!-- ═══════════════════════════════════════════════════════════════════════ -->
-<!--  SHARED FOOTER                                                        -->
-<!-- ═══════════════════════════════════════════════════════════════════════ -->
-<footer class="bg-leaf-green text-white py-8 sm:py-10 px-4 sm:px-8 mt-8 sm:mt-12">
-  <div class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8">
-    <div>
-      <div class="font-bengali text-base sm:text-lg font-bold mb-2">🥭 আমবাড়ি</div>
-      <p class="text-xs sm:text-sm opacity-80 leading-relaxed">সাতক্ষীরার নিজস্ব বাগান থেকে সরাসরি আপনার দরজায় সুমিষ্ট হিমসাগর আম। প্রাকৃতিক পদ্ধতিতে চাষ, কোনো রাসায়নিক মিশ্রণ নেই।</p>
-    </div>
-    <div>
-      <div class="text-xs font-bold tracking-widest uppercase mb-3 opacity-90">যোগাযোগ</div>
-      <ul class="list-none text-sm">
-        <li class="mb-2">📞 01822916488</li>
-        <li class="mb-2">📧 hello@ambari.bd</li>
-        <li>📍 তালা, সাতক্ষীরা</li>
-      </ul>
-    </div>
-    <div>
-      <div class="text-xs font-bold tracking-widest uppercase mb-3 opacity-90">দ্রুত লিংক</div>
-      <ul class="list-none">
-        <li class="mb-2"><a href="#" onclick="goShop(event)" class="text-white/75 no-underline text-sm transition-colors duration-200 hover:text-mango-yellow">আমের সংগ্রহ</a></li>
-        <li class="mb-2"><a href="#" class="text-white/75 no-underline text-sm transition-colors duration-200 hover:text-mango-yellow">ডেলিভারি নীতি</a></li>
-        <li><a href="#" class="text-white/75 no-underline text-sm transition-colors duration-200 hover:text-mango-yellow">রিফান্ড নীতি</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="max-w-6xl mx-auto pt-5 sm:pt-6 mt-5 sm:mt-6 border-t border-white/15 text-center text-xs opacity-60">© ২০২৬ আমবাড়ি — সাতক্ষীরার সেরা হিমসাগর আম</div>
 </footer>
 
-<!-- Toast -->
-<div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 translate-y-24 py-3 px-5 sm:py-3.5 sm:px-7 rounded-full text-sm font-medium z-50 transition-transform duration-300 pointer-events-none whitespace-nowrap shadow-[0_4px_20px_rgba(0,0,0,0.18)] max-w-[90vw] text-center"></div>
+<div id="toast"></div>
 
 <script>
-// ═══════════════════════════════════════════════════════════════════════════
-//  CONFIG & DATA
-// ═══════════════════════════════════════════════════════════════════════════
 var API_BASE = "/api";
 
 var PRODUCTS = {
-  p1: { name: "হিমসাগর আম — প্রিমিয়াম",     price: 180, image: "https://images.unsplash.com/photo-1623065422902-30a2d299bbe4?w=600&q=80", desc: "সাতক্ষীরার বিখ্যাত হিমসাগর, মিষ্টি ও সুগন্ধি। প্রতি কেজি।", label: "বেস্টসেলার" },
-  p2: { name: "ক্যারামিলমুকুট আম",           price: 220, image: "https://images.unsplash.com/photo-1591073113125-e46713c829ed?w=600&q=80", desc: "গাঢ় ক্যারামেল স্বাদের আম, বিরল প্রজাতি। প্রতি কেজি।", label: "নতুন" },
-  p3: { name: "কিং চিলিগাজী আম",             price: 200, image: "https://images.unsplash.com/photo-1553279768-865429fa0078?w=600&q=80", desc: "রাজকীয় আকার ও স্বাদ, চিলিগাজীর সেরা বাগান থেকে। প্রতি কেজি।", label: "জনপ্রিয়" },
-  p4: { name: "কাশ জন লোলভাজী আম",          price: 250, image: "https://images.unsplash.com/photo-1601493700631-2b16ec4b4716?w=600&q=80", desc: "বিরল লোলভাজী প্রজাতি, মধু-মিষ্টি স্বাদ। প্রতি কেজি।", label: "নতুন" },
-  p5: { name: "হিমসাগর আম — ফ্যামিলি প্যাক", price: 850, image: "https://images.unsplash.com/photo-1557800636-894a64c1696f?w=600&q=80", desc: "৫ কেজি ফ্যামিলি প্যাক, বিশেষ ডিসকাউন্টে।", label: "ফ্যামিলি" },
-  p6: { name: "আমের আচার — হাতে তৈরি",      price: 350, image: "https://images.unsplash.com/photo-1596450531560-95a459f72c0c?w=600&q=80", desc: "পাকা আমের ঐতিহ্যবাহী আচার, কোনো প্রিজারভেটিভ নেই। ৫০০গ্রাম।", label: "নতুন" },
-  p7: { name: "আমের জুস — তাজা",             price: 180, image: "https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=600&q=80", desc: "তাজা হিমসাগর আমের জুস, কোনো চিনি মিশ্রিত নয়। ১ লিটার।", label: "তাজা" },
-  p8: { name: "আমের সরবত কনসেনট্রেট",       price: 280, image: "https://images.unsplash.com/photo-1546173159-315724a31696?w=600&q=80", desc: "ঘন সরবত কনসেনট্রেট, পানিতে মিশিয়ে খান। ৫০০মিলি।", label: "নতুন" },
+  p1: { name: "হিমসাগর আম — প্রিমিয়াম", price: 180, originalPrice: 220, image: "https://lst-mu.vercel.app/images/image.png", desc: "রাজশাহীর বিখ্যাত হিমসাগর, মিষ্টি ও সুগন্ধি। প্রতি কেজি।", label: "Best Selling", bestSeller: true },
+  p2: { name: "ল্যাংড়া আম", price: 220, originalPrice: 280, image: "https://lst-mu.vercel.app/images/image.png", desc: "রাজশাহীর ঐতিহ্যবাহী ল্যাংড়া, টক-মিষ্টি স্বাদ। প্রতি কেজি।", label: "Best Selling", bestSeller: true },
+  p3: { name: "ফজলি আম", price: 200, originalPrice: 250, image: "https://lst-mu.vercel.app/images/image.png", desc: "বড় আকারের ফজলি, রাজশাহীর সেরা বাগান থেকে।", label: "Best Selling", bestSeller: true },
+  p4: { name: "আম্রপালি আম", price: 250, originalPrice: 300, image: "https://lst-mu.vercel.app/images/image.png", desc: "মিষ্টি ও রসালো আম্রপালি, প্রতি কেজি।", label: "Best Selling", bestSeller: true },
+  p5: { name: "হিমসাগর — ফ্যামিলি প্যাক", price: 850, originalPrice: 1100, image: "https://lst-mu.vercel.app/images/image.png", desc: "৫ কেজি ফ্যামিলি প্যাক, বিশেষ ডিসকাউন্টে।", label: "", bestSeller: false },
+  p6: { name: "আমের আচার — হাতে তৈরি", price: 350, originalPrice: 420, image: "https://lst-mu.vercel.app/images/image.png", desc: "পাকা আমের ঐতিহ্যবাহী আচার, কোনো প্রিজারভেটিভ নেই। ৫০০গ্রাম।", label: "Best Selling", bestSeller: true },
+  p7: { name: "আমের জুস — তাজা", price: 180, originalPrice: 220, image: "https://lst-mu.vercel.app/images/image.png", desc: "তাজা রাজশাহী আমের জুস, কোনো চিনি মিশ্রিত নয়। ১ লিটার।", label: "", bestSeller: false },
+  p8: { name: "আমের সরবত কনসেনট্রেট", price: 280, originalPrice: 350, image: "https://lst-mu.vercel.app/images/image.png", desc: "ঘন সরবত কনসেনট্রেট, পানিতে মিশিয়ে খান। ৫০০মিলি।", label: "Best Selling", bestSeller: true },
+};
+
+var districtsData = {
+  "Bagerhat": ["Bagerhat Sadar", "Chitalmari", "Fakirhat", "Kachua", "Mollahat", "Mongla", "Morrelganj", "Rampal", "Sarankhola"],
+  "Bandarban": ["Bandarban Sadar", "Ali Kadam", "Lama", "Naikhongchhari", "Rowangchhari", "Ruma", "Thanchi"],
+  "Barguna": ["Barguna Sadar", "Amtali", "Bamna", "Betagi", "Patharghata", "Taltali"],
+  "Barisal": ["Barisal Sadar", "Agailjhara", "Babuganj", "Bakerganj", "Banaripara", "Gaurnadi", "Hizla", "Mehendiganj", "Muladi", "Wazirpur"],
+  "Bhola": ["Bhola Sadar", "Burhanuddin", "Char Fasson", "Daulatkhan", "Lalmohan", "Manpura", "Tazumuddin"],
+  "Bogura": ["Bogura Sadar", "Adamdighi", "Dhunat", "Dhupchanchia", "Gabtali", "Kahaloo", "Nandigram", "Sahajanpur", "Sherpur", "Shibganj", "Sonatola"],
+  "Brahmanbaria": ["Brahmanbaria Sadar", "Akhaura", "Ashuganj", "Bijoynagar", "Kasba", "Nasirnagar", "Nabinagar", "Sarail"],
+  "Chandpur": ["Chandpur Sadar", "Faridganj", "Haimchar", "Haziganj", "Kachua", "Matlab North", "Matlab South", "Shahrasti"],
+  "Chapainawabganj": ["Chapainawabganj Sadar", "Bholahat", "Gomastapur", "Nachole", "Shibganj"],
+  "Chattogram": ["Chattogram Sadar", "Anwara", "Banshkhali", "Boalkhali", "Chandanaish", "Fatikchhari", "Hathazari", "Lohagara", "Mirsharai", "Patiya", "Rangunia", "Raozan", "Sandwip", "Satkania", "Sitakunda"],
+  "Chuadanga": ["Chuadanga Sadar", "Alamdanga", "Damurhuda", "Jibannagar"],
+  "Comilla": ["Comilla Sadar", "Barura", "Brahmanpara", "Burichong", "Chandina", "Chauddagram", "Daudkandi", "Debidwar", "Homna", "Laksam", "Monoharganj", "Muradnagar", "Nangalkot", "Titas"],
+  "Cox's Bazar": ["Cox's Bazar Sadar", "Chakaria", "Eidgaon", "Kutubdia", "Maheshkhali", "Pekua", "Ramu", "Teknaf", "Ukhiya"],
+  "Dhaka": ["Dhaka Sadar", "Dhamrai", "Dohar", "Keraniganj", "Nawabganj", "Savar"],
+  "Dinajpur": ["Dinajpur Sadar", "Birampur", "Biral", "Birganj", "Bochaganj", "Chirirbandar", "Fulbari", "Ghoraghat", "Hakimpur", "Kaharole", "Khansama", "Nawabganj", "Parbatipur"],
+  "Faridpur": ["Faridpur Sadar", "Alfadanga", "Bhanga", "Boalmari", "Charbhadrasan", "Madhukhali", "Nagarkanda", "Sadarpur"],
+  "Feni": ["Feni Sadar", "Chhagalnaiya", "Daganbhuiyan", "Fulgazi", "Parshuram", "Sonagazi"],
+  "Gaibandha": ["Gaibandha Sadar", "Fulchhari", "Gobindaganj", "Palashbari", "Sadullapur", "Saghata", "Sundarganj"],
+  "Gazipur": ["Gazipur Sadar", "Kaliakair", "Kaliganj", "Kapasia", "Sreepur"],
+  "Gopalganj": ["Gopalganj Sadar", "Kashiani", "Kotalipara", "Muksudpur", "Tungipara"],
+  "Habiganj": ["Habiganj Sadar", "Ajmiriganj", "Bahubal", "Baniachong", "Chunarughat", "Lakhai", "Madhabpur", "Nabiganj"],
+  "Jamalpur": ["Jamalpur Sadar", "Bakshiganj", "Dewanganj", "Islampur", "Madarganj", "Melandaha", "Sarishabari"],
+  "Jashore": ["Jashore Sadar", "Abhaynagar", "Bagherpara", "Chaugachha", "Jhikargacha", "Keshabpur", "Manirampur", "Sharsha"],
+  "Jhalakathi": ["Jhalakathi Sadar", "Kathalia", "Nalchity", "Rajapur"],
+  "Jhenaidah": ["Jhenaidah Sadar", "Harinakunda", "Kaliganj", "Kotchandpur", "Maheshpur", "Shailkupa"],
+  "Joypurhat": ["Joypurhat Sadar", "Akkelpur", "Kalai", "Khetlal", "Panchbibi"],
+  "Khagrachhari": ["Khagrachhari Sadar", "Dighinala", "Lakshmichhari", "Mahalchhari", "Manikchhari", "Matiranga", "Panchhari", "Ramgarh"],
+  "Khulna": ["Khulna Sadar", "Batiaghata", "Dacope", "Dumuria", "Koyra", "Paikgachha", "Phultala", "Rupsa", "Terokhada"],
+  "Kishoreganj": ["Pakundia", "Kishoreganj Sadar", "Austagram", "Bajitpur", "Bhairab", "Hossainpur", "Itna", "Karimganj", "Katiadi", "Kuliar Char", "Mithamain", "Nikli", "Tarail"],
+  "Kurigram": ["Kurigram Sadar", "Bhurungamari", "Chilmari", "Nageshwari", "Rajarhat", "Raomari", "Ulipur"],
+  "Kushtia": ["Kushtia Sadar", "Bheramara", "Daulatpur", "Khoksa", "Kumarkhali", "Mirpur"],
+  "Lakshmipur": ["Lakshmipur Sadar", "Kamalnagar", "Ramganj", "Raipur"],
+  "Lalmonirhat": ["Lalmonirhat Sadar", "Aditmari", "Hatibandha", "Kaliganj", "Patgram"],
+  "Madaripur": ["Madaripur Sadar", "Kalkini", "Rajoir", "Shibchar"],
+  "Magura": ["Magura Sadar", "Mohammadpur", "Shalikha", "Sreepur"],
+  "Moulvibazar": ["Moulvibazar Sadar", "Barlekha", "Juri", "Kamalganj", "Kulaura", "Rajnagar", "Sreemangal"],
+  "Munshiganj": ["Munshiganj Sadar", "Gazaria", "Lohajang", "Serajdikhan", "Sreenagar", "Tongibari"],
+  "Mymensingh": ["Mymensingh Sadar", "Bhaluka", "Dhobaura", "Fulbaria", "Gaffargaon", "Gauripur", "Haluaghat", "Ishwarganj", "Muktagachha", "Nandail", "Phulpur", "Trishal"],
+  "Naogaon": ["Naogaon Sadar", "Atrai", "Badalgachhi", "Dhamoirhat", "Manda", "Mohadevpur", "Niamatpur", "Patnitala", "Porsha", "Sapahar"],
+  "Narail": ["Narail Sadar", "Kalia", "Lohagara"],
+  "Narayanganj": ["Narayanganj Sadar", "Araihazar", "Bandar", "Rupganj", "Sonargaon"],
+  "Narsingdi": ["Narsingdi Sadar", "Belabo", "Monohardi", "Palash", "Roypura", "Shibpur"],
+  "Natore": ["Natore Sadar", "Baraigram", "Bagatipara", "Gurudaspur", "Lalpur", "Singra"],
+  "Netrokona": ["Netrokona Sadar", "Atpara", "Barhatta", "Durgapur", "Kalmakanda", "Kendua", "Khaliajuri", "Madan", "Mohanganj", "Purbadhala"],
+  "Nilphamari": ["Nilphamari Sadar", "Dimla", "Domar", "Jaldhaka", "Kishoreganj", "Saidpur"],
+  "Noakhali": ["Noakhali Sadar", "Begumganj", "Chatkhil", "Companiganj", "Hatiya", "Kabirhat", "Senbagh", "Sonaimuri", "Subarnachar"],
+  "Pabna": ["Pabna Sadar", "Atgharia", "Bera", "Bhangura", "Chatmohar", "Faridpur", "Ishwardi", "Santhia", "Sujanagar"],
+  "Panchagarh": ["Panchagarh Sadar", "Atwari", "Boda", "Debiganj", "Tentulia"],
+  "Patuakhali": ["Patuakhali Sadar", "Bauphal", "Dashmina", "Dumki", "Galachipa", "Kalapara", "Mirzaganj", "Rangabali"],
+  "Pirojpur": ["Pirojpur Sadar", "Bhandaria", "Indurkani", "Kawkhali", "Mathbaria", "Nazirpur", "Nesarabad (Swarupkati)"],
+  "Rajbari": ["Rajbari Sadar", "Baliakandi", "Goalanda", "Kalukhali", "Pangsha"],
+  "Rajshahi": ["Rajshahi Sadar", "Bagha", "Bagmara", "Charghat", "Durgapur", "Godagari", "Mohonpur", "Paba", "Puthia", "Tanore"],
+  "Rangamati": ["Rangamati Sadar", "Barkal", "Belaichhari", "Juraichhari", "Kaptai", "Kawkhali", "Langadu", "Naniarchar", "Rajasthali"],
+  "Rangpur": ["Rangpur Sadar", "Badarganj", "Gangachara", "Kaunia", "Mithapukur", "Pirgachha", "Pirganj", "Taraganj"],
+  "Satkhira": ["Satkhira Sadar", "Assasuni", "Debhata", "Kalaroa", "Kaliganj", "Shyamnagar", "Tala"],
+  "Shariatpur": ["Shariatpur Sadar", "Damudya", "Gosairhat", "Naria", "Zanjira"],
+  "Sherpur": ["Sherpur Sadar", "Jhenaigati", "Nakla", "Nalitabari", "Sreebardi"],
+  "Sirajganj": ["Sirajganj Sadar", "Belkuchi", "Chauhali", "Kamarkhanda", "Kazipur", "Raiganj", "Shahjadpur", "Tarash", "Ullahpara"],
+  "Sunamganj": ["Sunamganj Sadar", "Bishwambarpur", "Chhatak", "Dakshin Sunamganj", "Derai", "Dharmapasha", "Dowarabazar", "Jagannathpur", "Jamalganj", "Sulla"],
+  "Sylhet": ["Sylhet Sadar", "Balaganj", "Beanibazar", "Bishwanath", "Companiganj", "Fenchuganj", "Golapganj", "Gowainghat", "Jaintiapur", "Kanaighat", "Zakiganj"],
+  "Tangail": ["Tangail Sadar", "Basail", "Bhuapur", "Delduar", "Dhanbari", "Ghatail", "Gopalpur", "Kalihati", "Madhupur", "Mirzapur", "Nagarpur", "Sakhipur"],
+  "Thakurgaon": ["Thakurgaon Sadar", "Baliadangi", "Haripur", "Pirganj", "Ranishankail"]
 };
 
 var cart = {};
-
-// ═══════════════════════════════════════════════════════════════════════════
-//  ROUTING - SPA-style page switching (no page reload, no storage needed)
-// ═══════════════════════════════════════════════════════════════════════════
 var currentPage = 'shop';
 
 function showPage(page) {
   currentPage = page;
-  var shopSection = document.getElementById('page-shop');
-  var cartSection = document.getElementById('page-cart');
-
-  if (page === 'cart') {
-    shopSection.classList.remove('active');
-    cartSection.classList.add('active');
-    window.scrollTo(0, 0);
-    renderCart();
-  } else {
-    cartSection.classList.remove('active');
-    shopSection.classList.add('active');
-    window.scrollTo(0, 0);
-  }
+  document.getElementById('page-shop').classList.toggle('active', page === 'shop');
+  document.getElementById('page-cart').classList.toggle('active', page === 'cart');
+  window.scrollTo(0, 0);
+  if (page === 'cart') renderCart();
 }
-
-function goShop(e) {
-  if (e) e.preventDefault();
-  showPage('shop');
-}
-
-function goCart() {
-  showPage('cart');
-}
-
+function goShop(e) { if (e) e.preventDefault(); showPage('shop'); }
+function goCart() { showPage('cart'); }
 function scrollToProducts(e) {
   if (e) e.preventDefault();
   showPage('shop');
-  setTimeout(function() {
-    var el = document.getElementById('products');
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
-  }, 50);
+  setTimeout(function() { var el = document.getElementById('products'); if (el) el.scrollIntoView({ behavior: 'smooth' }); }, 50);
 }
 
-// ═══════════════════════════════════════════════════════════════════════════
-//  CART LOGIC
-// ═══════════════════════════════════════════════════════════════════════════
 function addToCart(pid) {
   cart[pid] = (cart[pid] || 0) + 1;
   refreshCount();
-  toast('🥭 ' + PRODUCTS[pid].name + ' কার্টে যোগ করা হয়েছে!');
-  popBtn();
+  renderProducts(); // Re-render to show quantity control
+  toast('✓ ' + PRODUCTS[pid].name + ' কার্টে যোগ হয়েছে');
 }
-
 function buyNow(pid) {
   cart[pid] = (cart[pid] || 0) + 1;
   refreshCount();
+  renderProducts(); // Re-render to show quantity control
   goCart();
 }
-
 function adjustQty(pid, delta) {
   var next = (cart[pid] || 0) + delta;
-  if (next <= 0) delete cart[pid];
-  else if (next <= 20) cart[pid] = next;
+  if (next <= 0) {
+    delete cart[pid];
+  } else if (next <= 20) {
+    cart[pid] = next;
+  }
   refreshCount();
+  renderProducts(); // Re-render product cards
   if (currentPage === 'cart') renderCart();
 }
-
 function removeItem(pid) {
   delete cart[pid];
   refreshCount();
+  renderProducts(); // Re-render product cards
   renderCart();
-  toast('❌ পণ্য সরানো হয়েছে');
+  toast('পণ্য সরানো হয়েছে');
 }
-
 function cartTotal() {
-  var total = 0;
-  for (var pid in cart) {
-    if (cart.hasOwnProperty(pid) && PRODUCTS[pid]) {
-      total += PRODUCTS[pid].price * cart[pid];
-    }
-  }
-  return total;
+  var t = 0;
+  for (var pid in cart) { if (cart.hasOwnProperty(pid) && PRODUCTS[pid]) t += PRODUCTS[pid].price * cart[pid]; }
+  return t;
 }
-
 function cartCount() {
-  var count = 0;
-  for (var pid in cart) {
-    if (cart.hasOwnProperty(pid)) count += cart[pid];
-  }
-  return count;
+  var c = 0;
+  for (var pid in cart) { if (cart.hasOwnProperty(pid)) c += cart[pid]; }
+  return c;
 }
-
 function cartPayload() {
   var items = [];
-  for (var pid in cart) {
-    if (cart.hasOwnProperty(pid)) items.push({id: pid, qty: cart[pid]});
-  }
+  for (var pid in cart) { if (cart.hasOwnProperty(pid)) items.push({id: pid, qty: cart[pid]}); }
   return items;
 }
-
 function refreshCount() {
-  var count = cartCount();
-  document.getElementById('cart-count').textContent = count;
-  for (var pid in PRODUCTS) {
-    if (!PRODUCTS.hasOwnProperty(pid)) continue;
-    var el = document.getElementById('sq-' + pid);
-    if (el) el.textContent = cart[pid] || 0;
-  }
+  document.getElementById('cart-count').textContent = cartCount();
 }
 
-// ═══════════════════════════════════════════════════════════════════════════
-//  RENDER SHOP
-// ═══════════════════════════════════════════════════════════════════════════
 function renderProducts() {
   var grid = document.getElementById('product-grid');
-  document.getElementById('product-count').textContent = Object.keys(PRODUCTS).length + ' প্রকার';
-
+  document.getElementById('product-count').textContent = Object.keys(PRODUCTS).length + ' প্রকার পণ্য';
   var html = '';
   for (var pid in PRODUCTS) {
     if (!PRODUCTS.hasOwnProperty(pid)) continue;
     var p = PRODUCTS[pid];
-    var labelBg = p.label === 'বেস্টসেলার' ? 'bg-leaf-green' : p.label === 'জনপ্রিয়' ? 'bg-mango-ripe' : 'bg-mango-orange';
-    html += '<div class="product-card bg-white rounded-2xl border border-[#F5DEB3] overflow-hidden transition-all duration-300 hover:translate-y-[-4px] sm:hover:translate-y-[-6px] hover:shadow-[0_16px_40px_rgba(232,145,10,0.1)] sm:hover:shadow-[0_24px_60px_rgba(232,145,10,0.12)] active:scale-[0.98] sm:active:scale-100">' +
-      '<div class="aspect-[4/3] bg-gradient-to-br from-cream to-[#FFF0D4] flex items-center justify-center relative overflow-hidden">' +
-        '<span class="absolute top-2 sm:top-3 left-2 sm:left-3 text-[0.6rem] sm:text-[0.68rem] font-bold tracking-wider uppercase text-white py-0.5 sm:py-1 px-2 sm:px-2.5 rounded shadow-[0_2px_8px_rgba(0,0,0,0.15)] ' + labelBg + '">' + p.label + '</span>' +
-        '<img src="' + p.image + '" alt="' + p.name + '" loading="lazy" class="w-full h-full object-cover transition-transform duration-400" />' +
-      '</div>' +
-      '<div class="p-4 sm:p-5">' +
-        '<h3 class="font-bengali text-base sm:text-lg font-bold text-leaf-green mb-1">' + p.name + '</h3>' +
-        '<p class="text-xs sm:text-sm text-muted mb-3 sm:mb-4 leading-relaxed">' + p.desc + '</p>' +
-        '<div class="flex items-center justify-between gap-2">' +
-          '<span class="text-lg sm:text-xl font-extrabold text-mango-orange shrink-0">৳' + p.price.toLocaleString('en-BD') + ' <small class="text-[0.6rem] sm:text-xs font-normal text-muted">প্রতি কেজি</small></span>' +
-          '<div class="flex items-center border-2 border-[#F5DEB3] rounded-xl overflow-hidden bg-cream-light">' +
-            '<button onclick="adjustQty(\'' + pid + '\', -1)" class="w-7 h-7 sm:w-8 sm:h-8 border-0 bg-transparent cursor-pointer text-sm sm:text-base text-leaf-green transition-bg duration-150 hover:bg-[#F5DEB3] flex items-center justify-center font-bold active:bg-[#E8D5B7]">−</button>' +
-            '<span class="w-7 sm:w-9 h-7 sm:h-8 text-center font-bold text-xs sm:text-sm border-x-2 border-[#F5DEB3] flex items-center justify-center bg-white text-leaf-green" id="sq-' + pid + '">' + (cart[pid] || 0) + '</span>' +
-            '<button onclick="adjustQty(\'' + pid + '\', 1)" class="w-7 h-7 sm:w-8 sm:h-8 border-0 bg-transparent cursor-pointer text-sm sm:text-base text-leaf-green transition-bg duration-150 hover:bg-[#F5DEB3] flex items-center justify-center font-bold active:bg-[#E8D5B7]">+</button>' +
+    var savings = p.originalPrice - p.price;
+    var qty = cart[pid] || 0;
+    
+    // Horizontal card layout with quantity control
+    html += '<div class="product-card bg-white rounded-2xl border border-gray-200 overflow-hidden">' +
+      '<div class="flex flex-col sm:flex-row">' +
+        // Image section
+        '<div class="sm:w-2/5 bg-gray-50 p-6 flex items-center justify-center relative">' +
+          (p.bestSeller ? '<span class="absolute top-3 right-3 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full">Best Selling</span>' : '') +
+          '<img src="' + p.image + '" alt="' + p.name + '" loading="lazy" class="w-full h-48 sm:h-full object-contain mix-blend-multiply" />' +
+        '</div>' +
+        // Content section
+        '<div class="sm:w-3/5 p-5 sm:p-6 flex flex-col justify-between">' +
+          '<div>' +
+            '<h3 class="font-semibold text-lg text-gray-900 mb-2">' + p.name + '</h3>' +
+            '<p class="text-sm text-gray-500 mb-4 leading-relaxed">' + p.desc + '</p>' +
+          '</div>' +
+          '<div>' +
+            // Price section
+            '<div class="flex items-center gap-3 mb-4">' +
+              '<span class="text-2xl font-bold text-green-700">৳' + p.price.toLocaleString('en-BD') + '</span>' +
+              '<span class="text-sm text-gray-400 line-through">৳' + p.originalPrice.toLocaleString('en-BD') + '</span>' +
+              (savings > 0 ? '<span class="bg-green-100 text-green-700 text-xs font-bold px-2.5 py-1 rounded-full">Save ৳' + savings.toLocaleString('en-BD') + '</span>' : '') +
+            '</div>' +
+            // Quantity Control or Add to Cart Button
+            (qty > 0 ? 
+              // Quantity Control
+              '<div class="flex items-center gap-3">' +
+                '<div class="flex items-center border-2 border-green-700 rounded-xl overflow-hidden">' +
+                  '<button onclick="adjustQty(\'' + pid + '\', -1)" class="w-10 h-10 flex items-center justify-center text-green-700 hover:bg-green-50 transition-colors font-semibold text-lg">−</button>' +
+                  '<span class="w-12 text-center text-base font-bold text-gray-900 py-2.5 bg-green-50">' + qty + '</span>' +
+                  '<button onclick="adjustQty(\'' + pid + '\', 1)" class="w-10 h-10 flex items-center justify-center text-green-700 hover:bg-green-50 transition-colors font-semibold text-lg">+</button>' +
+                '</div>' +
+                '<button onclick="buyNow(\'' + pid + '\')" class="flex-1 bg-green-700 text-white px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-green-800 transition-all flex items-center justify-center gap-2 shadow-lg shadow-green-700/30">' +
+                  '<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>' +
+                  'Buy now' +
+                '</button>' +
+              '</div>'
+              :
+              // Add to Cart Button
+              '<div class="flex gap-3">' +
+                '<button onclick="addToCart(\'' + pid + '\')" class="flex-1 border-2 border-green-700 text-green-700 px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-green-50 transition-all flex items-center justify-center gap-2">' +
+                  '<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>' +
+                  'Add To Cart' +
+                '</button>' +
+                '<button onclick="buyNow(\'' + pid + '\')" class="flex-1 bg-green-700 text-white px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-green-800 transition-all flex items-center justify-center gap-2 shadow-lg shadow-green-700/30">' +
+                  '<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>' +
+                  'Buy now' +
+                '</button>' +
+              '</div>'
+            ) +
           '</div>' +
         '</div>' +
-        '<button class="w-full mt-3 sm:mt-3.5 bg-leaf-green text-white border-0 py-2.5 sm:py-3 rounded-xl font-inherit text-xs sm:text-sm font-bold cursor-pointer transition-all duration-200 hover:bg-leaf-light hover:translate-y-[-1px] active:scale-98 flex items-center justify-center gap-1" onclick="addToCart(\'' + pid + '\')">＋ কার্টে যোগ করুন</button>' +
-        '<button class="w-full mt-2 bg-gradient-to-r from-mango-orange to-mango-ripe text-white border-0 py-2 sm:py-2.5 rounded-xl font-inherit text-xs sm:text-sm font-bold cursor-pointer transition-all duration-200 hover:opacity-90 hover:translate-y-[-1px] active:scale-98 flex items-center justify-center gap-1 shadow-[0_3px_12px_rgba(232,145,10,0.25)]" onclick="buyNow(\'' + pid + '\')">⚡ এখনই কিনুন</button>' +
       '</div>' +
     '</div>';
   }
   grid.innerHTML = html;
 }
 
-// ═══════════════════════════════════════════════════════════════════════════
-//  RENDER CART
-// ═══════════════════════════════════════════════════════════════════════════
 function renderCart() {
   var count = cartCount();
-  var itemsContainer = document.getElementById('cart-items');
-  var emptyState = document.getElementById('empty-state');
-  var checkoutSection = document.getElementById('checkout-section');
-  var summary = document.getElementById('cart-summary');
+  var itemsEl = document.getElementById('cart-items');
+  var emptyEl = document.getElementById('empty-state');
+  var checkoutEl = document.getElementById('checkout-section');
+  var summaryEl = document.getElementById('cart-summary');
 
   if (count === 0) {
-    itemsContainer.innerHTML = '';
-    emptyState.classList.remove('hidden');
-    checkoutSection.classList.add('hidden');
-    summary.textContent = 'কার্টে কোনো পণ্য নেই';
+    itemsEl.innerHTML = '';
+    emptyEl.style.display = 'block';
+    checkoutEl.style.display = 'none';
+    summaryEl.textContent = 'কার্ট খালি';
     return;
   }
 
-  emptyState.classList.add('hidden');
-  checkoutSection.classList.remove('hidden');
-  summary.textContent = count + 'টি পণ্য · মোট ৳' + cartTotal().toLocaleString('en-BD');
+  emptyEl.style.display = 'none';
+  checkoutEl.style.display = 'block';
+  summaryEl.textContent = count + 'টি পণ্য · মোট ৳' + cartTotal().toLocaleString('en-BD');
 
   var html = '';
   for (var pid in cart) {
     if (!cart.hasOwnProperty(pid)) continue;
-    var qty = cart[pid];
-    var p = PRODUCTS[pid];
-    if (!p) continue;
-
-    html += '<div class="cart-item">' +
-      '<div class="w-24 h-24 sm:w-28 sm:h-28 bg-cream rounded-xl overflow-hidden shrink-0">' +
-        '<img src="' + p.image + '" alt="' + p.name + '" class="w-full h-full object-cover" />' +
-      '</div>' +
-      '<div class="flex-1 min-w-0 item-info">' +
-        '<div class="flex items-start justify-between gap-2 mb-1">' +
-          '<h3 class="font-bengali text-base sm:text-lg font-bold text-leaf-green leading-snug">' + p.name + '</h3>' +
-          '<button onclick="removeItem(\'' + pid + '\')" class="text-muted hover:text-red-500 transition-colors text-lg shrink-0 p-1" title="সরান">🗑️</button>' +
-        '</div>' +
-        '<p class="text-xs sm:text-sm text-muted mb-2 leading-relaxed">' + p.desc + '</p>' +
-        '<div class="flex items-center justify-between gap-4 item-actions">' +
-          '<div class="flex items-center gap-2">' +
-            '<button class="qty-btn" onclick="adjustQty(\'' + pid + '\', -1)">−</button>' +
-            '<span class="qty-value">' + qty + '</span>' +
-            '<button class="qty-btn" onclick="adjustQty(\'' + pid + '\', 1)">+</button>' +
+    var qty = cart[pid]; var p = PRODUCTS[pid]; if (!p) continue;
+    html += '<div class="bg-white rounded-2xl border border-gray-200 p-4 flex gap-4 items-center">' +
+      '<img src="' + p.image + '" alt="' + p.name + '" class="w-20 h-20 object-contain bg-gray-50 rounded-lg" />' +
+      '<div class="flex-1">' +
+        '<h4 class="font-medium text-gray-900 mb-1">' + p.name + '</h4>' +
+        '<p class="text-xs text-gray-500 mb-2">' + p.desc + '</p>' +
+        '<div class="flex items-center justify-between">' +
+          '<div class="flex items-center gap-2 border border-gray-300 rounded-lg">' +
+            '<button onclick="adjustQty(\'' + pid + '\', -1)" class="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-100 rounded-l-lg">−</button>' +
+            '<span class="w-10 text-center text-sm font-medium">' + qty + '</span>' +
+            '<button onclick="adjustQty(\'' + pid + '\', 1)" class="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-100 rounded-r-lg">+</button>' +
           '</div>' +
           '<div class="text-right">' +
-            '<div class="font-extrabold text-mango-orange text-lg sm:text-xl">৳' + (p.price * qty).toLocaleString('en-BD') + '</div>' +
-            '<div class="text-xs text-muted">৳' + p.price.toLocaleString('en-BD') + ' × ' + qty + '</div>' +
+            '<div class="font-bold text-green-700">৳' + (p.price * qty).toLocaleString('en-BD') + '</div>' +
+            '<div class="text-xs text-gray-400">৳' + p.price + ' × ' + qty + '</div>' +
           '</div>' +
         '</div>' +
       '</div>' +
+      '<button onclick="removeItem(\'' + pid + '\')" class="text-gray-400 hover:text-red-600 transition-colors p-2">×</button>' +
     '</div>';
   }
-  itemsContainer.innerHTML = html;
+  itemsEl.innerHTML = html;
 
-  var summaryHtml = '';
+  var shtml = '';
   for (var pid in cart) {
     if (!cart.hasOwnProperty(pid)) continue;
-    var qty = cart[pid];
-    var p = PRODUCTS[pid];
-    if (!p) continue;
-    summaryHtml += '<div class="flex justify-between text-sm sm:text-base">' +
-      '<span class="text-muted">' + p.name + ' <span class="text-xs">× ' + qty + '</span></span>' +
-      '<span class="font-bold text-leaf-green">৳' + (p.price * qty).toLocaleString('en-BD') + '</span>' +
-    '</div>';
+    var qty = cart[pid]; var p = PRODUCTS[pid]; if (!p) continue;
+    shtml += '<div class="flex justify-between text-sm text-gray-600 mb-2"><span>' + p.name + ' <span class="text-gray-400">× ' + qty + '</span></span><strong class="text-gray-900">৳' + (p.price * qty).toLocaleString('en-BD') + '</strong></div>';
   }
-  var summaryLines = document.getElementById('summary-lines');
-  if (summaryLines) summaryLines.innerHTML = summaryHtml;
-
-  var finalTotal = document.getElementById('final-total');
-  if (finalTotal) finalTotal.textContent = cartTotal().toLocaleString('en-BD');
+  document.getElementById('summary-lines').innerHTML = shtml;
+  document.getElementById('final-total').textContent = cartTotal().toLocaleString('en-BD');
 }
 
-// ═══════════════════════════════════════════════════════════════════════════
-//  VALIDATION
-// ═══════════════════════════════════════════════════════════════════════════
-function validatePhone(phone) {
-  var clean = phone.replace(/[^0-9]/g, '');
-  return /^01[3-9][0-9]{8}$/.test(clean);
+function populateDistricts() {
+  var select = document.getElementById('f-district');
+  var districts = Object.keys(districtsData).sort();
+  for (var i = 0; i < districts.length; i++) {
+    var option = document.createElement('option');
+    option.value = districts[i];
+    option.textContent = districts[i];
+    select.appendChild(option);
+  }
 }
-function validateEmail(email) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+
+function updateThanas() {
+  var districtSelect = document.getElementById('f-district');
+  var thanaSelect = document.getElementById('f-thana');
+  var selectedDistrict = districtSelect.value;
+  
+  thanaSelect.innerHTML = '<option value="">থানা নির্বাচন করুন</option>';
+  
+  if (selectedDistrict && districtsData[selectedDistrict]) {
+    var thanas = districtsData[selectedDistrict];
+    for (var i = 0; i < thanas.length; i++) {
+      var option = document.createElement('option');
+      option.value = thanas[i];
+      option.textContent = thanas[i];
+      thanaSelect.appendChild(option);
+    }
+    thanaSelect.disabled = false;
+  } else {
+    thanaSelect.disabled = true;
+    thanaSelect.innerHTML = '<option value="">প্রথমে জেলা নির্বাচন করুন</option>';
+  }
 }
-function setFieldStatus(id, isValid, message) {
+
+function validatePhone(p) { return /^01[3-9][0-9]{8}$/.test(p.replace(/[^0-9]/g,'')); }
+function validateEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.trim()); }
+function setFieldStatus(id, ok, msg) {
   var el = document.getElementById(id);
-  var hint = document.getElementById('hint-' + id.replace('f-', ''));
+  var hint = document.getElementById('hint-' + id.replace('f-',''));
   if (!el) return;
-  el.classList.remove('error', 'valid');
-  if (hint) {
-    hint.classList.remove('error', 'valid');
-    hint.textContent = message || '';
-  }
-  if (isValid === true) { el.classList.add('valid'); if (hint) hint.classList.add('valid'); }
-  else if (isValid === false) { el.classList.add('error'); if (hint) hint.classList.add('error'); }
+  if (hint) { hint.textContent = msg || ''; hint.className = 'text-xs mt-1 ' + (ok === false ? 'text-red-600' : ok === true ? 'text-green-600' : ''); }
 }
 
-// ═══════════════════════════════════════════════════════════════════════════
-//  CHECKOUT
-// ═══════════════════════════════════════════════════════════════════════════
 function getFbp() { var m = document.cookie.match(/_fbp=([^;]+)/); return m ? m[1] : null; }
 function getFbc() { var m = document.cookie.match(/_fbc=([^;]+)/); return m ? m[1] : new URLSearchParams(location.search).get('fbclid') || null; }
 
 function checkout() {
-  var fields = ['f-name','f-phone','f-email','f-division','f-jela','f-upojela','f-thana','f-address'];
-  for (var i = 0; i < fields.length; i++) {
-    var el = document.getElementById(fields[i]);
-    if (el) { el.classList.remove('error', 'valid', 'border-red-500'); el.classList.add('border-[#F5DEB3]'); }
-  }
-
+  var fields = ['f-name','f-phone','f-email','f-district','f-thana','f-address'];
+  
   var name = document.getElementById('f-name').value.trim();
   var phone = document.getElementById('f-phone').value.trim();
   var email = document.getElementById('f-email').value.trim();
-  var division = document.getElementById('f-division').value.trim();
-  var jela = document.getElementById('f-jela').value.trim();
-  var upojela = document.getElementById('f-upojela').value.trim();
+  var district = document.getElementById('f-district').value.trim();
   var thana = document.getElementById('f-thana').value.trim();
   var address = document.getElementById('f-address').value.trim();
 
   var err = false;
-  if (!name) { setFieldStatus('f-name', false, ''); err = true; } else { setFieldStatus('f-name', true, ''); }
+  if (!name) { setFieldStatus('f-name', false, 'নাম দিন'); err = true; } else setFieldStatus('f-name', true, '');
   if (!phone) { setFieldStatus('f-phone', false, 'ফোন নম্বর দিন'); err = true; }
-  else if (!validatePhone(phone)) { setFieldStatus('f-phone', false, 'সঠিক বাংলাদেশি মোবাইল নম্বর দিন (01XXXXXXXXX)'); err = true; }
-  else { setFieldStatus('f-phone', true, '✓ সঠিক'); }
+  else if (!validatePhone(phone)) { setFieldStatus('f-phone', false, 'সঠিক বাংলাদেশি নম্বর দিন (01XXXXXXXXX)'); err = true; }
+  else setFieldStatus('f-phone', true, '✓ সঠিক');
   if (!email) { setFieldStatus('f-email', false, 'ইমেইল দিন'); err = true; }
-  else if (!validateEmail(email)) { setFieldStatus('f-email', false, 'সঠিক ইমেইল ফরম্যাট দিন'); err = true; }
-  else { setFieldStatus('f-email', true, '✓ সঠিক'); }
-  if (!division) { setFieldStatus('f-division', false, ''); err = true; } else { setFieldStatus('f-division', true, ''); }
-  if (!jela) { setFieldStatus('f-jela', false, ''); err = true; } else { setFieldStatus('f-jela', true, ''); }
-  if (!upojela) { setFieldStatus('f-upojela', false, ''); err = true; } else { setFieldStatus('f-upojela', true, ''); }
-  if (!thana) { setFieldStatus('f-thana', false, ''); err = true; } else { setFieldStatus('f-thana', true, ''); }
-  if (!address) { setFieldStatus('f-address', false, ''); err = true; } else { setFieldStatus('f-address', true, ''); }
+  else if (!validateEmail(email)) { setFieldStatus('f-email', false, 'সঠিক ইমেইল ফরম্যাট'); err = true; }
+  else setFieldStatus('f-email', true, '✓ সঠিক');
+  if (!district) { alert('জেলা নির্বাচন করুন'); err = true; }
+  if (!thana) { alert('থানা নির্বাচন করুন'); err = true; }
+  if (!address) { alert('ঠিকানা দিন'); err = true; }
 
   if (err) { toast('সব ঘর সঠিকভাবে পূরণ করুন', true); return; }
   if (cartCount() === 0) { toast('কার্ট খালি', true); return; }
 
   var btn = document.getElementById('pay-btn');
-  var originalBtnText = btn.innerHTML;
+  var orig = btn.innerHTML;
   btn.disabled = true;
-  btn.textContent = '⏳ PayStation-এ সংযুক্ত হচ্ছে…';
+  btn.innerHTML = '<span class="animate-pulse">সংযুক্ত হচ্ছে…</span>';
 
   var payload = {
-    items: cartPayload(),
-    cust_name: name,
-    cust_phone: phone,
-    cust_email: email,
-    division: division,
-    jela: jela,
-    upojela: upojela,
-    thana: thana,
-    address_detail: address,
-    fbp: getFbp(),
-    fbc: getFbc(),
-    event_id: 'ic-' + Date.now(),
+    items: cartPayload(), cust_name: name, cust_phone: phone, cust_email: email,
+    district: district, thana: thana,
+    address_detail: address, fbp: getFbp(), fbc: getFbc(), event_id: 'ic-' + Date.now(),
   };
 
   fetch(API_BASE + '/initiate', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
+    method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload),
   })
-  .then(function(res) { return res.json(); })
+  .then(function(r) { return r.json(); })
   .then(function(data) {
     if (data.payment_url) {
-      var orderItems = [];
-      for (var pid in cart) {
-        if (cart.hasOwnProperty(pid) && PRODUCTS[pid]) {
-          orderItems.push({ name: PRODUCTS[pid].name, image: PRODUCTS[pid].image, qty: cart[pid], price: PRODUCTS[pid].price });
-        }
-      }
-      sessionStorage.setItem('lastOrder', JSON.stringify({
-        invoice: data.invoice_number,
-        name: name,
-        amount: cartTotal(),
-        items: orderItems,
-      }));
       window.location.href = data.payment_url;
     } else {
-      toast(data.error || 'পেমেন্ট ব্যর্থ হয়েছে। আবার চেষ্টা করুন।', true);
-      btn.disabled = false;
-      btn.innerHTML = originalBtnText;
+      toast(data.error || 'পেমেন্ট ব্যর্থ। আবার চেষ্টা করুন।', true);
+      btn.disabled = false; btn.innerHTML = orig;
     }
   })
-  .catch(function(e) {
+  .catch(function() {
     toast('নেটওয়ার্ক ত্রুটি। আবার চেষ্টা করুন।', true);
-    btn.disabled = false;
-    btn.innerHTML = originalBtnText;
+    btn.disabled = false; btn.innerHTML = orig;
   });
 }
 
-// ═══════════════════════════════════════════════════════════════════════════
-//  TOAST
-// ═══════════════════════════════════════════════════════════════════════════
 var _tt;
 function toast(msg, isErr) {
   var el = document.getElementById('toast');
   el.textContent = msg;
-  var colorClass = isErr ? 'bg-[#C0392B]' : 'bg-leaf-green';
-  el.className = 'fixed bottom-6 left-1/2 -translate-x-1/2 translate-y-0 py-3 px-5 sm:py-3.5 sm:px-7 rounded-full text-sm font-medium z-50 transition-transform duration-300 pointer-events-none whitespace-nowrap shadow-[0_4px_20px_rgba(0,0,0,0.18)] max-w-[90vw] text-center text-white ' + colorClass;
+  el.className = isErr ? 'err' : '';
+  el.classList.add('show');
   clearTimeout(_tt);
-  _tt = setTimeout(function() {
-    el.classList.remove('translate-y-0');
-    el.classList.add('translate-y-24');
-  }, 3200);
+  _tt = setTimeout(function() { el.classList.remove('show'); }, 3000);
 }
 
-function popBtn() {
-  var b = document.getElementById('cart-toggle-btn');
-  b.classList.remove('animate-pop');
-  void b.offsetWidth;
-  b.classList.add('animate-pop');
-}
-
-// ═══════════════════════════════════════════════════════════════════════════
-//  LIVE VALIDATION
-// ═══════════════════════════════════════════════════════════════════════════
 function setupLiveValidation() {
   var phoneEl = document.getElementById('f-phone');
   var emailEl = document.getElementById('f-email');
-
   if (phoneEl) {
     phoneEl.addEventListener('input', function() {
-      this.value = this.value.replace(/[^0-9]/g, '');
-      if (this.value.length > 11) this.value = this.value.slice(0, 11);
+      this.value = this.value.replace(/[^0-9]/g, '').slice(0, 11);
       if (this.value.length > 0) {
         if (validatePhone(this.value)) setFieldStatus('f-phone', true, '✓ সঠিক');
         else setFieldStatus('f-phone', false, '01 দিয়ে শুরু, ১১ সংখ্যা');
-      } else {
-        setFieldStatus('f-phone', null, '');
-      }
+      } else setFieldStatus('f-phone', null, '');
     });
   }
-
   if (emailEl) {
     emailEl.addEventListener('input', function() {
       if (this.value.length > 0) {
         if (validateEmail(this.value)) setFieldStatus('f-email', true, '✓ সঠিক');
         else setFieldStatus('f-email', false, 'সঠিক ইমেইল ফরম্যাট');
-      } else {
-        setFieldStatus('f-email', null, '');
-      }
+      } else setFieldStatus('f-email', null, '');
     });
   }
 }
 
-// ═══════════════════════════════════════════════════════════════════════════
-//  INIT
-// ═══════════════════════════════════════════════════════════════════════════
+// Initialize
+populateDistricts();
 renderProducts();
 refreshCount();
 setupLiveValidation();
