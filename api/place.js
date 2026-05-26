@@ -1,7 +1,6 @@
 // api/place.js
 const { MongoClient } = require('mongodb');
 
-// 🔁 Serverless connection cache
 let cachedClient = null;
 let cachedDb = null;
 
@@ -19,7 +18,6 @@ async function connectToDatabase() {
   });
 
   await client.connect();
-  // ✅ Updated DB name fallback to paystation_demo
   const db = client.db(process.env.DB_NAME || 'paystation_demo');
 
   cachedClient = client;
@@ -46,12 +44,7 @@ function generateOrderId() {
 }
 
 module.exports = async (req, res) => {
-  // CORS Headers
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-
-  if (req.method === 'OPTIONS') return res.status(200).end();
+  // Only allow POST
   if (req.method !== 'POST') {
     return res.status(405).json({ success: false, error: 'Method not allowed' });
   }
@@ -59,6 +52,7 @@ module.exports = async (req, res) => {
   try {
     let data = req.body;
     
+    // Fallback body parsing
     if (!data && req.headers['content-type']?.includes('application/json')) {
       let raw = '';
       for await (const chunk of req) raw += chunk;
