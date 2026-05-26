@@ -99,8 +99,8 @@
         </div>
       </div>
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">ইমেইল *</label>
-        <input id="email" type="email" required class="w-full px-4 py-3.5 rounded-2xl border border-gray-200 focus:border-green-600 outline-none text-sm">
+        <label class="block text-sm font-medium text-gray-700 mb-1">ইমেইল <span class="text-gray-400 font-normal">(ঐচ্ছিক)</span></label>
+        <input id="email" type="email" class="w-full px-4 py-3.5 rounded-2xl border border-gray-200 focus:border-green-600 outline-none text-sm">
       </div>
       <div class="grid grid-cols-2 gap-4">
         <div>
@@ -137,7 +137,7 @@
 <div id="toast" class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 px-6 py-3.5 rounded-3xl text-sm shadow-2xl text-white"></div>
 
 <script>
-// ========== PRODUCTS (Your Updated Data) ==========
+// ========== PRODUCTS ==========
 const PRODUCTS = {
   p1: { name: "হিমসাগর আম — প্রিমিয়াম", price: 180, delivery: 80, originalPrice: 220, image: "https://lst-mu.vercel.app/images/image.png", desc: "রাজশাহীর বিখ্যাত হিমসাগর, মিষ্টি ও সুগন্ধি। প্রতি কেজি।", label: "Best Selling", bestSeller: true },
   p2: { name: "ল্যাংড়া আম", price: 220, delivery: 80, originalPrice: 280, image: "https://lst-mu.vercel.app/images/image.png", desc: "রাজশাহীর ঐতিহ্যবাহী ল্যাংড়া, টক-মিষ্টি স্বাদ। প্রতি কেজি।", label: "Best Selling", bestSeller: true },
@@ -149,31 +149,74 @@ const PRODUCTS = {
   p8: { name: "আমের সরবত কনসেনট্রেট", price: 280, delivery: 60, originalPrice: 350, image: "https://lst-mu.vercel.app/images/image.png", desc: "ঘন সরবত কনসেনট্রেট, পানিতে মিশিয়ে খান। ৫০০মিলি।", label: "Best Selling", bestSeller: true },
 };
 
-// ========== THANAS (Shortened for brevity - add full if needed) ==========
+// ========== THANAS ==========
 const THANAS = {
   "Bagerhat": ["Bagerhat Sadar", "Chitalmari", "Fakirhat", "Kachua", "Mollahat", "Mongla", "Morrelganj", "Rampal", "Sarankhola"],
   "Bandarban": ["Alikadam", "Bandarban Sadar", "Lama", "Naikhongchhari", "Rowangchhari", "Ruma", "Thanchi"],
   "Barguna": ["Amtali", "Bamna", "Barguna Sadar", "Betagi", "Pathorghata", "Taltali"],
-  "Barisal": ["Agailjhara", "Babuganj", "Bakerganj", "Banaripara", "Barisal Sadar", "Gournadi", "Hizla", "Kotwali", "Mehendiganj", "Muladi", "Wazirpur"],
+  "Barisal": ["Agailjhara", "Babuganj", "Bakerganj", "Banaripara", "Barisal Sadar", "Gournadi", "Gournadi Thana", "Hizla", "Kotwali", "Mehendiganj", "Muladi", "Wazirpur"],
   "Bhola": ["Bhola Sadar", "Borhanuddin", "Charfesson", "Doulatkhan", "Lalmohan", "Monpura", "Tazumuddin"],
-  "Bogura": ["Bogra Sadar", "Adamdighi", "Dhunot", "Gabtali", "Sherpur", "Shibganj"],
-  "Brahmanbaria": ["Brahmanbaria Sadar", "Akhaura", "Ashuganj", "Kasba", "Nabinagar"],
-  "Chandpur": ["Chandpur Sadar", "Faridgonj", "Hajiganj", "Kachua", "Shahrasti"],
-  "Chattogram": ["Kotwali", "Agrabad", "Panchlaish", "Hathazari", "Patiya", "Raozan", "Sitakunda"],
-  "Comilla": ["Comilla Sadar", "Barura", "Chandina", "Daudkandi", "Laksam", "Muradnagar"],
-  "Coxsbazar": ["Coxsbazar Sadar", "Chakaria", "Moheshkhali", "Ramu", "Teknaf", "Ukhiya"],
-  "Dhaka": ["Dhanmondi", "Gulshan", "Mirpur", "Uttara", "Mohammadpur", "Banani", "Badda", "Savar", "Jatrabari", "Demra"],
-  "Dinajpur": ["Dinajpur Sadar", "Birganj", "Parbatipur"],
-  "Faridpur": ["Faridpur Sadar", "Bhanga", "Boalmari"],
-  "Feni": ["Feni Sadar", "Daganbhuiyan", "Sonagazi"],
-  "Gazipur": ["Gazipur Sadar", "Joydevpur", "Kaliakair", "Sreepur", "Tongi"],
-  "Khulna": ["Khulna Sadar", "Sonadanga", "Daulatpur", "Rupsha"],
-  "Mymensingh": ["Mymensingh Sadar", "Muktagacha", "Gafargaon", "Trishal"],
-  "Narayanganj": ["Narayanganj Sadar", "Bandar", "Rupganj", "Sonargaon"],
-  "Rajshahi": ["Rajshahi Sadar", "Boalia", "Motihar", "Paba", "Godagari"],
-  "Rangpur": ["Rangpur Sadar", "Kotowali", "Mithapukur", "Gangachara"],
-  "Sylhet": ["Sylhet Sadar", "Kotwali", "Jalalabad", "Beanibazar", "Golapganj"],
+  "Bogura": ["Adamdighi", "Bogra Sadar", "Dhunot", "Dupchanchia", "Gabtali", "Kahaloo", "Nondigram", "Shajahanpur", "Shariakandi", "Sherpur", "Shibganj", "Sonatala"],
+  "Brahmanbaria": ["Akhaura", "Ashuganj", "Bancharampur", "Bijoynagar", "Brahmanbaria Sadar", "Kasba", "Nabinagar", "Nasirnagar", "Sarail"],
+  "Chandpur": ["Chandpur Sadar", "Faridgonj", "Haimchar", "Hajiganj", "Kachua", "Matlab North", "Matlab South", "Shahrasti"],
+  "Chapainawabganj": ["Bholahat", "Chapainawabganj Sadar", "Gomostapur", "Nachol", "Shibganj"],
+  "Chattogram": ["Akbar Shah Police Station", "Anwara", "Bakalia Police Station", "Bandar Police Station", "Banshkhali", "Bayezid Bostami Police St", "Bhujpur Thana", "Boalkhali", "Chandanaish", "Chandgaon Police Station", "Chawkbazar", "Double Mooring Police Sta", "EPZ Police Station", "Fatikchhari", "Halishahar Police Station", "Hathazari", "Karnafuli", "Khulshi Police Station", "Kotwali Police Station", "Lohagara", "Mirsharai", "Pahartali Police Station", "Panchlaish Police Station", "Patenga Police Station", "Patiya", "Rangunia", "Raozan", "Sadarghat Police Station", "Sandwip", "Satkania", "Sitakunda", "Zorargonj"],
+  "Chuadanga": ["Alamdanga", "Chuadanga Sadar", "Damurhuda", "Jibannagar"],
+  "Comilla": ["Barura", "Brahmanpara", "Burichang", "Chandina", "Chauddagram", "Comilla Sadar", "Daudkandi", "Debidwar", "Homna", "Kotwali", "Laksam", "Lalmai", "Meghna", "Monohargonj", "Muradnagar", "Nangalkot", "Sadarsouth", "Titas"],
+  "Coxsbazar": ["Chakaria", "Coxsbazar Sadar", "Eidgaon", "Kutubdia", "Moheshkhali", "Pekua", "Ramu", "Teknaf", "Ukhiya"],
+  "Dhaka": ["Adabor", "Airport Thana", "Ashulia", "Badda", "Banani", "Bhasantek", "Bongshal", "Cantonment", "Chawkbazar", "Dakkhinkhan", "Darus Salam", "Demra", "Dhamrai", "Dhanmondi", "Dohar", "Gendaria", "Gulshan", "Hajaribaag", "Hatirjheel", "Jatrabari", "Kafrul Thana", "Kamrangirchor", "Keraniganj", "Khilkhet", "Kodomtoli", "Kolabagan", "Kotwali", "Laalbag", "Mirpur", "Mohammadpur", "Motijheel", "Mugda", "Nawabganj", "New Market", "Pallabi", "Paltan Model Thana", "Rampura", "Romna Model Thana", "Rupnagar", "Sabujbag", "Savar", "Shah Ali", "Shahbag", "Shahjahanpur", "Shampur", "Sher-e-bangla", "Sutrapur", "Tejgaon", "Tejgaon Industrial Area", "Turag", "Uttara", "Uttara Model Thana", "Uttarkhan", "Vatara", "Wari", "banani", "khilgaon"],
+  "Dinajpur": ["Birampur", "Birganj", "Birol", "Bochaganj", "Chirirbandar", "Dinajpur Sadar", "Fulbari", "Ghoraghat", "Hakimpur", "Kaharol", "Khansama", "Nawabganj", "Parbatipur"],
+  "Faridpur": ["Alfadanga", "Bhanga", "Boalmari", "Charbhadrasan", "Faridpur Sadar", "Madhukhali", "Nagarkanda", "Sadarpur", "Saltha"],
+  "Feni": ["Chhagalnaiya", "Daganbhuiyan", "Feni Sadar", "Fulgazi", "Parshuram", "Sonagazi"],
+  "Gaibandha": ["Gaibandha Sadar", "Gobindaganj", "Palashbari", "Phulchari", "Sadullapur", "Saghata", "Sundarganj"],
+  "Gazipur": ["Bason", "Gacha Thana", "Gazipur Sadar", "Joydevpur", "Kaliakair", "Kaliganj", "Kapasia", "Kashimpur", "Konabari", "Pubail", "Sreepur", "Tongi"],
+  "Gopalganj": ["Gopalganj Sadar", "Kashiani", "Kotalipara", "Muksudpur", "Tungipara"],
+  "Habiganj": ["Ajmiriganj", "Bahubal", "Baniachong", "Chunarughat", "Habiganj Sadar", "Lakhai", "Madhabpur", "Nabiganj", "Sayestaganj Thana"],
+  "Jamalpur": ["Bokshiganj", "Dewangonj", "Islampur", "Jamalpur Sadar", "Madarganj", "Melandah", "Sarishabari"],
+  "Jashore": ["Abhaynagar", "Bagherpara", "Chougachha", "Jessore Sadar", "Jhikargacha", "Keshabpur", "Kotwali", "Manirampur", "Sharsha"],
+  "Jhalakathi": ["Jhalakathi Sadar", "Kathalia", "Nalchity", "Rajapur"],
+  "Jhenaidah": ["Harinakundu", "Jhenaidah Sadar", "Kaliganj", "Kotchandpur", "Moheshpur", "Shailkupa"],
+  "Joypurhat": ["Akkelpur", "Joypurhat Sadar", "Kalai", "Khetlal", "Panchbibi"],
+  "Khagrachhari": ["Dighinala", "Guimara", "Khagrachhari Sadar", "Laxmichhari", "Manikchari", "Matiranga", "Mohalchari", "Panchari", "Ramgarh"],
+  "Khulna": ["Botiaghata", "Dakop", "Daulatpur", "Digholia", "Dumuria", "Fultola", "Horintana", "Khalishpur", "Khanjahan ali thana", "Koyra", "Paikgasa", "Rupsha", "Sonadanga", "Terokhada", "khulna Sadar"],
+  "Kishoreganj": ["Austagram", "Bajitpur", "Bhairab", "Hossainpur", "Itna", "Karimgonj", "Katiadi", "Kishoreganj Sadar", "Kuliarchar", "Mithamoin", "Nikli", "Pakundia", "Tarail"],
+  "Kurigram": ["Bhurungamari", "Charrajibpur", "Chilmari", "Kurigram Sadar", "Nageshwari", "Phulbari", "Rajarhat", "Rowmari", "Ulipur"],
+  "Kushtia": ["Bheramara", "Daulatpur", "Khoksa", "Kumarkhali", "Kushtia Sadar", "Mirpur"],
+  "Lakshmipur": ["Chandrogonj", "Kamalnagar", "Lakshmipur Sadar", "Raipur", "Ramganj", "Ramgati"],
+  "Lalmonirhat": ["Aditmari", "Hatibandha", "Kaliganj", "Lalmonirhat Sadar", "Patgram"],
+  "Madaripur": ["Dasar", "Kalkini", "Madaripur Sadar", "Rajoir", "Shibchar"],
+  "Magura": ["Magura Sadar", "Mohammadpur", "Shalikha", "Sreepur"],
+  "Manikganj": ["Doulatpur", "Gior", "Harirampur", "Manikganj Sadar", "Saturia", "Shibaloy", "Singiar"],
+  "Meherpur": ["Gangni", "Meherpur Sadar", "Mujibnagar"],
+  "Moulvibazar": ["Barlekha", "Juri", "Kamolganj", "Kulaura", "Moulvibazar Sadar", "Rajnagar", "Sreemangal"],
+  "Munshiganj": ["Gajaria", "Louhajanj", "Munshiganj Sadar", "Sirajdikhan", "Sreenagar", "Tongibari"],
+  "Mymensingh": ["Bhaluka", "Dhobaura", "Fulbaria", "Gafargaon", "Gouripur", "Haluaghat", "Iswarganj", "Muktagacha", "Mymensingh Sadar", "Nandail", "Pagla Thana", "Phulpur", "Tarakanda", "Trishal"],
+  "Naogaon": ["Atrai", "Badalgachi", "Dhamoirhat", "Manda", "Mohadevpur", "Naogaon Sadar", "Niamatpur", "Patnitala", "Porsha", "Raninagar", "Sapahar"],
+  "Narail": ["Kalia", "Lohagara", "Narail Sadar"],
+  "Narayanganj": ["Araihazar", "Bandar", "Fatullah", "Narayanganj Sadar", "Rupganj", "Siddhirganj", "Sonargaon"],
+  "Narsingdi": ["Belabo", "Madhobdi", "Monohardi", "Narsingdi Sadar", "Palash", "Raipura", "Shibpur"],
+  "Natore": ["Bagatipara", "Baraigram", "Gurudaspur", "Lalpur", "Naldanga", "Natore Sadar", "Singra"],
+  "Netrokona": ["Atpara", "Barhatta", "Durgapur", "Kalmakanda", "Kendua", "Khaliajuri", "Madan", "Mohongonj", "Netrokona Sadar", "Purbadhala"],
+  "Nilphamari": ["Dimla", "Domar", "Jaldhaka", "Kishorganj", "Nilphamari Sadar", "Syedpur"],
+  "Noakhali": ["Begumganj", "Chatkhil", "Companiganj", "Hatia", "Kabirhat", "Noakhali Sadar", "Senbug", "Sonaimori", "Subarnachar", "Sudharam"],
+  "Pabna": ["Aminpur", "Ataikula", "Atghoria", "Bera", "Bhangura", "Chatmohar", "Faridpur", "Ishurdi", "Pabna Sadar", "Santhia", "Sujanagar"],
+  "Panchagarh": ["Atwari", "Boda", "Debiganj", "Panchagarh Sadar", "Tetulia"],
+  "Patuakhali": ["Bauphal", "Dashmina", "Dumki", "Galachipa", "Kalapara", "Mirzaganj", "Patuakhali Sadar", "Rangabali"],
+  "Pirojpur": ["Bhandaria", "Kawkhali", "Mathbaria", "Nazirpur", "Nesarabad", "Pirojpur Sadar", "Zianagar"],
+  "Rajbari": ["Baliakandi", "Goalanda", "Kalukhali", "Pangsa", "Rajbari Sadar"],
+  "Rajshahi": ["Bagha", "Bagmara", "Boalia Thana", "Chandrima", "Charghat", "Durgapur", "Godagari", "Mohonpur", "Motihar Thana", "Paba", "Puthia", "Rajpara Thana", "Rajshahi Sadar", "Shah Mokhdum Thana", "Tanore"],
+  "Rangamati": ["Baghaichari", "Barkal", "Belaichari", "Juraichari", "Kaptai", "Kawkhali", "Langadu", "Naniarchar", "Rajasthali", "Rangamati Sadar"],
+  "Rangpur": ["Badargonj", "Gangachara", "Kaunia", "Kotowali", "Mahigonj", "Mithapukur", "Pirgacha", "Pirgonj", "Rangpur Sadar", "Taragonj"],
+  "Satkhira": ["Assasuni", "Debhata", "Kalaroa", "Kaliganj", "Patkelghata", "Satkhira Sadar", "Shyamnagar", "Tala"],
+  "Shariatpur": ["Bhedarganj", "Damudya", "Gosairhat", "Naria", "Sakhipur", "Shariatpur Sadar", "Zajira"],
+  "Sherpur": ["Jhenaigati", "Nalitabari", "Nokla", "Sherpur Sadar", "Sreebordi"],
+  "Sirajganj": ["Belkuchi", "Chauhali", "Jamuna Bridge West", "Kamarkhand", "Kazipur", "Raigonj", "Shahjadpur", "Sirajganj Sadar", "Tarash", "Ullapara", "salangaup"],
+  "Sunamganj": ["Bishwambarpur", "Chhatak", "Derai", "Dharmapasha", "Dowarabazar", "Jagannathpur", "Jamalganj", "Madhyanagar", "Shalla", "South Sunamganj", "Sunamganj Sadar", "Tahirpur"],
+  "Sylhet": ["Airport Thana", "Balaganj", "Beanibazar", "Bishwanath", "Companiganj", "Dakshinsurma", "Fenchuganj", "Golapganj", "Gowainghat", "Jaintiapur", "Jalalabad", "Kanaighat", "Kotwali", "Osmaninagar", "Shahporan", "Sylhet Sadar", "Zakiganj"],
+  "Tangail": ["Basail", "Bhuapur", "Delduar", "Dhanbari", "Ghatail", "Gopalpur", "Kalihati", "Madhupur", "Mirzapur", "Nagarpur", "Sakhipur", "Tangail Sadar"],
+  "Thakurgaon": ["Baliadangi", "Haripur", "Pirganj", "Ranisankail", "Thakurgaon Sadar", "Vulli"]
 };
+
 
 // ========== STATE ==========
 let cart = {};
@@ -220,7 +263,7 @@ function renderProducts() {
   updateSummary();
 }
 
-// ========== CART & TOTALS ==========
+// ========== CART FUNCTIONS ==========
 function addToCart(pid) {
   cart[pid] = (cart[pid] || 0) + 1;
   renderProducts();
@@ -263,12 +306,7 @@ function updateSummary() {
     let html = '';
     Object.entries(cart).forEach(([pid, qty]) => {
       const p = PRODUCTS[pid];
-      html += `
-        <div class="flex justify-between text-sm">
-          <span>${p.name} × ${qty}</span>
-          <span>৳${p.price * qty}</span>
-        </div>
-      `;
+      html += `<div class="flex justify-between text-sm"><span>${p.name} × ${qty}</span><span>৳${p.price * qty}</span></div>`;
     });
     summaryEl.innerHTML = html;
   }
@@ -286,7 +324,8 @@ function populateDistricts() {
   const select = document.getElementById('district');
   Object.keys(THANAS).sort().forEach(d => {
     const opt = document.createElement('option');
-    opt.value = d; opt.textContent = d;
+    opt.value = d; 
+    opt.textContent = d;
     select.appendChild(opt);
   });
 }
@@ -300,36 +339,34 @@ function populateThanas() {
   if (district && THANAS[district]) {
     THANAS[district].forEach(thana => {
       const opt = document.createElement('option');
-      opt.value = thana; opt.textContent = thana;
+      opt.value = thana; 
+      opt.textContent = thana;
       thanaSelect.appendChild(opt);
     });
     thanaSelect.disabled = false;
   }
 }
 
-// ========== PAYMENT (API Call Fixed) ==========
+// ========== PAYMENT ==========
 async function processPayment() {
   if (Object.keys(cart).length === 0) return toast('প্রথমে পণ্য নির্বাচন করুন', true);
 
   const name = document.getElementById('name').value.trim();
   const phone = document.getElementById('phone').value.trim();
-  const email = document.getElementById('email').value.trim();
+  let email = document.getElementById('email').value.trim();
   const district = document.getElementById('district').value;
   const thana = document.getElementById('thana').value;
   const address = document.getElementById('address').value.trim();
 
-  // Backend requires all fields including email
-  if (!name || !phone || !email || !district || !thana || !address) {
-    return toast('সব তথ্য পূরণ করুন (ইমেইল সহ)', true);
+  // Set default email if not provided
+  if (!email) {
+    email = "noemail@urboressentials.com";
   }
 
-  // Validate email format
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email)) {
-    return toast('সঠিক ইমেইল দিন', true);
+  if (!name || !phone || !district || !thana || !address) {
+    return toast('সব তথ্য পূরণ করুন', true);
   }
 
-  // Validate phone format (01XXXXXXXXX)
   const phoneRegex = /^01[0-9]{9}$/;
   if (!phoneRegex.test(phone.replace(/\s/g, ''))) {
     return toast('সঠিক মোবাইল নম্বর দিন (01XXXXXXXXX)', true);
@@ -337,12 +374,8 @@ async function processPayment() {
 
   const { total } = getTotals();
 
-  // ✅ Match backend field names exactly
   const payload = {
-    items: Object.entries(cart).map(([pid, qty]) => ({
-      id: pid,
-      qty: qty
-    })),
+    items: Object.entries(cart).map(([pid, qty]) => ({ id: pid, qty: qty })),
     cust_name: name,
     cust_phone: phone,
     cust_email: email,
@@ -364,14 +397,9 @@ async function processPayment() {
       body: JSON.stringify(payload)
     });
 
-    // Handle non-JSON responses safely
     const text = await res.text();
     let data;
-    try { 
-      data = JSON.parse(text); 
-    } catch { 
-      data = { error: text || 'Unknown error' }; 
-    }
+    try { data = JSON.parse(text); } catch { data = { error: text || 'Unknown error' }; }
 
     if (res.ok && data.payment_url) {
       window.location.href = data.payment_url;
