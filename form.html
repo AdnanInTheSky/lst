@@ -4,10 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Urbor Essentials — প্রিমিয়াম আমের অর্ডার</title>
-  
+
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
-  
+
   <script>
     tailwind.config = {
       theme: {
@@ -34,6 +34,7 @@
     }
     @keyframes shimmer { 100% { transform: translateX(400%); } }
   </style>
+<base target="_blank">
 </head>
 <body class="min-h-screen pb-24">
 
@@ -67,7 +68,7 @@
       অর্ডার সামারি
     </h2>
     <div id="summary-items" class="space-y-3"></div>
-    
+
     <div class="border-t pt-5 mt-4 space-y-2.5 text-[15px]">
       <div class="flex justify-between"><span class="text-gray-600">সাবটোটাল</span><span>৳<span id="subtotal">0</span></span></div>
       <div class="flex justify-between"><span class="text-gray-600">ডেলিভারি চার্জ</span><span class="text-orange-600 font-medium">৳<span id="delivery">0</span></span></div>
@@ -98,8 +99,8 @@
         </div>
       </div>
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">ইমেইল (ঐচ্ছিক)</label>
-        <input id="email" type="email" class="w-full px-4 py-3.5 rounded-2xl border border-gray-200 focus:border-green-600 outline-none text-sm">
+        <label class="block text-sm font-medium text-gray-700 mb-1">ইমেইল *</label>
+        <input id="email" type="email" required class="w-full px-4 py-3.5 rounded-2xl border border-gray-200 focus:border-green-600 outline-none text-sm">
       </div>
       <div class="grid grid-cols-2 gap-4">
         <div>
@@ -173,6 +174,7 @@ const THANAS = {
   "Rangpur": ["Rangpur Sadar", "Kotowali", "Mithapukur", "Gangachara"],
   "Sylhet": ["Sylhet Sadar", "Kotwali", "Jalalabad", "Beanibazar", "Golapganj"],
 };
+
 // ========== STATE ==========
 let cart = {};
 
@@ -305,7 +307,7 @@ function populateThanas() {
   }
 }
 
-// ========== PAYMENT (API Call Preserved) ==========
+// ========== PAYMENT (API Call Fixed) ==========
 async function processPayment() {
   if (Object.keys(cart).length === 0) return toast('প্রথমে পণ্য নির্বাচন করুন', true);
 
@@ -316,23 +318,37 @@ async function processPayment() {
   const thana = document.getElementById('thana').value;
   const address = document.getElementById('address').value.trim();
 
-  if (!name || !phone || !district || !thana || !address) {
-    return toast('সব প্রয়োজনীয় তথ্য পূরণ করুন', true);
+  // Backend requires all fields including email
+  if (!name || !phone || !email || !district || !thana || !address) {
+    return toast('সব তথ্য পূরণ করুন (ইমেইল সহ)', true);
+  }
+
+  // Validate email format
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return toast('সঠিক ইমেইল দিন', true);
+  }
+
+  // Validate phone format (01XXXXXXXXX)
+  const phoneRegex = /^01[0-9]{9}$/;
+  if (!phoneRegex.test(phone.replace(/\s/g, ''))) {
+    return toast('সঠিক মোবাইল নম্বর দিন (01XXXXXXXXX)', true);
   }
 
   const { total } = getTotals();
 
+  // ✅ Match backend field names exactly
   const payload = {
     items: Object.entries(cart).map(([pid, qty]) => ({
       id: pid,
-      name: PRODUCTS[pid].name,
-      price: PRODUCTS[pid].price,
-      qty: qty,
-      delivery: PRODUCTS[pid].delivery
+      qty: qty
     })),
-    customer: { name, phone, email: email || null },
-    shipping: { district, thana, address },
-    amount: total,
+    cust_name: name,
+    cust_phone: phone,
+    cust_email: email,
+    jela: district,
+    thana: thana,
+    address_detail: address,
     event_id: 'order-' + Date.now()
   };
 
@@ -347,9 +363,17 @@ async function processPayment() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     });
-    const data = await res.json();
 
-    if (data.payment_url) {
+    // Handle non-JSON responses safely
+    const text = await res.text();
+    let data;
+    try { 
+      data = JSON.parse(text); 
+    } catch { 
+      data = { error: text || 'Unknown error' }; 
+    }
+
+    if (res.ok && data.payment_url) {
       window.location.href = data.payment_url;
     } else {
       toast(data.error || 'পেমেন্ট শুরু করতে সমস্যা হয়েছে', true);

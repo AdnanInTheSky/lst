@@ -334,7 +334,6 @@
 <div id="page-cart" class="page">
   <div class="cart-page max-w-7xl mx-auto px-4 sm:px-6 py-8 lg:py-12">
     <h1 class="font-serif text-3xl font-semibold mb-2 text-gray-900">Checkout</h1>
-    <!-- ✅ REMOVED: <p id="cart-summary">1টি পণ্য type text</p> -->
 
     <div id="empty-state" class="empty-state text-center py-16" style="display:none">
       <div class="text-6xl mb-4">🥭</div>
@@ -344,7 +343,7 @@
 
     <!-- CHECKOUT LAYOUT: Left = Shipping Info, Right = Order Summary -->
     <div id="checkout-layout" class="hidden lg:grid lg:grid-cols-2 lg:gap-8 lg:items-start">
-      <!-- LEFT COLUMN: Shipping Info Form (✅ Sticky removed) -->
+      <!-- LEFT COLUMN: Shipping Info Form -->
       <div class="bg-white rounded-2xl border border-gray-200 p-6">
         <div class="flex items-center gap-3 mb-6">
           <div class="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center">
@@ -356,7 +355,6 @@
           </div>
         </div>
 
-        <!-- ✅ New Field Order: Name → Phone → Email → District/Thana → Address -->
         <div class="space-y-4">
           <!-- 1. Name -->
           <input class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm" id="f-name" placeholder="Your Full Name *" />
@@ -469,7 +467,7 @@
           </div>
           <div class="flex justify-between text-sm">
             <span class="text-gray-600">Delivery Fee</span>
-            <span class="font-medium text-green-700">FREE</span>
+            <span class="font-medium text-green-700">৳<span id="delivery-amount">0</span></span>
           </div>
           <div class="flex justify-between text-sm">
             <span class="text-gray-600">Discount</span>
@@ -526,7 +524,7 @@
           </div>
           <div class="flex justify-between text-sm">
             <span class="text-gray-600">Delivery Fee</span>
-            <span class="font-medium text-green-700">FREE</span>
+            <span class="font-medium text-green-700">৳<span id="delivery-amount-m">0</span></span>
           </div>
           <div class="flex justify-between text-sm">
             <span class="text-gray-600">Discount</span>
@@ -539,7 +537,7 @@
         </div>
       </div>
 
-      <!-- 2️⃣ Shipping Info SECOND (✅ New field order applied) -->
+      <!-- 2️⃣ Shipping Info SECOND -->
       <div class="bg-white rounded-2xl border border-gray-200 p-6">
         <div class="flex items-center gap-3 mb-6">
           <div class="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center">
@@ -836,6 +834,13 @@ function getCartTotals() {
       deliveryTotal += PRODUCTS[pid].delivery * qty;
     }
   }
+  
+  // ✅ Optional: Free delivery for orders >= ৳1000
+  var FREE_DELIVERY_THRESHOLD = 1000;
+  if (productTotal >= FREE_DELIVERY_THRESHOLD) {
+    deliveryTotal = 0;
+  }
+  
   return { productTotal: productTotal, deliveryTotal: deliveryTotal, grandTotal: productTotal + deliveryTotal };
 }
 function cartTotal() { return getCartTotals().grandTotal; }
@@ -974,7 +979,7 @@ function setupThanaListeners() {
   });
 }
 
-// === Updated renderCart - ✅ Removed summary text reference ===
+// === Updated renderCart - ✅ Dynamic delivery fee display ===
 function renderCart() {
   var count = cartCount();
   var totals = getCartTotals();
@@ -1016,12 +1021,16 @@ function renderCart() {
   document.getElementById('cart-items').innerHTML = itemsHtml;
   document.getElementById('cart-items-mobile').innerHTML = itemsHtml;
 
-  // Update totals for both desktop and mobile
+  // ✅ Update ALL totals including dynamic delivery amount
+  var deliveryText = totals.deliveryTotal === 0 ? 'FREE' : totals.deliveryTotal.toLocaleString('en-BD');
+  
   document.getElementById('subtotal-amount').textContent = totals.productTotal.toLocaleString('en-BD');
+  document.getElementById('delivery-amount').textContent = deliveryText;
   document.getElementById('discount-amount').textContent = '0';
   document.getElementById('final-total').textContent = totals.grandTotal.toLocaleString('en-BD');
   
   document.getElementById('subtotal-amount-m').textContent = totals.productTotal.toLocaleString('en-BD');
+  document.getElementById('delivery-amount-m').textContent = deliveryText;
   document.getElementById('discount-amount-m').textContent = '0';
   document.getElementById('final-total-mobile').textContent = totals.grandTotal.toLocaleString('en-BD');
 }
