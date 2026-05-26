@@ -151,12 +151,132 @@
       0%, 100% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
     }
+    @keyframes slide-in-right {
+      from { transform: translateX(100%); }
+      to { transform: translateX(0); }
+    }
+    @keyframes slide-out-right {
+      from { transform: translateX(0); }
+      to { transform: translateX(100%); }
+    }
+    @keyframes fade-overlay {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
     .animate-fade-in-up { animation: fade-in-up 0.6s ease-out forwards; }
     .animate-fade-in { animation: fade-in 0.8s ease-out forwards; }
     .animate-gradient { 
       background-size: 200% 200%; 
       animation: gradient 8s ease infinite; 
     }
+    
+    /* ✅ SIDE CART STYLES */
+    #side-cart-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    #side-cart-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    #side-cart {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 100%;
+      max-width: 420px;
+      height: 100%;
+      background: white;
+      z-index: 1001;
+      transform: translateX(100%);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+    }
+    #side-cart.active {
+      transform: translateX(0);
+      animation: slide-in-right 0.3s ease-out forwards;
+    }
+    #side-cart.closing {
+      animation: slide-out-right 0.25s ease-in forwards;
+    }
+    
+    .side-cart-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid #e5e7eb;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #f0fdf4;
+    }
+    
+    .side-cart-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 20px;
+    }
+    
+    .side-cart-footer {
+      padding: 16px 20px;
+      border-top: 1px solid #e5e7eb;
+      background: #fafafa;
+    }
+    
+    .side-cart-item {
+      display: flex;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid #f3f4f6;
+    }
+    
+    .side-cart-item:last-child {
+      border-bottom: none;
+    }
+    
+    .side-cart-qty-control {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #f0fdf4;
+      border: 2px solid #166534;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    
+    .side-cart-qty-btn {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      color: #166534;
+      background: transparent;
+      transition: background 0.2s;
+    }
+    
+    .side-cart-qty-btn:hover {
+      background: rgba(22, 101, 52, 0.1);
+    }
+    
+    .side-cart-qty {
+      min-width: 36px;
+      text-align: center;
+      font-weight: 600;
+      color: #1f2937;
+    }
+    
     iframe.hero-video, 
     iframe[class*="youtube"] {
       border: none;
@@ -168,10 +288,75 @@
     iframe:not([src]) {
       opacity: 0;
     }
+    
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    #side-cart-body::-webkit-scrollbar {
+      width: 4px;
+    }
+    #side-cart-body::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 4px;
+    }
+    #side-cart-body::-webkit-scrollbar-thumb {
+      background: #166534;
+      border-radius: 4px;
+    }
+    /* Hide scrollbar for IE, Edge and Firefox */
+    #side-cart-body {
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: thin;  /* Firefox */
+    }
   </style>
   <base target="_blank">
 </head>
 <body class="bg-gray-50">
+
+<!-- SIDE CART OVERLAY & PANEL -->
+<div id="side-cart-overlay" onclick="closeSideCart()"></div>
+<div id="side-cart">
+  <div class="side-cart-header">
+    <h3 class="font-semibold text-lg text-gray-900">আপনার কার্ট</h3>
+    <button onclick="closeSideCart()" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors" aria-label="বন্ধ করুন">
+      <svg class="w-5 h-5 text-gray-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M18 6L6 18M6 6l12 12"/>
+      </svg>
+    </button>
+  </div>
+  
+  <div class="side-cart-body" id="side-cart-body">
+    <!-- Cart items will be rendered here -->
+    <div id="side-cart-empty" class="text-center py-12 text-gray-500" style="display: none;">
+      <div class="text-5xl mb-4">🛒</div>
+      <p class="text-sm">আপনার কার্ট এখনো খালি</p>
+      <button onclick="closeSideCart(); goShop()" class="mt-4 text-green-700 text-sm font-medium hover:underline">কেনাকাটা শুরু করুন</button>
+    </div>
+    <div id="side-cart-items"></div>
+  </div>
+  
+  <div class="side-cart-footer">
+    <div class="space-y-3 mb-4">
+      <div class="flex justify-between text-sm">
+        <span class="text-gray-600">সাবটোটাল</span>
+        <span class="font-medium">৳<span id="side-subtotal">0</span></span>
+      </div>
+      <div class="flex justify-between text-sm">
+        <span class="text-gray-600">ডেলিভারি ফি</span>
+        <span class="font-medium text-green-700">৳<span id="side-delivery">0</span></span>
+      </div>
+      <div class="flex justify-between items-center pt-2 border-t border-gray-200">
+        <span class="text-base font-semibold">মোট</span>
+        <span class="font-serif text-xl font-bold text-green-700">৳<span id="side-total">0</span></span>
+      </div>
+    </div>
+    
+    <button onclick="proceedToCheckout()" class="w-full bg-green-800 text-white py-3.5 rounded-xl text-sm font-medium transition-all flex items-center justify-center gap-2 hover:bg-green-900 active:scale-98 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-green-800/20" id="side-proceed-btn">
+      চেকআউট করুন
+      <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </button>
+    
+    <p class="text-xs text-gray-500 text-center mt-3">🔒 নিরাপদ ক্যাশ অন ডেলিভারি • ২৪ঘণ্টা সাপোর্ট</p>
+  </div>
+</div>
 
 <!-- HEADER -->
 <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-200">
@@ -189,11 +374,11 @@
       </div>
     </a>
     <div class="flex items-center gap-4">
-      <a href="tel:01822916488" class="hidden sm:flex items-center gap-1.5 text-sm text-gray-600 hover:text-green-700 transition-colors">
+      <a href="tel:01794449607" class="hidden sm:flex items-center gap-1.5 text-sm text-gray-600 hover:text-green-700 transition-colors">
         <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.18 11.8a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.09 1h3a2 2 0 0 1 2 1.72c.127.96.36 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 8.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.34 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-        01822916488
+        01794449607
       </a>
-      <button class="flex items-center gap-2 bg-green-800 text-white px-5 py-2.5 rounded-xl text-sm font-medium hover:bg-green-900 transition-all active:scale-95 shadow-lg shadow-green-800/20" onclick="goCart()" id="cart-toggle-btn">
+      <button class="flex items-center gap-2 bg-green-800 text-white px-5 py-2.5 rounded-xl text-sm font-medium hover:bg-green-900 transition-all active:scale-95 shadow-lg shadow-green-800/20" onclick="openSideCart()" id="cart-toggle-btn">
         <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
         কার্ট
         <span class="bg-white text-green-800 text-xs font-bold min-w-[22px] h-[22px] rounded-full flex items-center justify-center px-1.5" id="cart-count">0</span>
@@ -330,7 +515,7 @@
 </section>
 </div>
 
-<!-- CART PAGE -->
+<!-- CART PAGE (kept for fallback) -->
 <div id="page-cart" class="page">
   <div class="cart-page max-w-7xl mx-auto px-4 sm:px-6 py-8 lg:py-12">
     <h1 class="font-serif text-3xl font-semibold mb-2 text-gray-900">Checkout</h1>
@@ -785,6 +970,106 @@ var THANAS_BY_DISTRICT = {
 var cart = {};
 var currentPage = 'shop';
 
+// ✅ SIDE CART FUNCTIONS
+function openSideCart() {
+  document.getElementById('side-cart-overlay').classList.add('active');
+  document.getElementById('side-cart').classList.add('active');
+  document.getElementById('side-cart').classList.remove('closing');
+  document.body.style.overflow = 'hidden'; // Prevent background scroll
+  renderSideCart();
+}
+
+function closeSideCart() {
+  document.getElementById('side-cart').classList.add('closing');
+  document.getElementById('side-cart').classList.remove('active');
+  setTimeout(function() {
+    document.getElementById('side-cart-overlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }, 250);
+}
+
+function proceedToCheckout() {
+  if (cartCount() === 0) {
+    toast('কার্ট খালি', true);
+    return;
+  }
+  closeSideCart();
+  showPage('cart');
+  // Auto-scroll to shipping form on mobile
+  setTimeout(function() {
+    var mobileForm = document.getElementById('checkout-layout-mobile');
+    if (mobileForm && window.innerWidth < 1024) {
+      mobileForm.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, 300);
+}
+
+function renderSideCart() {
+  var count = cartCount();
+  var totals = getCartTotals();
+  var emptyEl = document.getElementById('side-cart-empty');
+  var itemsContainer = document.getElementById('side-cart-items');
+  var proceedBtn = document.getElementById('side-proceed-btn');
+  
+  if (count === 0) {
+    emptyEl.style.display = 'block';
+    itemsContainer.innerHTML = '';
+    proceedBtn.disabled = true;
+    document.getElementById('side-subtotal').textContent = '0';
+    document.getElementById('side-delivery').textContent = '0';
+    document.getElementById('side-total').textContent = '0';
+    return;
+  }
+  
+  emptyEl.style.display = 'none';
+  proceedBtn.disabled = false;
+  
+  // Render items
+  var html = '';
+  for (var pid in cart) {
+    if (!cart.hasOwnProperty(pid)) continue;
+    var qty = cart[pid];
+    var p = PRODUCTS[pid];
+    if (!p) continue;
+    
+    html += '<div class="side-cart-item">' +
+      '<img src="' + p.image + '" alt="' + p.name + '" class="w-14 h-14 object-contain bg-white rounded-lg border flex-shrink-0" />' +
+      '<div class="flex-1 min-w-0">' +
+        '<h4 class="font-medium text-gray-900 text-sm mb-1 truncate">' + p.name + '</h4>' +
+        '<div class="flex items-center justify-between">' +
+          '<div class="side-cart-qty-control">' +
+            '<button onclick="adjustQtySideCart(\'' + pid + '\', -1)" class="side-cart-qty-btn">−</button>' +
+            '<span class="side-cart-qty">' + qty + '</span>' +
+            '<button onclick="adjustQtySideCart(\'' + pid + '\', 1)" class="side-cart-qty-btn">+</button>' +
+          '</div>' +
+          '<div class="font-semibold text-green-700 text-sm">৳' + (p.price * qty).toLocaleString('en-BD') + '</div>' +
+        '</div>' +
+      '</div>' +
+      '<button onclick="removeItemSideCart(\'' + pid + '\')" class="text-gray-400 hover:text-red-600 transition-colors p-1 flex-shrink-0" aria-label="Remove">×</button>' +
+    '</div>';
+  }
+  itemsContainer.innerHTML = html;
+  
+  // Update totals
+  var deliveryText = totals.deliveryTotal === 0 ? 'FREE' : totals.deliveryTotal.toLocaleString('en-BD');
+  document.getElementById('side-subtotal').textContent = totals.productTotal.toLocaleString('en-BD');
+  document.getElementById('side-delivery').textContent = deliveryText;
+  document.getElementById('side-total').textContent = totals.grandTotal.toLocaleString('en-BD');
+}
+
+function adjustQtySideCart(pid, delta) {
+  adjustQty(pid, delta);
+  renderSideCart();
+  renderProducts(); // Update product cards if visible
+}
+
+function removeItemSideCart(pid) {
+  removeItem(pid);
+  renderSideCart();
+  renderProducts();
+}
+
+// === Page navigation ===
 function showPage(page) {
   currentPage = page;
   document.getElementById('page-shop').classList.toggle('active', page === 'shop');
@@ -793,19 +1078,29 @@ function showPage(page) {
   if (page === 'cart') renderCart();
 }
 function goShop(e) { if (e) e.preventDefault(); showPage('shop'); }
-function goCart() { showPage('cart'); }
+function goCart() { 
+  // Instead of going to cart page, open side cart
+  if (cartCount() > 0) {
+    openSideCart();
+  } else {
+    showPage('cart');
+  }
+}
 
+// === Cart functions ===
 function addToCart(pid) {
   cart[pid] = (cart[pid] || 0) + 1;
   refreshCount();
   renderProducts();
+  renderSideCart(); // Update side cart if open
   toast('✓ ' + PRODUCTS[pid].name + ' কার্টে যোগ হয়েছে');
 }
 function buyNow(pid) {
   cart[pid] = (cart[pid] || 0) + 1;
   refreshCount();
   renderProducts();
-  goCart();
+  renderSideCart();
+  openSideCart(); // Open side cart after adding
 }
 function adjustQty(pid, delta) {
   var next = (cart[pid] || 0) + delta;
@@ -813,6 +1108,7 @@ function adjustQty(pid, delta) {
   else if (next <= 20) { cart[pid] = next; }
   refreshCount();
   renderProducts();
+  renderSideCart(); // Update side cart
   if (currentPage === 'cart') renderCart();
 }
 function removeItem(pid) {
@@ -820,6 +1116,7 @@ function removeItem(pid) {
   refreshCount();
   renderProducts();
   renderCart();
+  renderSideCart();
   toast('পণ্য সরানো হয়েছে');
 }
 
@@ -1145,6 +1442,7 @@ function _doCheckout(prefix) {
       cart = {};
       refreshCount();
       renderProducts();
+      renderSideCart();
       
       toast('✓ অর্ডার সফল হয়েছে! আইডি: ' + (data.order_id || 'URB-XXXX'));
       
@@ -1204,6 +1502,13 @@ function setupLiveValidation() {
     }
   });
 }
+
+// Close side cart on Escape key
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    closeSideCart();
+  }
+});
 
 // Initialize
 renderProducts();
