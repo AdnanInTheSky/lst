@@ -4,14 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>অর্ডার নিশ্চিত — Urbor Essentials</title>
-  
+
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
-  
+
   <script>
     tailwind.config = {
       theme: {
@@ -38,7 +39,7 @@
       }
     }
   </script>
-  
+
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; -webkit-tap-highlight-color: transparent; }
@@ -52,7 +53,7 @@
     a { color: inherit; text-decoration: none; }
     button { font-family: 'Noto Sans Bengali', sans-serif; cursor: pointer; border: none; }
     img { display: block; max-width: 100%; }
-    
+
     /* Animations */
     @keyframes pulse-ring {
       0% { box-shadow: 0 0 0 0 rgba(22, 101, 52, 0.4); }
@@ -60,13 +61,13 @@
       100% { box-shadow: 0 0 0 0 rgba(22, 101, 52, 0); }
     }
     .animate-pulse-ring { animation: pulse-ring 1.5s ease-in-out infinite; }
-    
+
     @keyframes fade-in-up {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
     .animate-fade-in-up { animation: fade-in-up 0.5s ease-out forwards; }
-    
+
     @keyframes checkmark {
       0% { stroke-dashoffset: 100; }
       100% { stroke-dashoffset: 0; }
@@ -76,11 +77,11 @@
       stroke-dashoffset: 100;
       animation: checkmark 0.6s ease-in-out forwards 0.3s;
     }
-    
+
     /* PDF Print Optimizations */
     @media print {
       body { background: #fff !important; }
-      header, footer, #card-footer { display: none !important; }
+      header, #page-footer, #card-footer { display: none !important; }
       #invoice-card { 
         box-shadow: none !important; 
         border: none !important; 
@@ -89,7 +90,7 @@
       }
       .no-print { display: none !important; }
     }
-    
+
     /* Invoice-specific styles for PDF clarity */
     .invoice-header {
       border-bottom: 3px solid #166534;
@@ -128,6 +129,8 @@
       color: #166534;
       background: #f0fdf4;
     }
+
+    /* FIXED INVOICE FOOTER - stays at bottom */
     .invoice-footer {
       border-top: 2px solid #e5e7eb;
       padding-top: 1rem;
@@ -139,7 +142,7 @@
     .invoice-footer strong {
       color: #166534;
     }
-    
+
     /* Status badge styles */
     .status-badge {
       display: inline-flex;
@@ -162,17 +165,48 @@
       background: #fef3c7;
       color: #92400e;
     }
+
+    /* PDF clarity fixes */
+    #invoice-card {
+      background: #ffffff !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .invoice-title, .font-serif {
+      font-family: 'Cormorant Garamond', Georgia, serif !important;
+    }
+    body, .font-bengali {
+      font-family: 'Noto Sans Bengali', sans-serif !important;
+    }
+
+    /* Ensure text is sharp */
+    * {
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Fixed page footer at bottom */
+    #page-footer {
+      margin-top: auto;
+    }
+
+    /* Ensure main takes full height */
+    main {
+      min-height: calc(100vh - 64px - 140px);
+    }
   </style>
   <base target="_blank">
+<base target="_blank">
 </head>
-<body class="bg-gray-50">
+<body class="bg-gray-50 flex flex-col min-h-screen">
 
 <!-- Header (Matched with main site) -->
 <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-200">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
     <a href="/" class="flex items-center gap-3">
       <img 
-        src="https://mango-project-rho.vercel.app/static/images/logo2.png" 
+        src="https://lst-mu.vercel.app/images/logo2.png" 
         alt="Urbor Essentials Logo" 
         class="w-10 h-10 object-contain rounded-xl shadow-lg"
         onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'w-10 h-10 bg-gradient-to-br from-green-700 to-emerald-600 rounded-xl flex items-center justify-center text-xl shadow-lg\'>🥭</div>'"
@@ -191,10 +225,10 @@
 
 <!-- Main Content -->
 <main class="flex-1 flex items-start justify-center px-4 py-8 sm:py-12">
-  
+
   <!-- ✅ INVOICE CARD - Optimized for both screen & PDF -->
   <div id="invoice-card" class="bg-white border border-gray-200 rounded-2xl w-full max-w-3xl overflow-hidden shadow-xl shadow-green-800/5 animate-fade-in-up">
-    
+
     <!-- Professional Invoice Header -->
     <div class="invoice-header px-6 sm:px-10 pt-8 pb-6 bg-gradient-to-r from-primary-light to-white">
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -245,7 +279,7 @@
           <span id="inv-status" class="status-badge status-pending">—</span>
         </div>
       </div>
-      
+
       <div class="mt-4 pt-4 border-t border-gray-200">
         <div class="grid grid-cols-2 gap-4 text-sm">
           <div>
@@ -267,7 +301,7 @@
     <!-- Order Items Table (Professional Layout) -->
     <div id="items-section" class="hidden px-6 sm:px-10 py-6">
       <p class="text-xs font-bold tracking-widest uppercase text-gray-500 mb-4 pb-2 border-b border-gray-200">অর্ডার বিবরণ</p>
-      
+
       <div class="overflow-x-auto">
         <table class="w-full invoice-table rounded-lg overflow-hidden">
           <thead>
@@ -290,7 +324,7 @@
       </div>
     </div>
 
-    <!-- Professional Invoice Footer (For PDF) -->
+    <!-- Professional Invoice Footer (Fixed in place for PDF) -->
     <div class="invoice-footer px-6 sm:px-10 pb-6">
       <div class="mb-2">
         <strong>Urbor Essentials</strong> • Srotoshshini, South Badda, Dhaka 1212
@@ -320,8 +354,8 @@
   </div>
 </main>
 
-<!-- Footer (Matched with main site) -->
-<footer class="bg-green-900 text-gray-300 py-8 px-4 sm:px-6 mt-auto">
+<!-- Footer (Matched with main site) - FIXED AT BOTTOM -->
+<footer id="page-footer" class="bg-green-900 text-gray-300 py-8 px-4 sm:px-6">
   <div class="max-w-7xl mx-auto text-center">
     <div class="font-serif text-lg text-white mb-2">Urbor Essentials</div>
     <p class="text-sm text-gray-400 mb-4">রাজশাহীর প্রাকৃতিক আম — বাগান থেকে সরাসরি আপনার ঘরে</p>
@@ -334,7 +368,7 @@
   const params = new URLSearchParams(location.search);
   const invoice = params.get('invoice_number') || '';
   const paymentStatus = params.get('status') || '';
-  
+
   // Read lastOrder from sessionStorage
   let lastOrder = null;
   try { 
@@ -350,7 +384,7 @@
   function setStatusStyle(type) {
     const icon = document.getElementById('status-icon');
     const statusBadge = document.getElementById('inv-status');
-    
+
     if (type === 'success') {
       icon.className = 'w-14 h-14 rounded-full flex items-center justify-center text-2xl bg-gradient-to-br from-success-bg to-green-50';
       icon.innerHTML = '<svg class="w-8 h-8 text-green-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path class="checkmark-path" d="M8 12l3 3 5-5"/></svg>';
@@ -389,7 +423,7 @@
 
   async function verify(attempt = 1) {
     if (handlePaymentStatus()) return;
-    
+
     try {
       const res = await fetch(API_BASE + '/status', {
         method: 'POST',
@@ -398,7 +432,7 @@
       });
       const data = await res.json();
       const status = (data.trx_status || data.status || '').toLowerCase();
-      
+
       if (status === 'successful' || status === 'success') {
         render('success', 'অর্ডার নিশ্চিত!', 'আপনার পেমেন্ট সফল হয়েছে। ধন্যবাদ!', data);
       } else if (status === 'failed' || status === 'cancelled') {
@@ -433,22 +467,22 @@
     setText('inv-name', lastOrder?.name || data?.customer?.name || params.get('name') || '—');
     setText('inv-phone', lastOrder?.phone || params.get('phone') || '—');
     setText('inv-email', lastOrder?.email || params.get('email') || '—');
-    
+
     const addressParts = [
       lastOrder?.address?.detail,
       lastOrder?.address?.thana,
       lastOrder?.address?.jela
     ].filter(Boolean);
     setText('inv-address', addressParts.join(', ') || '—');
-    
+
     const amount = lastOrder?.amount || data?.amount || params.get('amount') || 0;
     setText('inv-amount', '৳' + Number(amount).toLocaleString('en-BD'));
     setText('inv-total', '৳' + Number(amount).toLocaleString('en-BD'));
-    
+
     const statusText = data?.trx_status || (type === 'success' ? 'সফল' : 'ব্যর্থ');
     setText('inv-status', statusText);
     setText('inv-trxid', data?.trx_id || params.get('trx_id') || '—');
-    
+
     document.getElementById('invoice-section').classList.remove('hidden');
 
     // Render items table
@@ -456,7 +490,7 @@
     if (items.length) {
       let html = '';
       let total = 0;
-      
+
       items.forEach((it, idx) => {
         const lineTotal = (it.price || 0) * (it.qty || 1);
         total += lineTotal;
@@ -473,25 +507,25 @@
           </tr>
         `;
       });
-      
+
       document.getElementById('items-list').innerHTML = html;
       setText('inv-total', '৳' + total.toLocaleString('en-BD'));
       document.getElementById('items-section').classList.remove('hidden');
-      
+
       // Clean up sessionStorage after use
       sessionStorage.removeItem('lastOrder');
     }
 
     // Show footer actions
     document.getElementById('card-footer').classList.remove('hidden');
-    
+
     if (type === 'failed') {
       document.querySelector('#card-footer a').textContent = '← হোমে ফিরুন';
       document.querySelector('#card-footer button').style.display = 'none';
     } else {
       document.querySelector('#card-footer button').style.display = 'flex';
     }
-    
+
     const trxId = data?.trx_id || params.get('trx_id');
     setText('verify-note', trxId ? 'ট্রানজেকশন রেফারেন্স: ' + trxId : 'PayStation নিরাপদ গেটওয়ের মাধ্যমে প্রসেসকৃত।');
   }
@@ -502,45 +536,52 @@
   }
 
   function downloadPDF() {
-    const element = document.getElementById('invoice-card');
-    const footer = document.getElementById('card-footer');
-    const originalDisplay = footer.style.display;
-    
-    // Hide buttons for PDF
-    footer.style.display = 'none';
-    
-    const opt = {
-      margin: [15, 15, 15, 15],
-      filename: `invoice-${invoice || lastOrder?.invoice || 'order'}.pdf`,
-      image: { type: 'jpeg', quality: 1.0 },
-      html2canvas: { 
-        scale: 3, 
-        useCORS: true, 
-        logging: false, 
-        backgroundColor: '#ffffff',
-        letterRendering: true,
-        allowTaint: true
-      },
-      jsPDF: { 
-        unit: 'mm', 
-        format: 'a4', 
-        orientation: 'portrait',
-        putOnlyUsedFonts: true
-      }
-    };
+    // Wait for fonts to be fully loaded before generating PDF
+    document.fonts.ready.then(() => {
+      const element = document.getElementById('invoice-card');
+      const footer = document.getElementById('card-footer');
+      const originalDisplay = footer.style.display;
 
-    html2pdf()
-      .set(opt)
-      .from(element)
-      .save()
-      .then(() => {
-        footer.style.display = originalDisplay;
-      })
-      .catch((err) => {
-        console.error('PDF error:', err);
-        footer.style.display = originalDisplay;
-        alert('PDF তৈরি করতে সমস্যা হয়েছে। পেজ রিফ্রেশ করে আবার চেষ্টা করুন।');
-      });
+      // Hide buttons for PDF
+      footer.style.display = 'none';
+
+      // Force explicit text colors for sharp rendering
+      element.style.color = '#1f2937';
+
+      const opt = {
+        margin: [10, 10, 10, 10],
+        filename: `invoice-${invoice || lastOrder?.invoice || 'order'}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { 
+          scale: 2,  // Reduced from 3 for better text clarity
+          useCORS: true, 
+          logging: false, 
+          backgroundColor: '#ffffff',
+          letterRendering: true,
+          allowTaint: false,
+          foreignObjectRendering: false  // Better font support
+        },
+        jsPDF: { 
+          unit: 'mm', 
+          format: 'a4', 
+          orientation: 'portrait',
+          putOnlyUsedFonts: true
+        }
+      };
+
+      html2pdf()
+        .set(opt)
+        .from(element)
+        .save()
+        .then(() => {
+          footer.style.display = originalDisplay;
+        })
+        .catch((err) => {
+          console.error('PDF error:', err);
+          footer.style.display = originalDisplay;
+          alert('PDF তৈরি করতে সমস্যা হয়েছে। পেজ রিফ্রেশ করে আবার চেষ্টা করুন।');
+        });
+    });
   }
 
   // Initialize

@@ -3,375 +3,474 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Urbor Essentials — অর্ডার করুন</title>
+  <title>Urbor Essentials — অর্ডার ফর্ম</title>
   
-  <!-- Tailwind CSS -->
+  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
-          colors: { primary: '#166534', 'primary-dark': '#14532d', secondary: '#16a34a' },
-          fontFamily: { bengali: ['"Noto Sans Bengali"', 'sans-serif'], serif: ['"Cormorant Garamond"', 'Georgia', 'serif'] }
+          colors: {
+            'primary': '#166534',
+            'primary-dark': '#14532d',
+            'primary-light': '#f0fdf4',
+            'primary-accent': '#22c55e',
+            'secondary': '#16a34a',
+            'text-dark': '#1f2937',
+            'text-muted': '#6b7280',
+            'border-light': '#e5e7eb',
+          },
+          fontFamily: {
+            'bengali': ['"Noto Sans Bengali"', 'sans-serif'],
+            'serif': ['"Cormorant Garamond"', 'Georgia', 'serif'],
+          }
         }
       }
     }
   </script>
   
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
   
   <style>
-    body { font-family: 'Noto Sans Bengali', sans-serif; background: #f9fafb; color: #1f2937; }
-    input, select, textarea, button { font-family: 'Noto Sans Bengali', sans-serif; }
-    .qty-btn { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 10px; transition: all 0.15s; cursor: pointer; user-select: none; }
-    .qty-btn:hover { background: #f0fdf4; color: #166534; }
-    .qty-btn:active { transform: scale(0.92); background: #dcfce7; }
-    #toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(100px); background: #166534; color: white; padding: 14px 32px; border-radius: 9999px; font-size: 14px; font-weight: 500; z-index: 200; transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3); text-align: center; max-width: 90vw; white-space: nowrap; opacity: 0; pointer-events: none; }
-    #toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-tap-highlight-color: transparent; }
+    body { 
+      font-family: 'Noto Sans Bengali', sans-serif; 
+      background-color: #fafafa;
+      color: #1f2937;
+      min-height: 100vh;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font-family: 'Noto Sans Bengali', sans-serif; cursor: pointer; border: none; }
+    img { display: block; max-width: 100%; }
+    input, select, textarea { font-family: 'Noto Sans Bengali', sans-serif; }
+    
+    /* Product Card - Small & Compact */
+    .product-card { 
+      @apply bg-white rounded-xl border border-gray-200 p-3 flex gap-3 items-start;
+      transition: box-shadow 0.2s;
+    }
+    .product-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+    .product-img { 
+      @apply w-16 h-16 sm:w-20 sm:h-20 object-contain bg-gray-50 rounded-lg flex-shrink-0;
+    }
+    .product-info { @apply flex-1 min-w-0; }
+    .product-name { @apply font-medium text-sm text-gray-900 truncate; }
+    .product-desc { @apply text-xs text-gray-500 mt-0.5 line-clamp-2; }
+    .product-price { @apply text-base font-bold text-green-700 mt-1; }
+    .product-original { @apply text-xs text-gray-400 line-through ml-1; }
+    
+    /* Quantity Control - Compact */
+    .qty-control { 
+      @apply flex items-center border-2 border-green-700 rounded-lg overflow-hidden mt-2;
+    }
+    .qty-btn { 
+      @apply w-7 h-7 flex items-center justify-center text-green-700 hover:bg-green-50 font-semibold text-sm;
+    }
+    .qty-val { 
+      @apply w-8 text-center text-sm font-bold text-gray-900 bg-green-50 py-1;
+    }
+    
+    /* Form Inputs */
+    .form-input, .form-select { 
+      @apply w-full px-3 py-2.5 rounded-lg border border-gray-300 focus:border-green-600 focus:ring-2 focus:ring-green-100 outline-none transition-all text-sm;
+    }
+    .form-label { @apply block text-xs font-medium text-gray-700 mb-1; }
+    
+    /* Order Summary */
+    .summary-row { @apply flex justify-between text-sm py-1.5; }
+    .summary-total { @apply flex justify-between items-center pt-3 border-t border-gray-200 mt-2; }
+    
+    /* Toast */
+    #toast {
+      position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%) translateY(80px);
+      background: #166534; color: white;
+      padding: 10px 20px; border-radius: 9999px;
+      font-size: 13px; font-weight: 500;
+      z-index: 100;
+      transition: transform 0.3s;
+      pointer-events: none;
+      white-space: nowrap;
+      max-width: 90vw;
+      text-align: center;
+    }
+    #toast.show { transform: translateX(-50%) translateY(0); }
     #toast.err { background: #dc2626; }
-    @media (max-width: 640px) { .hero-grid, .footer-grid { grid-template-columns: 1fr; } }
+    
+    /* Pay Button */
+    .pay-btn { 
+      @apply w-full bg-green-800 text-white py-3.5 rounded-xl text-sm font-semibold transition-all flex items-center justify-center gap-2 hover:bg-green-900 active:scale-98 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-green-800/20;
+    }
+    
+    @media (max-width: 640px) {
+      .container { @apply px-3; }
+      .section { @apply py-4; }
+    }
   </style>
 </head>
-<body class="min-h-screen flex flex-col">
+<body class="bg-gray-50">
 
-<!-- HEADER -->
-<header class="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-gray-200 shadow-sm">
-  <div class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
-    <div class="flex items-center gap-3">
-      <img src="https://mango-project-rho.vercel.app/static/images/logo.png" alt="Urbor Essentials" class="w-10 h-10 rounded-xl shadow" onerror="this.onerror=null;this.parentElement.innerHTML='<div class=\'w-10 h-10 bg-gradient-to-br from-green-700 to-emerald-600 rounded-xl flex items-center justify-center text-xl shadow-lg\'>🥭</div>'" />
+<!-- Header -->
+<header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-gray-200">
+  <div class="max-w-2xl mx-auto px-4 h-14 flex items-center justify-between">
+    <div class="flex items-center gap-2">
+      <div class="w-8 h-8 bg-gradient-to-br from-green-700 to-emerald-600 rounded-lg flex items-center justify-center text-white font-bold text-sm">UE</div>
       <div>
-        <div class="font-serif text-lg font-semibold text-gray-900 tracking-tight">Urbor Essentials</div>
-        <div class="text-xs text-gray-500 -mt-0.5">রাজশাহীর প্রাকৃতিক আম</div>
+        <div class="font-serif text-base font-semibold text-gray-900">Urbor Essentials</div>
+        <div class="text-[10px] text-gray-500 -mt-0.5">রাজশাহীর প্রাকৃতিক আম</div>
       </div>
     </div>
-    <a href="tel:01822916488" class="flex items-center gap-1.5 text-sm font-semibold text-green-700 bg-green-50 px-3 py-1.5 rounded-lg border border-green-200 hover:bg-green-100 transition">
-      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
-      কল করুন
+    <a href="tel:01794449607" class="text-xs text-gray-600 flex items-center gap-1">
+      <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.18 11.8a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.09 1h3a2 2 0 0 1 2 1.72c.127.96.36 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 8.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.34 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      01794449607
     </a>
   </div>
 </header>
 
-<!-- MAIN FORM -->
-<main class="flex-grow py-6 md:py-10 px-4">
-  <form id="order-form" class="max-w-4xl mx-auto space-y-8" onsubmit="return false;">
-    
-    <!-- Section 1: Product Selection -->
-    <div class="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
-      <h2 class="font-serif text-xl font-semibold mb-5 text-gray-800 flex items-center gap-2 border-b pb-3">
-        <span class="bg-green-100 text-green-700 w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold">1</span>
-        পণ্য নির্বাচন করুন
-      </h2>
-      <div id="product-list" class="space-y-4"></div>
-    </div>
+<!-- Main Form Container -->
+<main class="max-w-2xl mx-auto px-3 py-3 space-y-4">
+  
+  <!-- SECTION 1: PRODUCTS (Small Cards with Quantity) -->
+  <section class="section bg-white rounded-2xl border border-gray-200 p-4">
+    <h2 class="font-serif text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2">
+      <span class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center text-xs font-bold text-green-700">1</span>
+      পণ্য নির্বাচন করুন
+    </h2>
+    <div id="product-list" class="space-y-3"></div>
+    <p id="empty-cart-msg" class="text-center text-sm text-gray-500 py-4 hidden">কোনো পণ্য নির্বাচন করা হয়নি</p>
+  </section>
 
-    <!-- Section 2: Order Summary -->
-    <div class="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
-      <h2 class="font-serif text-xl font-semibold mb-5 text-gray-800 flex items-center gap-2 border-b pb-3">
-        <span class="bg-green-100 text-green-700 w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold">2</span>
-        অর্ডার সারাংশ
-      </h2>
-      <div class="space-y-3 text-sm">
-        <div class="flex justify-between text-gray-600"><span>পণ্যের মূল্য</span><span class="font-medium">৳<span id="subtotal">0</span></span></div>
-        <div class="flex justify-between text-gray-600"><span>ডেলিভারি চার্জ</span><span class="font-medium">৳<span id="delivery-total">0</span></span></div>
-        <div class="flex justify-between text-lg font-bold text-green-700 border-t border-dashed border-gray-200 pt-3 mt-2">
-          <span>সর্বমোট পেমেন্ট</span>
-          <span class="font-serif text-2xl">৳<span id="grand-total">0</span></span>
-        </div>
+  <!-- SECTION 2: ORDER SUMMARY -->
+  <section class="section bg-white rounded-2xl border border-gray-200 p-4">
+    <h2 class="font-serif text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2">
+      <span class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center text-xs font-bold text-green-700">2</span>
+      অর্ডার সামারি
+    </h2>
+    <div id="summary-items" class="space-y-2 mb-3"></div>
+    <div class="border-t border-gray-200 pt-3 space-y-1">
+      <div class="summary-row">
+        <span class="text-gray-600">সাবটোটাল</span>
+        <span class="font-medium">৳<span id="subtotal">0</span></span>
+      </div>
+      <div class="summary-row">
+        <span class="text-gray-600">ডেলিভারি</span>
+        <span class="font-medium text-green-700">ফ্রি</span>
+      </div>
+      <div class="summary-row">
+        <span class="text-gray-600">ডিসকাউন্ট</span>
+        <span class="font-medium">-৳<span id="discount">0</span></span>
+      </div>
+      <div class="summary-total">
+        <span class="text-base font-semibold">মোট</span>
+        <span class="font-serif text-xl font-bold text-green-700">৳<span id="total">0</span></span>
       </div>
     </div>
+  </section>
 
-    <!-- Section 3: Customer & Delivery Details -->
-    <div class="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
-      <h2 class="font-serif text-xl font-semibold mb-5 text-gray-800 flex items-center gap-2 border-b pb-3">
-        <span class="bg-green-100 text-green-700 w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold">3</span>
-        আপনার তথ্য ও ডেলিভারি ঠিকানা
-      </h2>
-      <div class="space-y-4">
-        <div>
-          <label class="block text-xs font-semibold text-gray-700 mb-1.5">পুরো নাম *</label>
-          <input type="text" id="name" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition bg-gray-50" placeholder="আপনার নাম" required />
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label class="block text-xs font-semibold text-gray-700 mb-1.5">ফোন নম্বর *</label>
-            <input type="tel" id="phone" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition bg-gray-50" placeholder="01XXXXXXXXX" maxlength="11" required />
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-gray-700 mb-1.5">ইমেইল *</label>
-            <input type="email" id="email" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition bg-gray-50" placeholder="you@example.com" required />
-          </div>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label class="block text-xs font-semibold text-gray-700 mb-1.5">জেলা *</label>
-            <select id="district" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition bg-gray-50" required>
-              <option value="">জেলা নির্বাচন করুন</option>
-              <!-- Populated via JS -->
-            </select>
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-gray-700 mb-1.5">থানা *</label>
-            <select id="thana" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition bg-gray-50 disabled:bg-gray-100 disabled:cursor-not-allowed" disabled required>
-              <option value="">প্রথমে জেলা নির্বাচন করুন</option>
-            </select>
-          </div>
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-gray-700 mb-1.5">বিস্তারিত ঠিকানা *</label>
-          <textarea id="address" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition bg-gray-50 disabled:bg-gray-100 disabled:cursor-not-allowed" rows="3" placeholder="বাড়ি/হাউজ নং, রোড, ল্যান্ডমার্ক, পোস্ট কোড..." disabled required></textarea>
+  <!-- SECTION 3: SHIPPING INFO -->
+  <section class="section bg-white rounded-2xl border border-gray-200 p-4">
+    <h2 class="font-serif text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2">
+      <span class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center text-xs font-bold text-green-700">3</span>
+      ডেলিভারি তথ্য
+    </h2>
+    <form id="shipping-form" class="space-y-3" onsubmit="return false;">
+      
+      <!-- Name -->
+      <div>
+        <label class="form-label" for="name">পুরো নাম *</label>
+        <input class="form-input" id="name" name="name" type="text" placeholder="আপনার নাম" required />
+      </div>
+      
+      <!-- Phone -->
+      <div>
+        <label class="form-label" for="phone">মোবাইল নম্বর *</label>
+        <div class="flex gap-2">
+          <span class="px-3 py-2.5 bg-gray-100 rounded-lg text-xs font-medium text-gray-700 border border-gray-300 flex-shrink-0">+88</span>
+          <input class="form-input flex-1" id="phone" name="phone" type="tel" placeholder="017********" maxlength="11" inputmode="numeric" required />
         </div>
       </div>
-    </div>
+      
+      <!-- Email (Optional) -->
+      <div>
+        <label class="form-label" for="email">ইমেইল (ঐচ্ছিক)</label>
+        <input class="form-input" id="email" name="email" type="email" placeholder="you@example.com" />
+      </div>
+      
+      <!-- District & Thana -->
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="form-label" for="district">জেলা *</label>
+          <select class="form-select" id="district" name="district" required onchange="populateThanas()">
+            <option value="">নির্বাচন করুন</option>
+            <option value="Dhaka">Dhaka</option>
+            <option value="Chattogram">Chattogram</option>
+            <option value="Rajshahi">Rajshahi</option>
+            <option value="Khulna">Khulna</option>
+            <option value="Sylhet">Sylhet</option>
+            <option value="Barisal">Barisal</option>
+            <option value="Rangpur">Rangpur</option>
+            <option value="Mymensingh">Mymensingh</option>
+            <option value="Comilla">Comilla</option>
+            <option value="Narayanganj">Narayanganj</option>
+            <option value="Gazipur">Gazipur</option>
+            <option value="Coxsbazar">Coxsbazar</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label" for="thana">থানা *</label>
+          <select class="form-select" id="thana" name="thana" disabled required>
+            <option value="">প্রথমে জেলা নির্বাচন করুন</option>
+          </select>
+        </div>
+      </div>
+      
+      <!-- Full Address -->
+      <div>
+        <label class="form-label" for="address">বিস্তারিত ঠিকানা *</label>
+        <textarea class="form-input resize-none" id="address" name="address" rows="2" placeholder="বাড়ি নং, রোড, এলাকা..." required></textarea>
+      </div>
+      
+    </form>
+  </section>
 
-    <!-- Submit Button -->
-    <div class="pb-12">
-      <button type="button" id="pay-btn" class="w-full bg-green-800 text-white py-4 rounded-xl text-base font-semibold hover:bg-green-900 transition-all active:scale-[0.99] shadow-lg shadow-green-800/25 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none" onclick="submitOrder()">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" stroke-width="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4" stroke-width="2"/></svg>
-        PayStation-এ পেমেন্ট করুন
-      </button>
-      <p class="text-center text-xs text-gray-400 mt-3 flex items-center justify-center gap-1.5">
-        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-        SSL এনক্রিপ্টেড · নিরাপদ লেনদেন
-      </p>
-    </div>
+  <!-- SECTION 4: PAY BUTTON -->
+  <section class="section pb-6">
+    <button id="pay-btn" class="pay-btn" onclick="processPayment()">
+      পেমেন্ট করুন
+      <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </button>
+    <p class="text-center text-[11px] text-gray-500 mt-3 flex items-center justify-center gap-4">
+      <span class="flex items-center gap-1"><svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg> SSL Secure</span>
+      <span class="flex items-center gap-1"><svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Protected</span>
+      <span class="flex items-center gap-1"><svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Verified</span>
+    </p>
+  </section>
 
-  </form>
 </main>
 
-<!-- FOOTER -->
-<footer class="bg-gray-100 py-6 text-center text-sm text-gray-500 border-t border-gray-200 mt-auto">
+<!-- Footer -->
+<footer class="max-w-2xl mx-auto px-4 py-6 text-center text-xs text-gray-500 border-t border-gray-200">
   © ২০২৬ Urbor Essentials — রাজশাহীর প্রাকৃতিক আম
 </footer>
 
-<!-- TOAST -->
+<!-- Toast Notification -->
 <div id="toast"></div>
 
+<!-- JavaScript -->
 <script>
-// ================= CONFIG =================
+// ========== CONFIG ==========
 const API_BASE = "/api";
 
+// ========== PRODUCTS ==========
 const PRODUCTS = {
-  p1: { name: "হিমসাগর আম — প্রিমিয়াম", price: 180, delivery: 80, originalPrice: 220, image: "https://lst-mu.vercel.app/images/image.png", desc: "রাজশাহীর বিখ্যাত হিমসাগর, মিষ্টি ও সুগন্ধি। প্রতি কেজি।" },
-  p2: { name: "ল্যাংড়া আম", price: 220, delivery: 80, originalPrice: 280, image: "https://lst-mu.vercel.app/images/image.png", desc: "রাজশাহীর ঐতিহ্যবাহী ল্যাংড়া, টক-মিষ্টি স্বাদ। প্রতি কেজি।" },
-  p3: { name: "ফজলি আম", price: 200, delivery: 90, originalPrice: 250, image: "https://lst-mu.vercel.app/images/image.png", desc: "বড় আকারের ফজলি, রাজশাহীর সেরা বাগান থেকে।" },
-  p4: { name: "আম্রপালি আম", price: 250, delivery: 80, originalPrice: 300, image: "https://lst-mu.vercel.app/images/image.png", desc: "মিষ্টি ও রসালো আম্রপালি, প্রতি কেজি।" },
-  p5: { name: "হিমসাগর — ফ্যামিলি প্যাক", price: 850, delivery: 150, originalPrice: 1100, image: "https://lst-mu.vercel.app/images/image.png", desc: "৫ কেজি ফ্যামিলি প্যাক, বিশেষ ডিসকাউন্টে।" },
-  p6: { name: "আমের আচার — হাতে তৈরি", price: 350, delivery: 60, originalPrice: 420, image: "https://lst-mu.vercel.app/images/image.png", desc: "পাকা আমের ঐতিহ্যবাহী আচার, কোনো প্রিজারভেটিভ নেই। ৫০০গ্রাম।" },
-  p7: { name: "আমের জুস — তাজা", price: 180, delivery: 70, originalPrice: 220, image: "https://lst-mu.vercel.app/images/image.png", desc: "তাজা রাজশাহী আমের জুস, কোনো চিনি মিশ্রিত নয়। ১ লিটার।" },
-  p8: { name: "আমের সরবত কনসেনট্রেট", price: 280, delivery: 60, originalPrice: 350, image: "https://lst-mu.vercel.app/images/image.png", desc: "ঘন সরবত কনসেনট্রেট, পানিতে মিশিয়ে খান। ৫০০মিলি।" }
+  p1: { name: "হিমসাগর আম", price: 180, orig: 220, img: "https://lst-mu.vercel.app/images/image.png", desc: "মিষ্টি ও সুগন্ধি, প্রতি কেজি", delivery: 0 },
+  p2: { name: "ল্যাংড়া আম", price: 220, orig: 280, img: "https://lst-mu.vercel.app/images/image.png", desc: "টক-মিষ্টি স্বাদ, প্রতি কেজি", delivery: 0 },
+  p3: { name: "ফজলি আম", price: 200, orig: 250, img: "https://lst-mu.vercel.app/images/image.png", desc: "বড় আকারের, প্রতি কেজি", delivery: 0 },
+  p4: { name: "আম্রপালি", price: 250, orig: 300, img: "https://lst-mu.vercel.app/images/image.png", desc: "রসালো ও মিষ্টি, প্রতি কেজি", delivery: 0 },
+  p5: { name: "হিমসাগর ফ্যামিলি", price: 850, orig: 1100, img: "https://lst-mu.vercel.app/images/image.png", desc: "৫ কেজি প্যাক, বিশেষ ডিসকাউন্ট", delivery: 0 },
+  p6: { name: "আমের আচার", price: 350, orig: 420, img: "https://lst-mu.vercel.app/images/image.png", desc: "হাতে তৈরি, ৫০০গ্রাম", delivery: 0 },
+  p7: { name: "আমের জুস", price: 180, orig: 220, img: "https://lst-mu.vercel.app/images/image.png", desc: "তাজা, চিনিমুক্ত, ১ লিটার", delivery: 0 },
+  p8: { name: "আমের সরবত", price: 280, orig: 350, img: "https://lst-mu.vercel.app/images/image.png", desc: "কনসেনট্রেট, ৫০০মিলি", delivery: 0 },
 };
 
-const THANAS_BY_DISTRICT = {
-  "Bagerhat": ["Bagerhat Sadar", "Chitalmari", "Fakirhat", "Kachua", "Mollahat", "Mongla", "Morrelganj", "Rampal", "Sarankhola"],
-  "Bandarban": ["Alikadam", "Bandarban Sadar", "Lama", "Naikhongchhari", "Rowangchhari", "Ruma", "Thanchi"],
-  "Barguna": ["Amtali", "Bamna", "Barguna Sadar", "Betagi", "Pathorghata", "Taltali"],
-  "Barisal": ["Agailjhara", "Babuganj", "Bakerganj", "Banaripara", "Barisal Sadar", "Gournadi", "Gournadi Thana", "Hizla", "Kotwali", "Mehendiganj", "Muladi", "Wazirpur"],
-  "Bhola": ["Bhola Sadar", "Borhanuddin", "Charfesson", "Doulatkhan", "Lalmohan", "Monpura", "Tazumuddin"],
-  "Bogura": ["Adamdighi", "Bogra Sadar", "Dhunot", "Dupchanchia", "Gabtali", "Kahaloo", "Nondigram", "Shajahanpur", "Shariakandi", "Sherpur", "Shibganj", "Sonatala"],
-  "Brahmanbaria": ["Akhaura", "Ashuganj", "Bancharampur", "Bijoynagar", "Brahmanbaria Sadar", "Kasba", "Nabinagar", "Nasirnagar", "Sarail"],
-  "Chandpur": ["Chandpur Sadar", "Faridgonj", "Haimchar", "Hajiganj", "Kachua", "Matlab North", "Matlab South", "Shahrasti"],
-  "Chapainawabganj": ["Bholahat", "Chapainawabganj Sadar", "Gomostapur", "Nachol", "Shibganj"],
-  "Chattogram": ["Akbar Shah Police Station", "Anwara", "Bakalia Police Station", "Bandar Police Station", "Banshkhali", "Bayezid Bostami Police St", "Bhujpur Thana", "Boalkhali", "Chandanaish", "Chandgaon Police Station", "Chawkbazar", "Double Mooring Police Sta", "EPZ Police Station", "Fatikchhari", "Halishahar Police Station", "Hathazari", "Karnafuli", "Khulshi Police Station", "Kotwali Police Station", "Lohagara", "Mirsharai", "Pahartali Police Station", "Panchlaish Police Station", "Patenga Police Station", "Patiya", "Rangunia", "Raozan", "Sadarghat Police Station", "Sandwip", "Satkania", "Sitakunda", "Zorargonj"],
-  "Chuadanga": ["Alamdanga", "Chuadanga Sadar", "Damurhuda", "Jibannagar"],
-  "Comilla": ["Barura", "Brahmanpara", "Burichang", "Chandina", "Chauddagram", "Comilla Sadar", "Daudkandi", "Debidwar", "Homna", "Kotwali", "Laksam", "Lalmai", "Meghna", "Monohargonj", "Muradnagar", "Nangalkot", "Sadarsouth", "Titas"],
-  "Coxsbazar": ["Chakaria", "Coxsbazar Sadar", "Eidgaon", "Kutubdia", "Moheshkhali", "Pekua", "Ramu", "Teknaf", "Ukhiya"],
-  "Dhaka": ["Adabor", "Airport Thana", "Ashulia", "Badda", "Banani", "Bhasantek", "Bongshal", "Cantonment", "Chawkbazar", "Dakkhinkhan", "Darus Salam", "Demra", "Dhamrai", "Dhanmondi", "Dohar", "Gendaria", "Gulshan", "Hajaribaag", "Hatirjheel", "Jatrabari", "Kafrul Thana", "Kamrangirchor", "Keraniganj", "Khilkhet", "Kodomtoli", "Kolabagan", "Kotwali", "Laalbag", "Mirpur", "Mohammadpur", "Motijheel", "Mugda", "Nawabganj", "New Market", "Pallabi", "Paltan Model Thana", "Rampura", "Romna Model Thana", "Rupnagar", "Sabujbag", "Savar", "Shah Ali", "Shahbag", "Shahjahanpur", "Shampur", "Sher-e-bangla", "Sutrapur", "Tejgaon", "Tejgaon Industrial Area", "Turag", "Uttara", "Uttara Model Thana", "Uttarkhan", "Vatara", "Wari", "banani", "khilgaon"],
-  "Dinajpur": ["Birampur", "Birganj", "Birol", "Bochaganj", "Chirirbandar", "Dinajpur Sadar", "Fulbari", "Ghoraghat", "Hakimpur", "Kaharol", "Khansama", "Nawabganj", "Parbatipur"],
-  "Faridpur": ["Alfadanga", "Bhanga", "Boalmari", "Charbhadrasan", "Faridpur Sadar", "Madhukhali", "Nagarkanda", "Sadarpur", "Saltha"],
-  "Feni": ["Chhagalnaiya", "Daganbhuiyan", "Feni Sadar", "Fulgazi", "Parshuram", "Sonagazi"],
-  "Gaibandha": ["Gaibandha Sadar", "Gobindaganj", "Palashbari", "Phulchari", "Sadullapur", "Saghata", "Sundarganj"],
-  "Gazipur": ["Bason", "Gacha Thana", "Gazipur Sadar", "Joydevpur", "Kaliakair", "Kaliganj", "Kapasia", "Kashimpur", "Konabari", "Pubail", "Sreepur", "Tongi"],
-  "Gopalganj": ["Gopalganj Sadar", "Kashiani", "Kotalipara", "Muksudpur", "Tungipara"],
-  "Habiganj": ["Ajmiriganj", "Bahubal", "Baniachong", "Chunarughat", "Habiganj Sadar", "Lakhai", "Madhabpur", "Nabiganj", "Sayestaganj Thana"],
-  "Jamalpur": ["Bokshiganj", "Dewangonj", "Islampur", "Jamalpur Sadar", "Madarganj", "Melandah", "Sarishabari"],
-  "Jashore": ["Abhaynagar", "Bagherpara", "Chougachha", "Jessore Sadar", "Jhikargacha", "Keshabpur", "Kotwali", "Manirampur", "Sharsha"],
-  "Jhalakathi": ["Jhalakathi Sadar", "Kathalia", "Nalchity", "Rajapur"],
-  "Jhenaidah": ["Harinakundu", "Jhenaidah Sadar", "Kaliganj", "Kotchandpur", "Moheshpur", "Shailkupa"],
-  "Joypurhat": ["Akkelpur", "Joypurhat Sadar", "Kalai", "Khetlal", "Panchbibi"],
-  "Khagrachhari": ["Dighinala", "Guimara", "Khagrachhari Sadar", "Laxmichhari", "Manikchari", "Matiranga", "Mohalchari", "Panchari", "Ramgarh"],
-  "Khulna": ["Botiaghata", "Dakop", "Daulatpur", "Digholia", "Dumuria", "Fultola", "Horintana", "Khalishpur", "Khanjahan ali thana", "Koyra", "Paikgasa", "Rupsha", "Sonadanga", "Terokhada", "khulna Sadar"],
-  "Kishoreganj": ["Austagram", "Bajitpur", "Bhairab", "Hossainpur", "Itna", "Karimgonj", "Katiadi", "Kishoreganj Sadar", "Kuliarchar", "Mithamoin", "Nikli", "Pakundia", "Tarail"],
-  "Kurigram": ["Bhurungamari", "Charrajibpur", "Chilmari", "Kurigram Sadar", "Nageshwari", "Phulbari", "Rajarhat", "Rowmari", "Ulipur"],
-  "Kushtia": ["Bheramara", "Daulatpur", "Khoksa", "Kumarkhali", "Kushtia Sadar", "Mirpur"],
-  "Lakshmipur": ["Chandrogonj", "Kamalnagar", "Lakshmipur Sadar", "Raipur", "Ramganj", "Ramgati"],
-  "Lalmonirhat": ["Aditmari", "Hatibandha", "Kaliganj", "Lalmonirhat Sadar", "Patgram"],
-  "Madaripur": ["Dasar", "Kalkini", "Madaripur Sadar", "Rajoir", "Shibchar"],
-  "Magura": ["Magura Sadar", "Mohammadpur", "Shalikha", "Sreepur"],
-  "Manikganj": ["Doulatpur", "Gior", "Harirampur", "Manikganj Sadar", "Saturia", "Shibaloy", "Singiar"],
-  "Meherpur": ["Gangni", "Meherpur Sadar", "Mujibnagar"],
-  "Moulvibazar": ["Barlekha", "Juri", "Kamolganj", "Kulaura", "Moulvibazar Sadar", "Rajnagar", "Sreemangal"],
-  "Munshiganj": ["Gajaria", "Louhajanj", "Munshiganj Sadar", "Sirajdikhan", "Sreenagar", "Tongibari"],
-  "Mymensingh": ["Bhaluka", "Dhobaura", "Fulbaria", "Gafargaon", "Gouripur", "Haluaghat", "Iswarganj", "Muktagacha", "Mymensingh Sadar", "Nandail", "Pagla Thana", "Phulpur", "Tarakanda", "Trishal"],
-  "Naogaon": ["Atrai", "Badalgachi", "Dhamoirhat", "Manda", "Mohadevpur", "Naogaon Sadar", "Niamatpur", "Patnitala", "Porsha", "Raninagar", "Sapahar"],
-  "Narail": ["Kalia", "Lohagara", "Narail Sadar"],
-  "Narayanganj": ["Araihazar", "Bandar", "Fatullah", "Narayanganj Sadar", "Rupganj", "Siddhirganj", "Sonargaon"],
-  "Narsingdi": ["Belabo", "Madhobdi", "Monohardi", "Narsingdi Sadar", "Palash", "Raipura", "Shibpur"],
-  "Natore": ["Bagatipara", "Baraigram", "Gurudaspur", "Lalpur", "Naldanga", "Natore Sadar", "Singra"],
-  "Netrokona": ["Atpara", "Barhatta", "Durgapur", "Kalmakanda", "Kendua", "Khaliajuri", "Madan", "Mohongonj", "Netrokona Sadar", "Purbadhala"],
-  "Nilphamari": ["Dimla", "Domar", "Jaldhaka", "Kishorganj", "Nilphamari Sadar", "Syedpur"],
-  "Noakhali": ["Begumganj", "Chatkhil", "Companiganj", "Hatia", "Kabirhat", "Noakhali Sadar", "Senbug", "Sonaimori", "Subarnachar", "Sudharam"],
-  "Pabna": ["Aminpur", "Ataikula", "Atghoria", "Bera", "Bhangura", "Chatmohar", "Faridpur", "Ishurdi", "Pabna Sadar", "Santhia", "Sujanagar"],
-  "Panchagarh": ["Atwari", "Boda", "Debiganj", "Panchagarh Sadar", "Tetulia"],
-  "Patuakhali": ["Bauphal", "Dashmina", "Dumki", "Galachipa", "Kalapara", "Mirzaganj", "Patuakhali Sadar", "Rangabali"],
-  "Pirojpur": ["Bhandaria", "Kawkhali", "Mathbaria", "Nazirpur", "Nesarabad", "Pirojpur Sadar", "Zianagar"],
-  "Rajbari": ["Baliakandi", "Goalanda", "Kalukhali", "Pangsa", "Rajbari Sadar"],
-  "Rajshahi": ["Bagha", "Bagmara", "Boalia Thana", "Chandrima", "Charghat", "Durgapur", "Godagari", "Mohonpur", "Motihar Thana", "Paba", "Puthia", "Rajpara Thana", "Rajshahi Sadar", "Shah Mokhdum Thana", "Tanore"],
-  "Rangamati": ["Baghaichari", "Barkal", "Belaichari", "Juraichari", "Kaptai", "Kawkhali", "Langadu", "Naniarchar", "Rajasthali", "Rangamati Sadar"],
-  "Rangpur": ["Badargonj", "Gangachara", "Kaunia", "Kotowali", "Mahigonj", "Mithapukur", "Pirgacha", "Pirgonj", "Rangpur Sadar", "Taragonj"],
-  "Satkhira": ["Assasuni", "Debhata", "Kalaroa", "Kaliganj", "Patkelghata", "Satkhira Sadar", "Shyamnagar", "Tala"],
-  "Shariatpur": ["Bhedarganj", "Damudya", "Gosairhat", "Naria", "Sakhipur", "Shariatpur Sadar", "Zajira"],
-  "Sherpur": ["Jhenaigati", "Nalitabari", "Nokla", "Sherpur Sadar", "Sreebordi"],
-  "Sirajganj": ["Belkuchi", "Chauhali", "Jamuna Bridge West", "Kamarkhand", "Kazipur", "Raigonj", "Shahjadpur", "Sirajganj Sadar", "Tarash", "Ullapara", "salangaup"],
-  "Sunamganj": ["Bishwambarpur", "Chhatak", "Derai", "Dharmapasha", "Dowarabazar", "Jagannathpur", "Jamalganj", "Madhyanagar", "Shalla", "South Sunamganj", "Sunamganj Sadar", "Tahirpur"],
-  "Sylhet": ["Airport Thana", "Balaganj", "Beanibazar", "Bishwanath", "Companiganj", "Dakshinsurma", "Fenchuganj", "Golapganj", "Gowainghat", "Jaintiapur", "Jalalabad", "Kanaighat", "Kotwali", "Osmaninagar", "Shahporan", "Sylhet Sadar", "Zakiganj"],
-  "Tangail": ["Basail", "Bhuapur", "Delduar", "Dhanbari", "Ghatail", "Gopalpur", "Kalihati", "Madhupur", "Mirzapur", "Nagarpur", "Sakhipur", "Tangail Sadar"],
-  "Thakurgaon": ["Baliadangi", "Haripur", "Pirganj", "Ranisankail", "Thakurgaon Sadar", "Vulli"]
+// ========== THANA DATA (Sample) ==========
+const THANAS = {
+  "Dhaka": ["Dhanmondi", "Gulshan", "Mirpur", "Uttara", "Mohammadpur", "Banani", "Badda"],
+  "Chattogram": ["Agrabad", "Panchlaish", "Kotwali", "Pahartali", "Bayezid", "Hathazari"],
+  "Rajshahi": ["Boalia", "Motihar", "Rajpara", "Shah Mokhdum", "Paba", "Godagari"],
+  "Khulna": ["Sonadanga", "Khalishpur", "Daulatpur", "Rupsha", "Terokhada"],
+  "Sylhet": ["Kotwali", "Jalalabad", "Osmaninagar", "Sylhet Sadar", "Zakiganj"],
+  "Barisal": ["Kotwali", "Sadar", "Bakerganj", "Babuganj", "Mehendiganj"],
+  "Rangpur": ["Kotowali", "Sadar", "Gangachara", "Mithapukur", "Pirganj"],
+  "Mymensingh": ["Sadar", "Muktagacha", "Fulbaria", "Gaffargaon", "Trishal"],
+  "Comilla": ["Sadar", "Laksam", "Debidwar", "Muradnagar", "Chandina"],
+  "Narayanganj": ["Sadar", "Bandar", "Rupganj", "Araihazar", "Sonargaon"],
+  "Gazipur": ["Sadar", "Joydevpur", "Kaliakair", "Kapasia", "Sreepur"],
+  "Coxsbazar": ["Sadar", "Teknaf", "Ukhiya", "Ramu", "Pekua"],
 };
 
-// ================= STATE =================
-const quantities = {};
+// ========== STATE ==========
+let cart = {}; // { pid: qty }
 
-// ================= INIT =================
-function init() {
-  const listEl = document.getElementById('product-list');
-  let html = '';
+// ========== RENDER PRODUCTS ==========
+function renderProducts() {
+  const container = document.getElementById('product-list');
+  const emptyMsg = document.getElementById('empty-cart-msg');
   
-  // Render Products
-  for (const [pid, p] of Object.entries(PRODUCTS)) {
-    quantities[pid] = 0;
+  let html = '';
+  Object.entries(PRODUCTS).forEach(([pid, p]) => {
+    const qty = cart[pid] || 0;
+    const savings = p.orig - p.price;
+    
     html += `
-      <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-3 rounded-xl border border-gray-100 hover:bg-gray-50 transition">
-        <img src="${p.image}" alt="${p.name}" class="w-20 h-20 sm:w-16 sm:h-16 object-contain rounded-lg bg-gray-50 flex-shrink-0" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjY2NjIiBzdHJva2Utd2lkdGg9IjIiPjxyZWN0IHg9IjMiIHk9IjMiIHdpZHRoPSIxOCIgaGVpZ2h0PSIxOCIgcng9IjIiLz48cGF0aCBkPSJNOSAyMWEzIDMgMCAwMC0zLTN2LTJoMTJ2MmEzIDMgMCAwMC0zIDNIMTJ6Ii8+PC9zdmc+'" />
-        <div class="flex-1 min-w-0">
-          <h3 class="font-medium text-gray-900 truncate">${p.name}</h3>
-          <p class="text-xs text-gray-500 mb-1">${p.desc}</p>
-          <div class="font-bold text-green-700">৳${p.price.toLocaleString('en-BD')}</div>
-        </div>
-        <div class="flex items-center gap-3 mt-2 sm:mt-0 bg-white px-3 py-2 rounded-xl border border-gray-200 shadow-sm flex-shrink-0">
-          <button type="button" class="qty-btn text-gray-500 hover:text-green-700" onclick="changeQty('${pid}', -1)">−</button>
-          <span id="qty-${pid}" class="w-8 text-center font-bold text-sm text-gray-800">0</span>
-          <button type="button" class="qty-btn text-gray-500 hover:text-green-700" onclick="changeQty('${pid}', 1)">+</button>
+      <div class="product-card">
+        <img src="${p.img}" alt="${p.name}" class="product-img" loading="lazy" />
+        <div class="product-info">
+          <div class="product-name">${p.name}</div>
+          <div class="product-desc">${p.desc}</div>
+          <div>
+            <span class="product-price">৳${p.price.toLocaleString('en-BD')}</span>
+            <span class="product-original">৳${p.orig.toLocaleString('en-BD')}</span>
+            ${savings > 0 ? `<span class="text-[10px] bg-green-100 text-green-700 px-1.5 py-0.5 rounded ml-1">সেভ ৳${savings}</span>` : ''}
+          </div>
+          ${qty > 0 ? `
+            <div class="qty-control">
+              <button class="qty-btn" onclick="adjustQty('${pid}', -1)">−</button>
+              <span class="qty-val">${qty}</span>
+              <button class="qty-btn" onclick="adjustQty('${pid}', 1)">+</button>
+            </div>
+          ` : `
+            <button onclick="addToCart('${pid}')" class="mt-2 w-full bg-green-700 text-white text-xs font-medium py-1.5 rounded-lg hover:bg-green-800 transition">Add</button>
+          `}
         </div>
       </div>
     `;
-  }
-  listEl.innerHTML = html;
-
-  // Populate Districts
-  const distEl = document.getElementById('district');
-  const sortedDistricts = Object.keys(THANAS_BY_DISTRICT).sort();
-  sortedDistricts.forEach(d => {
-    const opt = document.createElement('option');
-    opt.value = d; opt.textContent = d;
-    distEl.appendChild(opt);
   });
-
-  // Event Listeners
-  document.getElementById('district').addEventListener('change', handleDistrictChange);
-  document.getElementById('thana').addEventListener('change', handleThanaChange);
-  document.getElementById('phone').addEventListener('input', (e) => { e.target.value = e.target.value.replace(/[^0-9]/g, '').slice(0, 11); });
   
-  updateTotals();
+  container.innerHTML = html;
+  emptyMsg.classList.toggle('hidden', Object.values(cart).some(q => q > 0));
+  updateSummary();
 }
 
-// ================= LOGIC =================
-function changeQty(pid, delta) {
-  const next = (quantities[pid] || 0) + delta;
-  if (next >= 0 && next <= 20) {
-    quantities[pid] = next;
-    document.getElementById(`qty-${pid}`).textContent = next;
-    updateTotals();
-  }
+// ========== CART FUNCTIONS ==========
+function addToCart(pid) {
+  cart[pid] = (cart[pid] || 0) + 1;
+  renderProducts();
+  toast('✓ ' + PRODUCTS[pid].name + ' যোগ হয়েছে');
 }
 
-function updateTotals() {
+function adjustQty(pid, delta) {
+  const next = (cart[pid] || 0) + delta;
+  if (next <= 0) delete cart[pid];
+  else if (next <= 20) cart[pid] = next;
+  renderProducts();
+}
+
+function getTotals() {
   let subtotal = 0, delivery = 0;
-  for (const [pid, qty] of Object.entries(quantities)) {
-    if (qty > 0) {
+  for (const [pid, qty] of Object.entries(cart)) {
+    if (PRODUCTS[pid]) {
       subtotal += PRODUCTS[pid].price * qty;
       delivery += PRODUCTS[pid].delivery * qty;
     }
   }
-  document.getElementById('subtotal').textContent = subtotal.toLocaleString('en-BD');
-  document.getElementById('delivery-total').textContent = delivery.toLocaleString('en-BD');
-  document.getElementById('grand-total').textContent = (subtotal + delivery).toLocaleString('en-BD');
+  const discount = 0; // Can add promo logic here
+  return { subtotal, delivery, discount, total: subtotal + delivery - discount };
 }
 
-function handleDistrictChange(e) {
-  const dist = e.target.value;
-  const thanaEl = document.getElementById('thana');
-  const addrEl = document.getElementById('address');
+function updateSummary() {
+  const { subtotal, delivery, discount, total } = getTotals();
+  const hasItems = Object.values(cart).some(q => q > 0);
   
-  thanaEl.innerHTML = '<option value="">থানা নির্বাচন করুন</option>';
-  thanaEl.disabled = true;
-  addrEl.disabled = true;
-  addrEl.value = '';
+  // Summary items list
+  const summaryEl = document.getElementById('summary-items');
+  if (!hasItems) {
+    summaryEl.innerHTML = '<p class="text-sm text-gray-500 text-center py-2">কোনো পণ্য নির্বাচন করা হয়নি</p>';
+  } else {
+    let html = '';
+    for (const [pid, qty] of Object.entries(cart)) {
+      if (qty > 0 && PRODUCTS[pid]) {
+        const p = PRODUCTS[pid];
+        html += `
+          <div class="flex justify-between items-center text-sm">
+            <span class="text-gray-700 truncate max-w-[60%]">${p.name} × ${qty}</span>
+            <span class="font-medium text-gray-900">৳${(p.price * qty).toLocaleString('en-BD')}</span>
+          </div>
+        `;
+      }
+    }
+    summaryEl.innerHTML = html;
+  }
+  
+  // Update totals
+  document.getElementById('subtotal').textContent = subtotal.toLocaleString('en-BD');
+  document.getElementById('discount').textContent = discount.toLocaleString('en-BD');
+  document.getElementById('total').textContent = total.toLocaleString('en-BD');
+  
+  // Disable pay button if cart empty
+  document.getElementById('pay-btn').disabled = !hasItems;
+}
 
-  if (dist && THANAS_BY_DISTRICT[dist]) {
-    THANAS_BY_DISTRICT[dist].forEach(t => {
+// ========== THANAS ==========
+function populateThanas() {
+  const district = document.getElementById('district').value;
+  const thanaSelect = document.getElementById('thana');
+  const addressInput = document.getElementById('address');
+  
+  thanaSelect.innerHTML = '<option value="">নির্বাচন করুন</option>';
+  thanaSelect.disabled = true;
+  addressInput.disabled = true;
+  
+  if (district && THANAS[district]) {
+    THANAS[district].forEach(thana => {
       const opt = document.createElement('option');
-      opt.value = t; opt.textContent = t;
-      thanaEl.appendChild(opt);
+      opt.value = thana;
+      opt.textContent = thana;
+      thanaSelect.appendChild(opt);
     });
-    thanaEl.disabled = false;
+    thanaSelect.disabled = false;
   }
 }
 
-function handleThanaChange(e) {
-  const addrEl = document.getElementById('address');
-  addrEl.disabled = !e.target.value;
-  if (e.target.value) addrEl.focus();
-}
+// Enable address when thana selected
+document.getElementById('thana')?.addEventListener('change', function() {
+  if (this.value) {
+    document.getElementById('address').disabled = false;
+    document.getElementById('address').focus();
+  }
+});
 
-// ================= SUBMIT =================
-async function submitOrder() {
-  const btn = document.getElementById('pay-btn');
+// ========== VALIDATION ==========
+function validatePhone(p) { return /^01[3-9]\d{8}$/.test(p.replace(/\D/g,'')); }
+function validateEmail(e) { return !e || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
+
+// ========== PAYMENT ==========
+async function processPayment() {
+  const hasItems = Object.values(cart).some(q => q > 0);
+  if (!hasItems) { toast('প্রথমে পণ্য নির্বাচন করুন', true); return; }
+  
+  const form = document.getElementById('shipping-form');
   const name = document.getElementById('name').value.trim();
   const phone = document.getElementById('phone').value.trim();
   const email = document.getElementById('email').value.trim();
   const district = document.getElementById('district').value;
   const thana = document.getElementById('thana').value;
   const address = document.getElementById('address').value.trim();
-
-  // Validation
-  if (!name) return toast('নাম লিখুন', true);
-  if (!/^01[3-9]\d{8}$/.test(phone)) return toast('সঠিক ফোন নম্বর দিন (01XXXXXXXXX)', true);
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return toast('সঠিক ইমেইল দিন', true);
-  if (!district) return toast('জেলা নির্বাচন করুন', true);
-  if (!thana) return toast('থানা নির্বাচন করুন', true);
-  if (!address) return toast('ঠিকানা লিখুন', true);
-
-  // Check cart
-  let items = [];
-  let hasItems = false;
-  for (const [pid, qty] of Object.entries(quantities)) {
-    if (qty > 0) {
-      items.push({ id: pid, qty });
-      hasItems = true;
-    }
-  }
-  if (!hasItems) return toast('অন্তত একটি পণ্য নির্বাচন করুন', true);
-
-  // UI Loading
-  btn.disabled = true;
-  btn.innerHTML = `<span class="animate-pulse">সংযুক্ত হচ্ছে…</span>`;
-
+  
+  // Validate
+  let valid = true;
+  if (!name) { alert('নাম দিন'); valid = false; }
+  if (!phone || !validatePhone(phone)) { alert('সঠিক মোবাইল নম্বর দিন (017********)'); valid = false; }
+  if (email && !validateEmail(email)) { alert('সঠিক ইমেইল দিন'); valid = false; }
+  if (!district) { alert('জেলা নির্বাচন করুন'); valid = false; }
+  if (!thana) { alert('থানা নির্বাচন করুন'); valid = false; }
+  if (!address) { alert('ঠিকানা দিন'); valid = false; }
+  if (!valid) return;
+  
+  // Prepare payload
+  const { total } = getTotals();
   const payload = {
-    items,
-    cust_name: name,
-    cust_phone: phone,
-    cust_email: email,
-    jela: district,
-    thana: thana,
-    address_detail: address,
-    fbp: getCook('_fbp'),
-    fbc: getCook('_fbc'),
-    event_id: 'ic-' + Date.now()
+    items: Object.entries(cart).filter(([_, q]) => q > 0).map(([pid, qty]) => ({
+      id: pid, name: PRODUCTS[pid].name, price: PRODUCTS[pid].price, qty
+    })),
+    customer: { name, phone, email: email || 'customer@urboressentials.com' },
+    shipping: { district, thana, address },
+    amount: total,
+    event_id: 'order-' + Date.now()
   };
-
+  
+  // UI: Loading state
+  const btn = document.getElementById('pay-btn');
+  const originalBtn = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = '<span class="animate-pulse">প্রসেসিং…</span>';
+  
   try {
-    const res = await fetch(`${API_BASE}/initiate`, {
+    const res = await fetch(API_BASE + '/initiate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
@@ -381,35 +480,37 @@ async function submitOrder() {
     if (data.payment_url) {
       window.location.href = data.payment_url;
     } else {
-      toast(data.error || 'পেমেন্ট লিংক তৈরি হয়নি', true);
-      resetBtn();
+      toast(data.error || 'পেমেন্ট ব্যর্থ। আবার চেষ্টা করুন।', true);
+      btn.disabled = false;
+      btn.innerHTML = originalBtn;
     }
   } catch (e) {
-    toast('সার্ভারে সমস্যা হয়েছে। আবার চেষ্টা করুন।', true);
-    resetBtn();
-  }
-
-  function resetBtn() {
+    toast('নেটওয়ার্ক ত্রুটি। আবার চেষ্টা করুন।', true);
     btn.disabled = false;
-    btn.innerHTML = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" stroke-width="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4" stroke-width="2"/></svg> PayStation-এ পেমেন্ট করুন`;
+    btn.innerHTML = originalBtn;
   }
 }
 
-// ================= UTILS =================
-function getCook(key) {
-  const m = document.cookie.match(new RegExp('(^| )' + key + '=([^;]+)'));
-  return m ? m[2] : null;
-}
-function toast(msg, err = false) {
+// ========== TOAST ==========
+let toastTimer;
+function toast(msg, isErr = false) {
   const el = document.getElementById('toast');
   el.textContent = msg;
-  el.className = err ? 'err' : '';
+  el.className = isErr ? 'err' : '';
   el.classList.add('show');
-  setTimeout(() => el.classList.remove('show'), 3000);
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 2500);
 }
 
-// Run
-init();
+// ========== INIT ==========
+document.addEventListener('DOMContentLoaded', () => {
+  renderProducts();
+  
+  // Live phone validation
+  document.getElementById('phone')?.addEventListener('input', function() {
+    this.value = this.value.replace(/\D/g, '').slice(0, 11);
+  });
+});
 </script>
 </body>
 </html>
