@@ -5,35 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>অর্ডার নিশ্চিত — Urbor Essentials</title>
 
-  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700&display=swap" rel="stylesheet" />
 
   <script>
     tailwind.config = {
       theme: {
         extend: {
-          colors: {
-            'primary': '#166534',
-            'primary-dark': '#14532d',
-            'primary-light': '#f0fdf4',
-            'primary-accent': '#22c55e',
-            'secondary': '#16a34a',
-            'text-dark': '#1f2937',
-            'text-muted': '#6b7280',
-            'border-light': '#e5e7eb',
-            'success-bg': '#dcfce7',
-            'success-text': '#166534',
-            'error-bg': '#fee2e2',
-            'error-text': '#991b1b',
-          },
           fontFamily: {
             'bengali': ['"Noto Sans Bengali"', 'sans-serif'],
-            'serif': ['"Cormorant Garamond"', 'Georgia', 'serif'],
           }
         }
       }
@@ -41,326 +25,447 @@
   </script>
 
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; -webkit-tap-highlight-color: transparent; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
     body { 
       font-family: 'Noto Sans Bengali', sans-serif; 
-      background-color: #fafafa;
-      color: #1f2937;
+      background-color: #f5f5f5;
+      color: #000000;
       min-height: 100vh;
       line-height: 1.6;
     }
     a { color: inherit; text-decoration: none; }
     button { font-family: 'Noto Sans Bengali', sans-serif; cursor: pointer; border: none; }
-    img { display: block; max-width: 100%; }
 
-    /* Animations */
-    @keyframes pulse-ring {
-      0% { box-shadow: 0 0 0 0 rgba(22, 101, 52, 0.4); }
-      70% { box-shadow: 0 0 0 15px rgba(22, 101, 52, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(22, 101, 52, 0); }
-    }
-    .animate-pulse-ring { animation: pulse-ring 1.5s ease-in-out infinite; }
-
-    @keyframes fade-in-up {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .animate-fade-in-up { animation: fade-in-up 0.5s ease-out forwards; }
-
-    @keyframes checkmark {
-      0% { stroke-dashoffset: 100; }
-      100% { stroke-dashoffset: 0; }
-    }
-    .checkmark-path {
-      stroke-dasharray: 100;
-      stroke-dashoffset: 100;
-      animation: checkmark 0.6s ease-in-out forwards 0.3s;
-    }
-
-    /* PDF Print Optimizations */
-    @media print {
-      body { background: #fff !important; }
-      header, #page-footer, #card-footer { display: none !important; }
-      #invoice-card { 
-        box-shadow: none !important; 
-        border: none !important; 
-        max-width: 100% !important;
-        margin: 0 !important;
-      }
-      .no-print { display: none !important; }
-    }
-
-    /* Invoice-specific styles for PDF clarity */
-    .invoice-header {
-      border-bottom: 3px solid #166534;
-      padding-bottom: 1rem;
-      margin-bottom: 1.5rem;
-    }
-    .invoice-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.5rem;
-      font-weight: 600;
-      color: #166534;
-    }
-    .invoice-meta {
-      font-size: 0.875rem;
-      color: #6b7280;
-    }
-    .invoice-table th {
-      background: #f0fdf4;
-      font-weight: 600;
-      color: #166534;
-      text-align: left;
-      padding: 0.75rem 1rem;
-      border-bottom: 2px solid #e5e7eb;
-    }
-    .invoice-table td {
-      padding: 0.75rem 1rem;
-      border-bottom: 1px solid #e5e7eb;
-      font-size: 0.875rem;
-    }
-    .invoice-table tr:last-child td {
-      border-bottom: none;
-    }
-    .invoice-total-row {
-      font-weight: 600;
-      font-size: 1rem;
-      color: #166534;
-      background: #f0fdf4;
-    }
-
-    /* FIXED INVOICE FOOTER - stays at bottom */
-    .invoice-footer {
-      border-top: 2px solid #e5e7eb;
-      padding-top: 1rem;
-      margin-top: 1.5rem;
-      font-size: 0.75rem;
-      color: #6b7280;
-      text-align: center;
-    }
-    .invoice-footer strong {
-      color: #166534;
-    }
-
-    /* Status badge styles */
-    .status-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.375rem;
-      padding: 0.375rem 0.875rem;
-      border-radius: 9999px;
-      font-size: 0.75rem;
-      font-weight: 500;
-    }
-    .status-success {
-      background: #dcfce7;
-      color: #166534;
-    }
-    .status-failed {
-      background: #fee2e2;
-      color: #991b1b;
-    }
-    .status-pending {
-      background: #fef3c7;
-      color: #92400e;
-    }
-
-    /* PDF clarity fixes */
+    /* ===== SIMPLIFIED INVOICE CARD ===== */
     #invoice-card {
-      background: #ffffff !important;
-      -webkit-print-color-adjust: exact;
-      print-color-adjust: exact;
-    }
-    .invoice-title, .font-serif {
-      font-family: 'Cormorant Garamond', Georgia, serif !important;
-    }
-    body, .font-bengali {
-      font-family: 'Noto Sans Bengali', sans-serif !important;
+      background: #ffffff;
+      border: 2px solid #000000;
+      border-radius: 8px;
+      width: 100%;
+      max-width: 700px;
+      margin: 0 auto;
+      overflow: hidden;
     }
 
-    /* Ensure text is sharp */
-    * {
-      text-rendering: optimizeLegibility;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
+    /* Header */
+    .inv-header {
+      border-bottom: 2px solid #000000;
+      padding: 20px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #ffffff;
+    }
+    .inv-header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .inv-logo-box {
+      width: 44px;
+      height: 44px;
+      background: #166534;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+    .inv-brand-name {
+      font-size: 18px;
+      font-weight: 700;
+      color: #000000;
+    }
+    .inv-brand-tag {
+      font-size: 12px;
+      color: #000000;
+    }
+    .inv-header-right {
+      text-align: right;
+    }
+    .inv-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #000000;
+    }
+    .inv-subtitle {
+      font-size: 12px;
+      color: #000000;
     }
 
-    /* Fixed page footer at bottom */
-    #page-footer {
+    /* Status Section */
+    .inv-status {
+      text-align: center;
+      padding: 24px;
+      border-bottom: 1px solid #000000;
+    }
+    .inv-status-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 12px;
+      font-size: 28px;
+      border: 2px solid #000000;
+    }
+    .inv-status-icon.success {
+      background: #dcfce7;
+      border-color: #166534;
+    }
+    .inv-status-icon.failed {
+      background: #fee2e2;
+      border-color: #991b1b;
+    }
+    .inv-status-icon.pending {
+      background: #fef3c7;
+      border-color: #92400e;
+    }
+    .inv-status-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #000000;
+    }
+    .inv-status-sub {
+      font-size: 14px;
+      color: #000000;
+      margin-top: 4px;
+    }
+
+    /* Details Grid */
+    .inv-details {
+      padding: 20px 24px;
+      border-bottom: 1px solid #000000;
+    }
+    .inv-details-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+    @media (min-width: 640px) {
+      .inv-details-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+    .inv-detail-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: #000000;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+    .inv-detail-value {
+      font-size: 14px;
+      font-weight: 600;
+      color: #000000;
+    }
+    .inv-detail-value.mono {
+      font-family: monospace;
+    }
+    .inv-status-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      border: 1px solid #000000;
+    }
+    .inv-status-badge.success {
+      background: #dcfce7;
+      color: #000000;
+      border-color: #166534;
+    }
+    .inv-status-badge.failed {
+      background: #fee2e2;
+      color: #000000;
+      border-color: #991b1b;
+    }
+    .inv-status-badge.pending {
+      background: #fef3c7;
+      color: #000000;
+      border-color: #92400e;
+    }
+
+    .inv-details-extra {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid #000000;
+    }
+    .inv-details-extra .inv-details-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .inv-address-box {
+      margin-top: 12px;
+    }
+
+    /* Items Table */
+    .inv-items {
+      padding: 20px 24px;
+      border-bottom: 1px solid #000000;
+    }
+    .inv-section-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: #000000;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #000000;
+    }
+    .inv-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .inv-table th {
+      text-align: left;
+      padding: 10px 8px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #000000;
+      border-bottom: 2px solid #000000;
+      background: #f0fdf4;
+    }
+    .inv-table th.center { text-align: center; }
+    .inv-table th.right { text-align: right; }
+    .inv-table td {
+      padding: 10px 8px;
+      font-size: 13px;
+      color: #000000;
+      border-bottom: 1px solid #cccccc;
+    }
+    .inv-table td.center { text-align: center; }
+    .inv-table td.right { text-align: right; }
+    .inv-table .item-name {
+      font-weight: 600;
+    }
+    .inv-table .item-unit {
+      font-size: 11px;
+      color: #000000;
+    }
+    .inv-table tfoot td {
+      border-bottom: none;
+      border-top: 2px solid #000000;
+      font-weight: 700;
+      font-size: 15px;
+      padding-top: 12px;
+    }
+
+    /* Invoice Footer (inside card) */
+    .inv-footer {
+      padding: 16px 24px;
+      text-align: center;
+      font-size: 11px;
+      color: #000000;
+      border-top: 1px solid #000000;
+      background: #f9fafb;
+    }
+    .inv-footer strong {
+      font-weight: 700;
+    }
+
+    /* Action Buttons */
+    .inv-actions {
+      padding: 16px 24px;
+      background: #f5f5f5;
+      border-top: 1px solid #000000;
+      display: flex;
+      gap: 12px;
+    }
+    .inv-btn {
+      flex: 1;
+      text-align: center;
+      padding: 12px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .inv-btn-primary {
+      background: #166534;
+      color: #ffffff;
+      border: 2px solid #166534;
+    }
+    .inv-btn-secondary {
+      background: #ffffff;
+      color: #166534;
+      border: 2px solid #166534;
+    }
+
+    /* Page Footer */
+    .page-footer {
+      background: #166534;
+      color: #ffffff;
+      padding: 24px;
+      text-align: center;
       margin-top: auto;
     }
-
-    /* Ensure main takes full height */
-    main {
-      min-height: calc(100vh - 64px - 140px);
+    .page-footer-brand {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 4px;
     }
+    .page-footer-text {
+      font-size: 12px;
+      opacity: 0.9;
+    }
+    .page-footer-copy {
+      font-size: 11px;
+      opacity: 0.7;
+      margin-top: 8px;
+    }
+
+    /* Print / PDF */
+    @media print {
+      body { background: #fff; }
+      .no-print { display: none !important; }
+      #invoice-card { 
+        box-shadow: none; 
+        border: 2px solid #000; 
+        max-width: 100%;
+        margin: 0;
+      }
+    }
+
+    /* Utility */
+    .hidden { display: none; }
   </style>
-  <base target="_blank">
 <base target="_blank">
 </head>
-<body class="bg-gray-50 flex flex-col min-h-screen">
+<body class="flex flex-col min-h-screen">
 
-<!-- Header (Matched with main site) -->
-<header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-200">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-    <a href="/" class="flex items-center gap-3">
-      <img 
-        src="https://lst-mu.vercel.app/images/logo2.png" 
-        alt="Urbor Essentials Logo" 
-        class="w-10 h-10 object-contain rounded-xl shadow-lg"
-        onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'w-10 h-10 bg-gradient-to-br from-green-700 to-emerald-600 rounded-xl flex items-center justify-center text-xl shadow-lg\'>🥭</div>'"
-      />
+<!-- Header -->
+<header class="bg-white border-b-2 border-black sticky top-0 z-40">
+  <div class="max-w-3xl mx-auto px-4 h-14 flex items-center justify-between">
+    <a href="/" class="flex items-center gap-2">
+       
       <div>
-        <div class="font-serif text-xl font-semibold tracking-tight text-gray-900">Urbor Essentials</div>
-        <div class="text-xs text-gray-500 -mt-0.5">রাজশাহীর প্রাকৃতিক আম</div>
+        <div class="font-bold text-black text-base">Urbor Essentials</div>
+        <div class="text-xs text-black -mt-0.5">রাজশাহীর প্রাকৃতিক আম</div>
       </div>
     </a>
-    <a href="/" class="hidden sm:flex items-center gap-2 text-sm text-gray-600 hover:text-green-700 transition-colors">
-      <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-      হোমে ফিরুন
-    </a>
+    <a href="/" class="text-sm text-black hover:text-green-800 font-semibold">হোমে ফিরুন</a>
   </div>
 </header>
 
-<!-- Main Content -->
-<main class="flex-1 flex items-start justify-center px-4 py-8 sm:py-12">
+<!-- Main -->
+<main class="flex-1 flex items-start justify-center px-4 py-6">
 
-  <!-- ✅ INVOICE CARD - Optimized for both screen & PDF -->
-  <div id="invoice-card" class="bg-white border border-gray-200 rounded-2xl w-full max-w-3xl overflow-hidden shadow-xl shadow-green-800/5 animate-fade-in-up">
+  <div id="invoice-card">
 
-    <!-- Professional Invoice Header -->
-    <div class="invoice-header px-6 sm:px-10 pt-8 pb-6 bg-gradient-to-r from-primary-light to-white">
-      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div class="flex items-center gap-3">
-          <div class="w-12 h-12 bg-gradient-to-br from-green-700 to-emerald-600 rounded-xl flex items-center justify-center text-2xl shadow-lg">🥭</div>
-          <div>
-            <div class="font-serif text-xl font-bold text-gray-900">Urbor Essentials</div>
-            <div class="text-xs text-gray-500">রাজশাহীর প্রাকৃতিক আম</div>
-          </div>
+    <!-- Invoice Header -->
+    <div class="inv-header">
+      <div class="inv-header-left">
+        <div>
+          <div class="inv-brand-name">Urbor Essentials</div>
+          <div class="inv-brand-tag">রাজশাহীর প্রাকৃতিক আম</div>
         </div>
-        <div class="text-right">
-          <div class="invoice-title">পেমেন্ট রসিদ</div>
-          <div class="invoice-meta">Payment Receipt</div>
-        </div>
+      </div>
+      <div class="inv-header-right">
+        <div class="inv-title">পেমেন্ট রসিদ</div>
+        <div class="inv-subtitle">Payment Receipt</div>
       </div>
     </div>
 
-    <!-- Status Section -->
-    <div class="px-6 sm:px-10 py-6 border-b border-gray-200 bg-primary-light/20">
-      <div class="flex items-center justify-center gap-4">
-        <div id="status-icon" class="w-14 h-14 rounded-full flex items-center justify-center text-2xl bg-gradient-to-br from-green-100 to-primary-light animate-pulse-ring">
-          ⏳
-        </div>
-        <div>
-          <h1 id="status-title" class="font-serif text-xl sm:text-2xl font-bold text-gray-900">পেমেন্ট যাচাই হচ্ছে…</h1>
-          <p id="status-sub" class="text-sm text-gray-600 mt-1">অনুগ্রহ করে অপেক্ষা করুন</p>
-        </div>
-      </div>
+    <!-- Status -->
+    <div class="inv-status">
+      <div id="status-icon" class="inv-status-icon pending">⏳</div>
+      <div id="status-title" class="inv-status-title">পেমেন্ট যাচাই হচ্ছে…</div>
+      <div id="status-sub" class="inv-status-sub">অনুগ্রহ করে অপেক্ষা করুন</div>
     </div>
 
-    <!-- Invoice Details Grid -->
-    <div id="invoice-section" class="hidden px-6 sm:px-10 py-6">
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-sm">
-        <div>
-          <div class="text-xs text-gray-500 mb-1">ইনভয়েস নম্বর</div>
-          <div id="inv-number" class="font-mono font-semibold text-gray-900">—</div>
-        </div>
-        <div>
-          <div class="text-xs text-gray-500 mb-1">তারিখ</div>
-          <div id="inv-date" class="font-semibold text-gray-900">—</div>
-        </div>
-        <div>
-          <div class="text-xs text-gray-500 mb-1">গ্রাহক</div>
-          <div id="inv-name" class="font-semibold text-gray-900">—</div>
-        </div>
-        <div>
-          <div class="text-xs text-gray-500 mb-1">স্ট্যাটাস</div>
-          <span id="inv-status" class="status-badge status-pending">—</span>
-        </div>
-      </div>
-
-      <div class="mt-4 pt-4 border-t border-gray-200">
-        <div class="grid grid-cols-2 gap-4 text-sm">
+    <!-- Details -->
+    <div id="invoice-section" class="hidden">
+      <div class="inv-details">
+        <div class="inv-details-grid">
           <div>
-            <div class="text-xs text-gray-500 mb-1">মোবাইল</div>
-            <div id="inv-phone" class="font-semibold text-gray-900">—</div>
+            <div class="inv-detail-label">ইনভয়েস নম্বর</div>
+            <div id="inv-number" class="inv-detail-value mono">—</div>
           </div>
           <div>
-            <div class="text-xs text-gray-500 mb-1">ইমেইল</div>
-            <div id="inv-email" class="font-semibold text-gray-900 break-all">—</div>
+            <div class="inv-detail-label">তারিখ</div>
+            <div id="inv-date" class="inv-detail-value">—</div>
+          </div>
+          <div>
+            <div class="inv-detail-label">গ্রাহক</div>
+            <div id="inv-name" class="inv-detail-value">—</div>
+          </div>
+          <div>
+            <div class="inv-detail-label">স্ট্যাটাস</div>
+            <span id="inv-status" class="inv-status-badge pending">⋯ প্রসেসিং</span>
           </div>
         </div>
-        <div class="mt-3">
-          <div class="text-xs text-gray-500 mb-1">ডেলিভারি ঠিকানা</div>
-          <div id="inv-address" class="text-sm text-gray-700 leading-relaxed">—</div>
+
+        <div class="inv-details-extra">
+          <div class="inv-details-grid">
+            <div>
+              <div class="inv-detail-label">মোবাইল</div>
+              <div id="inv-phone" class="inv-detail-value">—</div>
+            </div>
+            <div>
+              <div class="inv-detail-label">ইমেইল</div>
+              <div id="inv-email" class="inv-detail-value break-all">—</div>
+            </div>
+          </div>
+          <div class="inv-address-box">
+            <div class="inv-detail-label">ডেলিভারি ঠিকানা</div>
+            <div id="inv-address" class="inv-detail-value">—</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Items -->
+      <div id="items-section" class="hidden inv-items">
+        <div class="inv-section-title">অর্ডার বিবরণ</div>
+        <div class="overflow-x-auto">
+          <table class="inv-table">
+            <thead>
+              <tr>
+                <th class="w-10">#</th>
+                <th>পণ্য</th>
+                <th class="center">পরিমাণ</th>
+                <th class="right">মূল্য</th>
+                <th class="right">মোট</th>
+              </tr>
+            </thead>
+            <tbody id="items-list"></tbody>
+            <tfoot>
+              <tr>
+                <td colspan="4" class="right">সর্বমোট:</td>
+                <td class="right" id="inv-total">৳0</td>
+              </tr>
+            </tfoot>
+          </table>
         </div>
       </div>
     </div>
 
-    <!-- Order Items Table (Professional Layout) -->
-    <div id="items-section" class="hidden px-6 sm:px-10 py-6">
-      <p class="text-xs font-bold tracking-widest uppercase text-gray-500 mb-4 pb-2 border-b border-gray-200">অর্ডার বিবরণ</p>
-
-      <div class="overflow-x-auto">
-        <table class="w-full invoice-table rounded-lg overflow-hidden">
-          <thead>
-            <tr>
-              <th class="w-12">#</th>
-              <th>পণ্য</th>
-              <th class="text-center">পরিমাণ</th>
-              <th class="text-right">মূল্য</th>
-              <th class="text-right">মোট</th>
-            </tr>
-          </thead>
-          <tbody id="items-list" class="bg-white"></tbody>
-          <tfoot>
-            <tr class="invoice-total-row">
-              <td colspan="4" class="text-right font-semibold">সর্বমোট:</td>
-              <td class="text-right font-bold text-lg" id="inv-total">৳0</td>
-            </tr>
-          </tfoot>
-        </table>
-      </div>
+    <!-- Invoice Footer (fixed in card) -->
+    <div class="inv-footer">
+      <div><strong>Urbor Essentials</strong> • Srotoshshini, South Badda, Dhaka 1212</div>
+      <div style="margin-top:4px;">📞 01794449607 • 📧 info@urboressentials.com</div>
+      <div style="margin-top:8px; font-size:10px;">এই রসিদটি কম্পিউটার জেনারেটেড, স্বাক্ষর প্রয়োজন নেই।</div>
     </div>
 
-    <!-- Professional Invoice Footer (Fixed in place for PDF) -->
-    <div class="invoice-footer px-6 sm:px-10 pb-6">
-      <div class="mb-2">
-        <strong>Urbor Essentials</strong> • Srotoshshini, South Badda, Dhaka 1212
-      </div>
-      <div class="mb-1">
-        📞 01794449607 • 📧 info@urboressentials.com
-      </div>
-      <div class="text-xs text-gray-400 mt-2">
-        এই রসিদটি কম্পিউটার জেনারেটেড, স্বাক্ষর প্রয়োজন নেই।
-      </div>
-    </div>
-
-    <!-- Action Buttons (Hidden in PDF) -->
-    <div id="card-footer" class="hidden no-print px-6 sm:px-10 py-6 border-t border-gray-200 bg-gray-50">
-      <div class="flex flex-col sm:flex-row gap-3">
-        <a href="/" class="flex-1 text-center bg-green-800 text-white py-3.5 rounded-xl font-medium text-sm transition-all hover:bg-green-900 active:scale-98 shadow-lg shadow-green-800/20">
-          ← আবার কেনাকাটা করুন
-        </a>
-        <button onclick="downloadPDF()" class="flex-1 text-center bg-white border-2 border-green-700 text-green-700 py-3.5 rounded-xl font-medium text-sm transition-all hover:bg-green-50 active:scale-98 shadow-sm cursor-pointer flex items-center justify-center gap-2">
-          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-          📄 ইনভয়েস ডাউনলোড
-        </button>
-      </div>
-      <p id="verify-note" class="text-center text-xs text-gray-500 mt-4"></p>
+    <!-- Action Buttons -->
+    <div id="card-footer" class="hidden no-print inv-actions">
+      <a href="/" class="inv-btn inv-btn-primary">← আবার কেনাকাটা করুন</a>
+      <button onclick="downloadPDF()" class="inv-btn inv-btn-secondary">📄 ইনভয়েস ডাউনলোড</button>
     </div>
 
   </div>
 </main>
 
-<!-- Footer (Matched with main site) - FIXED AT BOTTOM -->
-<footer id="page-footer" class="bg-green-900 text-gray-300 py-8 px-4 sm:px-6">
-  <div class="max-w-7xl mx-auto text-center">
-    <div class="font-serif text-lg text-white mb-2">Urbor Essentials</div>
-    <p class="text-sm text-gray-400 mb-4">রাজশাহীর প্রাকৃতিক আম — বাগান থেকে সরাসরি আপনার ঘরে</p>
-    <div class="text-xs text-gray-500">© ২০২৬ Urbor Essentials — সকল স্বত্ব সংরক্ষিত</div>
-  </div>
+<!-- Page Footer -->
+<footer class="page-footer">
+  <div class="page-footer-brand">Urbor Essentials</div>
+  <div class="page-footer-text">রাজশাহীর প্রাকৃতিক আম — বাগান থেকে সরাসরি আপনার ঘরে</div>
+  <div class="page-footer-copy">© ২০২৬ Urbor Essentials — সকল স্বত্ব সংরক্ষিত</div>
 </footer>
 
 <script>
@@ -369,7 +474,6 @@
   const invoice = params.get('invoice_number') || '';
   const paymentStatus = params.get('status') || '';
 
-  // Read lastOrder from sessionStorage
   let lastOrder = null;
   try { 
     const stored = sessionStorage.getItem('lastOrder');
@@ -383,29 +487,20 @@
 
   function setStatusStyle(type) {
     const icon = document.getElementById('status-icon');
-    const statusBadge = document.getElementById('inv-status');
+    const badge = document.getElementById('inv-status');
 
     if (type === 'success') {
-      icon.className = 'w-14 h-14 rounded-full flex items-center justify-center text-2xl bg-gradient-to-br from-success-bg to-green-50';
-      icon.innerHTML = '<svg class="w-8 h-8 text-green-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path class="checkmark-path" d="M8 12l3 3 5-5"/></svg>';
-      if (statusBadge) {
-        statusBadge.className = 'status-badge status-success';
-        statusBadge.innerHTML = '✓ সফল';
-      }
+      icon.className = 'inv-status-icon success';
+      icon.innerHTML = '✓';
+      if (badge) { badge.className = 'inv-status-badge success'; badge.textContent = '✓ সফল'; }
     } else if (type === 'failed') {
-      icon.className = 'w-14 h-14 rounded-full flex items-center justify-center text-2xl bg-gradient-to-br from-error-bg to-red-50';
-      icon.innerHTML = '<svg class="w-8 h-8 text-red-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6M9 9l6 6"/></svg>';
-      if (statusBadge) {
-        statusBadge.className = 'status-badge status-failed';
-        statusBadge.textContent = '✗ ব্যর্থ';
-      }
+      icon.className = 'inv-status-icon failed';
+      icon.innerHTML = '✗';
+      if (badge) { badge.className = 'inv-status-badge failed'; badge.textContent = '✗ ব্যর্থ'; }
     } else {
-      icon.className = 'w-14 h-14 rounded-full flex items-center justify-center text-2xl bg-gradient-to-br from-yellow-100 to-amber-50 animate-pulse-ring';
+      icon.className = 'inv-status-icon pending';
       icon.textContent = '⏳';
-      if (statusBadge) {
-        statusBadge.className = 'status-badge status-pending';
-        statusBadge.textContent = '⋯ প্রসেসিং';
-      }
+      if (badge) { badge.className = 'inv-status-badge pending'; badge.textContent = '⋯ প্রসেসিং'; }
     }
   }
 
@@ -456,7 +551,6 @@
     setText('status-title', title);
     setText('status-sub', sub);
 
-    // Set invoice metadata
     const now = new Date();
     const dateStr = now.toLocaleDateString('bn-BD', { 
       year: 'numeric', month: 'long', day: 'numeric',
@@ -476,16 +570,13 @@
     setText('inv-address', addressParts.join(', ') || '—');
 
     const amount = lastOrder?.amount || data?.amount || params.get('amount') || 0;
-    setText('inv-amount', '৳' + Number(amount).toLocaleString('en-BD'));
     setText('inv-total', '৳' + Number(amount).toLocaleString('en-BD'));
 
     const statusText = data?.trx_status || (type === 'success' ? 'সফল' : 'ব্যর্থ');
     setText('inv-status', statusText);
-    setText('inv-trxid', data?.trx_id || params.get('trx_id') || '—');
 
     document.getElementById('invoice-section').classList.remove('hidden');
 
-    // Render items table
     const items = lastOrder?.items || [];
     if (items.length) {
       let html = '';
@@ -496,14 +587,14 @@
         total += lineTotal;
         html += `
           <tr>
-            <td class="text-center text-gray-500">${idx + 1}</td>
+            <td class="center">${idx + 1}</td>
             <td>
-              <div class="font-medium text-gray-900">${escapeHtml(it.name)}</div>
-              <div class="text-xs text-gray-500">প্রতি: ৳${(it.price || 0).toLocaleString('en-BD')}</div>
+              <div class="item-name">${escapeHtml(it.name)}</div>
+              <div class="item-unit">প্রতি: ৳${(it.price || 0).toLocaleString('en-BD')}</div>
             </td>
-            <td class="text-center">${it.qty || 1}</td>
-            <td class="text-right text-gray-600">৳${(it.price || 0).toLocaleString('en-BD')}</td>
-            <td class="text-right font-semibold">৳${lineTotal.toLocaleString('en-BD')}</td>
+            <td class="center">${it.qty || 1}</td>
+            <td class="right">৳${(it.price || 0).toLocaleString('en-BD')}</td>
+            <td class="right" style="font-weight:700;">৳${lineTotal.toLocaleString('en-BD')}</td>
           </tr>
         `;
       });
@@ -511,23 +602,15 @@
       document.getElementById('items-list').innerHTML = html;
       setText('inv-total', '৳' + total.toLocaleString('en-BD'));
       document.getElementById('items-section').classList.remove('hidden');
-
-      // Clean up sessionStorage after use
       sessionStorage.removeItem('lastOrder');
     }
 
-    // Show footer actions
     document.getElementById('card-footer').classList.remove('hidden');
 
     if (type === 'failed') {
-      document.querySelector('#card-footer a').textContent = '← হোমে ফিরুন';
-      document.querySelector('#card-footer button').style.display = 'none';
-    } else {
-      document.querySelector('#card-footer button').style.display = 'flex';
+      document.querySelector('.inv-btn-primary').textContent = '← হোমে ফিরুন';
+      document.querySelector('.inv-btn-secondary').style.display = 'none';
     }
-
-    const trxId = data?.trx_id || params.get('trx_id');
-    setText('verify-note', trxId ? 'ট্রানজেকশন রেফারেন্স: ' + trxId : 'PayStation নিরাপদ গেটওয়ের মাধ্যমে প্রসেসকৃত।');
   }
 
   function escapeHtml(str) {
@@ -536,36 +619,30 @@
   }
 
   function downloadPDF() {
-    // Wait for fonts to be fully loaded before generating PDF
+    // Wait for fonts, then generate
     document.fonts.ready.then(() => {
       const element = document.getElementById('invoice-card');
-      const footer = document.getElementById('card-footer');
-      const originalDisplay = footer.style.display;
+      const actions = document.getElementById('card-footer');
+      const originalDisplay = actions.style.display;
 
-      // Hide buttons for PDF
-      footer.style.display = 'none';
-
-      // Force explicit text colors for sharp rendering
-      element.style.color = '#1f2937';
+      actions.style.display = 'none';
 
       const opt = {
-        margin: [10, 10, 10, 10],
+        margin: [8, 8, 8, 8],
         filename: `invoice-${invoice || lastOrder?.invoice || 'order'}.pdf`,
-        image: { type: 'jpeg', quality: 0.98 },
+        image: { type: 'jpeg', quality: 0.95 },
         html2canvas: { 
-          scale: 2,  // Reduced from 3 for better text clarity
+          scale: 2.5,
           useCORS: true, 
           logging: false, 
           backgroundColor: '#ffffff',
           letterRendering: true,
-          allowTaint: false,
-          foreignObjectRendering: false  // Better font support
+          allowTaint: false
         },
         jsPDF: { 
           unit: 'mm', 
           format: 'a4', 
-          orientation: 'portrait',
-          putOnlyUsedFonts: true
+          orientation: 'portrait'
         }
       };
 
@@ -574,17 +651,16 @@
         .from(element)
         .save()
         .then(() => {
-          footer.style.display = originalDisplay;
+          actions.style.display = originalDisplay;
         })
         .catch((err) => {
           console.error('PDF error:', err);
-          footer.style.display = originalDisplay;
-          alert('PDF তৈরি করতে সমস্যা হয়েছে। পেজ রিফ্রেশ করে আবার চেষ্টা করুন।');
+          actions.style.display = originalDisplay;
+          alert('PDF তৈরি করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।');
         });
     });
   }
 
-  // Initialize
   verify();
 </script>
 </body>
