@@ -1347,6 +1347,7 @@ function saveOrderToSession(customerName, totalAmount, jela, thana, address) {
   };
   try { sessionStorage.setItem('lastOrder', JSON.stringify(orderData)); } 
   catch(e) { console.warn('sessionStorage save failed:', e); }
+  return orderData; // Return for use in redirect
 }
 
 function validatePhone(p) { return /^01[3-9][0-9]{8}$/.test(p.replace(/[^0-9]/g,'')); }
@@ -1372,7 +1373,7 @@ function checkoutMobile() {
   _doCheckout('-m');
 }
 
-// ✅ UPDATED: COD Checkout Function - Sends to /api/place
+// ✅ UPDATED: COD Checkout Function - Redirects to thank.html on success
 function _doCheckout(prefix) {
   var name = document.getElementById('f-name' + prefix).value.trim();
   var phone = document.getElementById('f-phone' + prefix).value.trim();
@@ -1405,7 +1406,9 @@ function _doCheckout(prefix) {
   if (cartCount() === 0) { toast('কার্ট খালি', true); return; }
 
   var totals = getCartTotals();
-  saveOrderToSession(name, totals.grandTotal, jela, thana, address);
+  
+  // Save order data BEFORE API call (in case of network failure, user still sees thank page)
+  var orderData = saveOrderToSession(name, totals.grandTotal, jela, thana, address);
 
   var btn = document.getElementById('pay-btn' + prefix);
   var orig = btn.innerHTML;
@@ -1429,7 +1432,7 @@ function _doCheckout(prefix) {
     timestamp: new Date().toISOString()
   };
 
-  // ✅ COD: Send to /api/place instead of /api/initiate
+  // ✅ COD: Send to /api/place
   fetch(API_BASE + '/place', {
     method: 'POST', 
     headers: {'Content-Type': 'application/json'}, 
@@ -1444,15 +1447,9 @@ function _doCheckout(prefix) {
       renderProducts();
       renderSideCart();
       
-      toast('✓ অর্ডার সফল হয়েছে! আইডি: ' + (data.order_id || 'URB-XXXX'));
+      // ✅ REDIRECT TO thank.html (instead of alerts + goShop)
+      window.location.href = 'thank.html';
       
-      setTimeout(function() {
-        goShop();
-        var lastOrder = JSON.parse(sessionStorage.getItem('lastOrder') || '{}');
-        if (lastOrder.invoice) {
-          alert('🎉 ধন্যবাদ!\nঅর্ডার আইডি: ' + lastOrder.invoice + '\nআমরা ২৪ ঘণ্টার মধ্যে আপনার সাথে যোগাযোগ করব।');
-        }
-      }, 2500);
     } else {
       toast(data.error || 'অর্ডার দিতে সমস্যা হয়েছে। আবার চেষ্টা করুন।', true);
       btn.disabled = false; 

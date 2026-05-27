@@ -20,9 +20,23 @@ module.exports = async function handler(req, res) {
   try {
     const client    = await getDb();
     const ordersCol = client.db("paystation_demo").collection("orders");
-    const order     = await ordersCol.findOne(
+    
+    // ✅ FIXED: Include 'customer' and 'items' in projection so frontend receives them
+    const order = await ordersCol.findOne(
       { invoice_number },
-      { projection: { status: 1, trx_status: 1, trx_id: 1, payment_amount: 1, verified: 1, customer: 1, items: 1, _id: 0 } }
+      { 
+        projection: { 
+          status: 1, 
+          trx_status: 1, 
+          trx_id: 1, 
+          payment_amount: 1, 
+          verified: 1, 
+          customer: 1,    // ← Critical: include customer object
+          items: 1,       // ← Critical: include items array
+          invoice_number: 1,
+          _id: 0 
+        } 
+      }
     );
 
     if (order && order.verified) {
@@ -52,13 +66,25 @@ module.exports = async function handler(req, res) {
       const ordersCol = client.db("paystation_demo").collection("orders");
       await ordersCol.updateOne(
         { invoice_number },
-        { $set: { trx_status: trxStatus, trx_id: psData?.data?.trx_id, status: isSuccess ? "success" : (trxStatus?.toLowerCase() || "unknown"), verified: true, updated_at: new Date() } }
+        { 
+          $set: { 
+            trx_status: trxStatus, 
+            trx_id: psData?.data?.trx_id, 
+            status: isSuccess ? "success" : (trxStatus?.toLowerCase() || "unknown"), 
+            verified: true, 
+            updated_at: new Date() 
+          } 
+        }
       );
     } catch (e) {
       console.error("MongoDB fallback update error:", e.message);
     }
 
-    return res.status(200).json({ source: "paystation", ...psData?.data, trx_status: trxStatus });
+    return res.status(200).json({ 
+      source: "paystation", 
+      ...psData?.data, 
+      trx_status: trxStatus 
+    });
   } catch (err) {
     console.error("PayStation status error:", err.message);
     return res.status(500).json({ error: "Could not verify payment status" });
