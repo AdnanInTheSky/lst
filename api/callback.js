@@ -1,116 +1,124 @@
 // api/callback.js
-// POST /api/callback
-// PayStation calls this server-to-server after payment — independent of the browser.
-// This is the GUARANTEED write path. Even if user closes the tab, this fires.
-// Also fires Meta CAPI Purchase event here (server-side, ad-blocker proof).
+// GET /api/callback
+// Receives PayStation callback, verifies transaction, updates DB, redirects user
 
-const { getDb }         = require("./_db");
-const { sendCapiEvent } = require("./_pixel");
+const { getDb } = require("./_db");
 
 const BASE = process.env.PAYSTATION_ENV === "live"
   ? "https://api.paystation.com.bd"
   : "https://sandbox.paystation.com.bd";
 
 module.exports = async function handler(req, res) {
-  // PayStation sends callback as GET or POST depending on version
-  // Accept both — extract invoice_number from either
-  const invoice_number = (
-    req.body?.invoice_number ||
-    req.query?.invoice_number ||
-    ""
-  ).trim();
+  // PayStation sends callback via GET with URL parameters [[11]]
+  if (req.method !== "GET") return res.status(405).send("Method not allowed");
 
-  const urlStatus = (req.body?.status || req.query?.status || "").toLowerCase();
+  const { status, invoice_number, trx_id } = req.query || {};
 
+  // ── Basic validation ───────────────────────────────────────────────────────
   if (!invoice_number) {
-    console.error("Callback received with no invoice_number");
-    return res.status(400).send("Missing invoice_number");
+    console.warn("Callback missing invoice_number");
+    return res.redirect(302, "/fail");
   }
 
-  console.log(`Callback received — invoice: ${invoice_number} url_status: ${urlStatus}`);
-
-  // ── Connect MongoDB ──────────────────────────────────────────────────────────
-  let ordersCol;
+  // ── Connect to MongoDB ─────────────────────────────────────────────────────
+  let ordersCol = null;
   try {
     const client = await getDb();
     ordersCol = client.db("paystation_demo").collection("orders");
   } catch (err) {
     console.error("MongoDB connect error in callback:", err.message);
-    // Return 200 to PayStation so it doesn't retry indefinitely
-    return res.status(200).send("ok");
   }
 
-  // ── Mark as verifying ────────────────────────────────────────────────────────
-  await ordersCol.updateOne(
-    { invoice_number },
-    { $set: { status: "verifying", updated_at: new Date() } }
-  );
-
-  // ── Verify with PayStation server-to-server ──────────────────────────────────
-  let trxStatus = null, trxId = null, paidAmount = null;
-  try {
-    const psRes = await fetch(`${BASE}/transaction-status`, {
-      method:  "POST",
-      headers: { "Content-Type": "application/json", "merchantId": process.env.MERCHANT_ID },
-      body:    JSON.stringify({ invoice_number }),
-    });
-    const psData = await psRes.json();
-    trxStatus  = psData?.data?.trx_status  || null;
-    trxId      = psData?.data?.trx_id      || null;
-    paidAmount = psData?.data?.payment_amount || null;
-  } catch (err) {
-    console.error("PayStation status check failed in callback:", err.message);
-    // Fall back to URL status param (less reliable but better than nothing)
-    trxStatus = urlStatus || "failed";
-  }
-
-  const isSuccess = trxStatus && ["successful", "success"].includes(trxStatus.toLowerCase());
-
-  // ── Update order with verified result ────────────────────────────────────────
-  await ordersCol.updateOne(
-    { invoice_number },
-    {
-      $set: {
-        trx_status:     trxStatus,
-        trx_id:         trxId,
-        status:         isSuccess ? "success" : (trxStatus?.toLowerCase() || "failed"),
-        verified:       true,
-        updated_at:     new Date(),
-        ...(paidAmount && { verified_amount: parseFloat(paidAmount) }),
-      },
+  // ── Handle FAILED / CANCELED payments ──────────────────────────────────────
+  const lowerStatus = (status || "").toLowerCase();
+  if (["failed", "canceled", "cancelled", "failure"].includes(lowerStatus)) {
+    if (ordersCol) {
+      await ordersCol.updateOne(
+        { invoice_number },
+        { 
+          $set: { 
+            status: "failed", 
+            trx_status: lowerStatus, 
+            verified: true, 
+            updated_at: new Date() 
+          } 
+        }
+      );
     }
-  );
+    return res.redirect(302, "/fail");
+  }
 
-  // ── Fire CAPI Purchase event (only on success) ────────────────────────────────
-  if (isSuccess) {
-    // Fetch the order for customer data and deduplication event_id
-    const order = await ordersCol.findOne({ invoice_number }, { projection: { customer: 1, items: 1, payment_amount: 1, meta: 1 } });
-
-    if (order) {
-      const APP_URL = process.env.APP_URL || "https://your-project.vercel.app";
-      await sendCapiEvent({
-        eventName:      "Purchase",
-        eventId:        `purchase-${invoice_number}`,   // unique per purchase
-        eventSourceUrl: `${APP_URL}/success.html`,
-        customer: {
-          email:     order.customer?.email,
-          phone:     order.customer?.phone,
-          fbp:       order.meta?.fbp,
-          fbc:       order.meta?.fbc,
+  // ── Handle SUCCESSFUL payment: VERIFY before trusting ──────────────────────
+  if (["successful", "success"].includes(lowerStatus)) {
+    try {
+      // 🔐 Server-to-server verification with PayStation API [[11]]
+      const psRes = await fetch(`${BASE}/transaction-status`, {
+        method: "POST",
+        headers: { 
+          "Content-Type": "application/json",
+          "merchantId": process.env.MERCHANT_ID 
         },
-        customData: {
-          value:        order.payment_amount,
-          currency:     "BDT",
-          order_id:     invoice_number,
-          contents:     (order.items || []).map(i => ({ id: i.id, quantity: i.qty, item_price: i.price })),
-          content_type: "product",
-        },
+        body: JSON.stringify({ invoice_number }),
       });
+      const psData = await psRes.json();
+
+      const trxStatus = psData?.data?.trx_status?.toLowerCase();
+      const isSuccess = trxStatus && ["success", "successful"].includes(trxStatus);
+      const verifiedTrxId = psData?.data?.trx_id;
+      const paymentAmount = psData?.data?.payment_amount;
+
+      if (!isSuccess) {
+        console.warn(`Payment verification failed for ${invoice_number}:`, trxStatus);
+        if (ordersCol) {
+          await ordersCol.updateOne(
+            { invoice_number },
+            { 
+              $set: { 
+                status: "failed", 
+                trx_status: trxStatus, 
+                verified: true, 
+                updated_at: new Date() 
+              } 
+            }
+          );
+        }
+        return res.redirect(302, "/fail");
+      }
+
+      // ✅ Verified: Update MongoDB with final transaction data
+      if (ordersCol) {
+        await ordersCol.updateOne(
+          { invoice_number },
+          { 
+            $set: { 
+              status: "success",
+              trx_status: trxStatus,
+              trx_id: verifiedTrxId || trx_id,
+              payment_amount: paymentAmount,
+              verified: true,
+              updated_at: new Date()
+            } 
+          }
+        );
+      }
+
+      // 🎉 Redirect to thank you page
+      return res.redirect(302, `/thank?invoice_number=${encodeURIComponent(invoice_number)}`);
+
+    } catch (err) {
+      console.error("PayStation verification error:", err.message);
+      // Fallback: if API fails, don't trust the callback alone
+      if (ordersCol) {
+        await ordersCol.updateOne(
+          { invoice_number },
+          { $set: { status: "pending_verification", updated_at: new Date() } }
+        );
+      }
+      return res.redirect(302, "/fail");
     }
   }
 
-  console.log(`Callback complete — invoice: ${invoice_number} status: ${isSuccess ? "success" : "failed"}`);
-
-  // Always return 200 to PayStation — otherwise it retries
-  return res.status(200).send("ok");
+  // ── Unknown status ─────────────────────────────────────────────────────────
+  console.warn(`Unknown callback status for ${invoice_number}:`, status);
+  return res.redirect(302, "/fail");
 };

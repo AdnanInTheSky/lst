@@ -87,7 +87,8 @@ module.exports = async function handler(req, res) {
   const full_address = [detail, thn, jl].filter(Boolean).join(", ");
   
   const APP_URL        = process.env.APP_URL || "https://your-project.vercel.app";
-  const callback_url   = `${APP_URL}/success.html?invoice_number=${invoice_number}`;
+  // ✅ Correct: Point to your callback endpoint (PayStation appends ?status, invoice_number, trx_id)
+  const callback_url = `${APP_URL}/api/callback`;
   const checkout_items = lineItems.map(i => `${i.name} x${i.qty}`).join(", ");
 
   // ── Save to MongoDB ──────────────────────────────────────────────────────────

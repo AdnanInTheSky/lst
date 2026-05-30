@@ -54,6 +54,32 @@
     .side-cart-qty { min-width: 36px; text-align: center; font-weight: 600; color: #1f2937; }
     #side-cart-body::-webkit-scrollbar { width: 4px; } #side-cart-body::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px; } #side-cart-body::-webkit-scrollbar-thumb { background: #166534; border-radius: 4px; }
     #side-cart-body { -ms-overflow-style: none; scrollbar-width: thin; }
+
+    /* ✅ CSS-FIRST FIX: Explicit responsive visibility with !important */
+    #checkout-layout { display: none; }
+    #checkout-layout-mobile { display: flex; flex-direction: column; gap: 1.5rem; }
+
+    @media (min-width: 1024px) {
+      #checkout-layout { 
+        display: grid !important; 
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important; 
+        gap: 2rem !important; 
+        align-items: start !important;
+      }
+      #checkout-layout-mobile { 
+        display: none !important; 
+      }
+    }
+    @media (max-width: 1023px) {
+      #checkout-layout { 
+        display: none !important; 
+      }
+      #checkout-layout-mobile { 
+        display: flex !important; 
+        flex-direction: column !important; 
+        gap: 1.5rem !important;
+      }
+    }
   </style>
 </head>
 <body class="bg-gray-50">
@@ -102,7 +128,8 @@
     <h1 class="font-serif text-3xl font-semibold mb-2 text-gray-900">Checkout</h1>
     <div id="empty-state" class="empty-state text-center py-16" style="display:none"><div class="text-6xl mb-4">🥭</div><p class="text-sm text-gray-500 mb-6">আপনার কার্ট এখনো খালি</p><button class="bg-green-800 text-white px-6 py-3 rounded-xl text-sm font-medium hover:bg-green-900 transition-all" onclick="goShop()">কেনাকাটা শুরু করুন</button></div>
 
-    <div id="checkout-layout" class="hidden lg:grid lg:grid-cols-2 lg:gap-8 lg:items-start">
+    <!-- Desktop Layout: CSS-controlled via media queries -->
+    <div id="checkout-layout">
       <div class="bg-white rounded-2xl border border-gray-200 p-6">
         <div class="flex items-center gap-3 mb-6"><div class="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center"><svg class="w-5 h-5 text-green-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 19a2 2 0 01-2-2V7a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1M5 19h14a2 2 0 002-2v-5a2 2 0 00-2-2H9a2 2 0 00-2 2v5a2 2 0 01-2 2z"/></svg></div><div><h3 class="text-lg font-semibold text-gray-900">Shipping Info</h3><p class="text-sm text-gray-500">Enter your delivery details</p></div></div>
         <div class="space-y-4">
@@ -135,7 +162,8 @@
       </div>
     </div>
 
-    <div id="checkout-layout-mobile" class="flex flex-col lg:hidden space-y-6">
+    <!-- Mobile Layout: CSS-controlled via media queries -->
+    <div id="checkout-layout-mobile">
       <div class="bg-white rounded-2xl border border-gray-200 p-6">
         <div class="flex items-center gap-3 mb-6"><div class="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center"><svg class="w-5 h-5 text-green-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg></div><div><h3 class="text-lg font-semibold text-gray-900">Order Summary</h3></div></div>
         <div id="cart-items-mobile" class="space-y-4 mb-6"></div>
@@ -304,7 +332,7 @@ function syncFormToDesktop() { ['name','phone','email','jela','thana','address']
 function populateThanas(prefix) { var ds=document.getElementById('f-jela'+prefix), ts=document.getElementById('f-thana'+prefix), as=document.getElementById('f-address'+prefix), d=ds.value; ts.innerHTML='<option value="">থানা নির্বাচন করুন</option>'; ts.disabled=true; as.disabled=true; as.value=''; if(d&&THANAS_BY_DISTRICT[d]){ THANAS_BY_DISTRICT[d].forEach(t=>{var o=document.createElement('option');o.value=t;o.textContent=t;ts.appendChild(o);}); ts.disabled=false; } }
 function setupThanaListeners() { ['','-m'].forEach(s=>{ var ts=document.getElementById('f-thana'+s), as=document.getElementById('f-address'+s); if(ts) ts.addEventListener('change', function(){ if(this.value){ as.disabled=false; as.focus(); } else { as.disabled=true; as.value=''; } }); }); }
 
-// ✅ FIXED: renderCart() with inline styles to guarantee hiding on mobile
+// ✅ CSS-FIRST FIX: Only toggle visibility for empty cart state
 function renderCart() { 
   var count = cartCount(), 
       totals = getCartTotals(), 
@@ -316,10 +344,10 @@ function renderCart() {
   
   if(count === 0){ 
     emptyEl.style.display = 'block'; 
-    // ✅ FIX: Use inline styles instead of just classList to guarantee hiding
-    if(dl) dl.style.display = 'none'; 
-    if(dlM) dlM.style.display = 'none'; 
-    // Clear cart items HTML to prevent stale content
+    // Hide both layouts when cart is empty (CSS media queries still control responsive behavior)
+    if(dl) dl.classList.add('hidden'); 
+    if(dlM) dlM.classList.add('hidden'); 
+    // Clear cart items HTML
     var dI = document.getElementById('cart-items');
     var dIM = document.getElementById('cart-items-mobile');
     if(dI) dI.innerHTML = '';
@@ -328,9 +356,9 @@ function renderCart() {
   } 
   
   emptyEl.style.display = 'none'; 
-  // Restore display: let CSS handle desktop, force flex for mobile
-  if(dl) dl.style.display = ''; 
-  if(dlM) dlM.style.display = 'flex'; 
+  // Show both layouts - CSS media queries with !important control which one displays
+  if(dl) dl.classList.remove('hidden'); 
+  if(dlM) dlM.classList.remove('hidden'); 
   
   var html=''; 
   for(var pid in cart){ 
