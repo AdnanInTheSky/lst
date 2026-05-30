@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Checkout — Urbor Essentials</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'primary': '#166534', 'primary-dark': '#14532d', 'primary-light': '#f0fdf4',
+            'primary-accent': '#22c55e', 'secondary': '#16a34a', 'text-dark': '#1f2937',
+            'text-muted': '#6b7280', 'border-light': '#e5e7eb',
+          },
+          fontFamily: {
+            'bengali': ['"Noto Sans Bengali"', 'sans-serif'],
+            'serif': ['"Cormorant Garamond"', 'Georgia', 'serif'],
+          }
+        }
+      }
+    }
+  </script>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-tap-highlight-color: transparent; }
+    body { 
+      font-family: 'Noto Sans Bengali', sans-serif; background-color: #fafafa;
+      color: #1f2937; min-height: 100vh; overflow-x: hidden; font-size: 15px; line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font-family: 'Noto Sans Bengali', sans-serif; cursor: pointer; border: none; }
+    img { display: block; max-width: 100%; }
+    textarea, input, select { font-family: 'Noto Sans Bengali', sans-serif; }
+    
+    #toast {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
+      background: #166534; color: white; padding: 12px 28px; border-radius: 9999px;
+      font-size: 14px; font-weight: 500; z-index: 100;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      pointer-events: none; white-space: nowrap; max-width: 90vw; text-align: center;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+    }
+    #toast.show { transform: translateX(-50%) translateY(0); }
+    #toast.err { background: #dc2626; }
+    
+    .form-input:focus, .form-select:focus { 
+      border-color: #166534; box-shadow: 0 0 0 3px rgba(22, 101, 52, 0.15); outline: none;
+    }
+    
+    /* WhatsApp Float Button */
+    .whatsapp-float {
+      position: fixed; bottom: 30px; right: 30px; background: #25d366; color: white;
+      width: 60px; height: 60px; border-radius: 50%; text-align: center; font-size: 30px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 100;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.3s ease; cursor: pointer;
+    }
+    .whatsapp-float:hover { transform: scale(1.1); box-shadow: 0 6px 16px rgba(0,0,0,0.4); }
+    
+    @media (max-width: 768px) {
+      .footer-grid { grid-template-columns: 1fr !important; }
+      .whatsapp-float { bottom: 20px; right: 20px; width: 50px; height: 50px; font-size: 24px; }
+    }
+    @media (max-width: 480px) {
+      .header-phone { display: none; }
+      .cart-page { padding-left: 16px !important; padding-right: 16px !important; }
+    }
+    
+    /* ✅ Checkout Layout Control */
+    #checkout-layout { display: none; }
+    #checkout-layout-mobile { display: flex; }
+    @media (min-width: 1024px) {
+      #checkout-layout { display: grid !important; grid-template-columns: 1fr 1fr; gap: 2rem; }
+      #checkout-layout-mobile { display: none !important; }
+    }
+    @media (max-width: 1023px) {
+      #checkout-layout { display: none !important; }
+      #checkout-layout-mobile { display: flex !important; flex-direction: column; gap: 1.5rem; }
+    }
+    
+    @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+    .animate-fade-in { animation: fade-in 0.8s ease-out forwards; }
+  </style>
+  <base target="_blank">
+</head>
+<body class="bg-gray-50">
+
+<!-- HEADER (Simplified) -->
+<header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-200">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+    <a href="index.html" class="flex items-center gap-3">
+      <img src="https://lst-mu.vercel.app/images/logo2.png" alt="Urbor Essentials Logo" 
+        class="w-10 h-10 object-contain rounded-xl shadow-lg"
+        onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'w-10 h-10 bg-gradient-to-br from-green-700 to-emerald-600 rounded-xl flex items-center justify-center text-xl shadow-lg\'></div>'"
+      />
+      <div>
+        <div class="font-serif text-xl font-semibold tracking-tight text-gray-900">Urbor Essentials</div>
+        <div class="text-xs text-gray-500 -mt-0.5">Checkout</div>
+      </div>
+    </a>
+    <a href="index.html" class="text-sm text-green-700 font-medium hover:underline">← শপিংয়ে ফিরুন</a>
+  </div>
+</header>
+
+<!-- CART/CHECKOUT PAGE -->
+<div class="cart-page max-w-7xl mx-auto px-4 sm:px-6 py-8 lg:py-12">
+  <h1 class="font-serif text-3xl font-semibold mb-2 text-gray-900">Checkout</h1>
+
+  <div id="empty-state" class="empty-state text-center py-16" style="display:none">
+    <div class="text-6xl mb-4">🥭</div>
+    <p class="text-sm text-gray-500 mb-6">আপনার কার্ট এখনো খালি</p>
+    <a href="index.html" class="bg-green-800 text-white px-6 py-3 rounded-xl text-sm font-medium hover:bg-green-900 transition-all">কেনাকাটা শুরু করুন</a>
+  </div>
+
+  <!-- DESKTOP: Left = Shipping, Right = Summary -->
+  <div id="checkout-layout">
+    <!-- LEFT: Shipping Info -->
+    <div class="bg-white rounded-2xl border border-gray-200 p-6">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center">
+          <svg class="w-5 h-5 text-green-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 19a2 2 0 01-2-2V7a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1M5 19h14a2 2 0 002-2v-5a2 2 0 00-2-2H9a2 2 0 00-2 2v5a2 2 0 01-2 2z"/></svg>
+        </div>
+        <div><h3 class="text-lg font-semibold text-gray-900">Shipping Info</h3><p class="text-sm text-gray-500">Enter your delivery details</p></div>
+      </div>
+      <div class="space-y-4">
+        <input class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm" id="f-name" placeholder="Your Full Name *" />
+        <div class="flex items-center gap-2">
+          <div class="px-4 py-3 bg-gray-100 rounded-xl text-sm font-medium text-gray-700 border border-gray-300 flex-shrink-0">BD +88</div>
+          <input class="flex-1 px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm" id="f-phone" placeholder="017********" maxlength="11" inputmode="numeric" />
+        </div>
+        <input class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm" id="f-email" type="email" placeholder="Email Address (Optional)" />
+        <div class="grid grid-cols-2 gap-3">
+          <select class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm" id="f-jela" onchange="populateThanas('')">
+            <option value="">Select District</option>
+            <option value="Bagerhat">Bagerhat</option><option value="Bandarban">Bandarban</option><option value="Barguna">Barguna</option><option value="Barisal">Barisal</option><option value="Bhola">Bhola</option><option value="Bogura">Bogura</option><option value="Brahmanbaria">Brahmanbaria</option><option value="Chandpur">Chandpur</option><option value="Chapainawabganj">Chapainawabganj</option><option value="Chattogram">Chattogram</option><option value="Chuadanga">Chuadanga</option><option value="Comilla">Comilla</option><option value="Coxsbazar">Coxsbazar</option><option value="Dhaka">Dhaka</option><option value="Dinajpur">Dinajpur</option><option value="Faridpur">Faridpur</option><option value="Feni">Feni</option><option value="Gaibandha">Gaibandha</option><option value="Gazipur">Gazipur</option><option value="Gopalganj">Gopalganj</option><option value="Habiganj">Habiganj</option><option value="Jamalpur">Jamalpur</option><option value="Jashore">Jashore</option><option value="Jhalakathi">Jhalakathi</option><option value="Jhenaidah">Jhenaidah</option><option value="Joypurhat">Joypurhat</option><option value="Khagrachhari">Khagrachhari</option><option value="Khulna">Khulna</option><option value="Kishoreganj">Kishoreganj</option><option value="Kurigram">Kurigram</option><option value="Kushtia">Kushtia</option><option value="Lakshmipur">Lakshmipur</option><option value="Lalmonirhat">Lalmonirhat</option><option value="Madaripur">Madaripur</option><option value="Magura">Magura</option><option value="Manikganj">Manikganj</option><option value="Meherpur">Meherpur</option><option value="Moulvibazar">Moulvibazar</option><option value="Munshiganj">Munshiganj</option><option value="Mymensingh">Mymensingh</option><option value="Naogaon">Naogaon</option><option value="Narail">Narail</option><option value="Narayanganj">Narayanganj</option><option value="Narsingdi">Narsingdi</option><option value="Natore">Natore</option><option value="Netrokona">Netrokona</option><option value="Nilphamari">Nilphamari</option><option value="Noakhali">Noakhali</option><option value="Pabna">Pabna</option><option value="Panchagarh">Panchagarh</option><option value="Patuakhali">Patuakhali</option><option value="Pirojpur">Pirojpur</option><option value="Rajbari">Rajbari</option><option value="Rajshahi">Rajshahi</option><option value="Rangamati">Rangamati</option><option value="Rangpur">Rangpur</option><option value="Satkhira">Satkhira</option><option value="Shariatpur">Shariatpur</option><option value="Sherpur">Sherpur</option><option value="Sirajganj">Sirajganj</option><option value="Sunamganj">Sunamganj</option><option value="Sylhet">Sylhet</option><option value="Tangail">Tangail</option><option value="Thakurgaon">Thakurgaon</option>
+          </select>
+          <select class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm" id="f-thana" disabled><option value="">Select Thana (Optional)</option></select>
+        </div>
+        <textarea class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm resize-none" id="f-address" rows="2" placeholder="Srotoshshini, South Badda, Dhaka, Bangladesh, 1212"></textarea>
+      </div>
+    </div>
+
+    <!-- RIGHT: Order Summary -->
+    <div class="bg-white rounded-2xl border border-gray-200 p-6">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center">
+          <svg class="w-5 h-5 text-green-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+        </div>
+        <div><h3 class="text-lg font-semibold text-gray-900">Order Summary</h3></div>
+      </div>
+      <div id="cart-items" class="space-y-4 mb-6"></div>
+      <div class="border-t border-gray-200 pt-4 space-y-3">
+        <div class="flex justify-between text-sm"><span class="text-gray-600">Subtotal</span><span class="font-medium">৳<span id="subtotal-amount">0</span></span></div>
+        <div class="flex justify-between text-sm"><span class="text-gray-600">Delivery Fee</span><span class="font-medium text-green-700">৳<span id="delivery-amount">0</span></span></div>
+        <div class="flex justify-between text-sm"><span class="text-gray-600">Discount</span><span class="font-medium">-৳<span id="discount-amount">0</span></span></div>
+        <div class="flex justify-between items-center pt-3 border-t border-gray-200"><span class="text-base font-semibold">Total</span><span class="font-serif text-2xl font-bold text-green-700">৳<span id="final-total">0</span></span></div>
+      </div>
+    </div>
+    
+    <!-- Pay Button (Desktop) -->
+    <div class="lg:col-span-2 mt-6">
+      <button class="w-full bg-green-800 text-white py-4 rounded-xl text-sm font-medium transition-all flex items-center justify-center gap-2 hover:bg-green-900 active:scale-98 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-xl shadow-green-800/20" id="pay-btn" onclick="checkout()">
+        Pay <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+      <div class="flex items-center justify-center gap-4 mt-4 text-xs text-gray-500">
+        <div class="flex items-center gap-1"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg> Secure</div>
+        <div class="flex items-center gap-1"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Protected</div>
+        <div class="flex items-center gap-1"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Verified</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MOBILE: Summary → Form → Pay -->
+  <div id="checkout-layout-mobile">
+    <!-- 1️⃣ Order Summary -->
+    <div class="bg-white rounded-2xl border border-gray-200 p-6">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center">
+          <svg class="w-5 h-5 text-green-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+        </div>
+        <div><h3 class="text-lg font-semibold text-gray-900">Order Summary</h3></div>
+      </div>
+      <div id="cart-items-mobile" class="space-y-4 mb-6"></div>
+      <div class="border-t border-gray-200 pt-4 space-y-3">
+        <div class="flex justify-between text-sm"><span class="text-gray-600">Subtotal</span><span class="font-medium">৳<span id="subtotal-amount-m">0</span></span></div>
+        <div class="flex justify-between text-sm"><span class="text-gray-600">Delivery Fee</span><span class="font-medium text-green-700">৳<span id="delivery-amount-m">0</span></span></div>
+        <div class="flex justify-between text-sm"><span class="text-gray-600">Discount</span><span class="font-medium">-৳<span id="discount-amount-m">0</span></span></div>
+        <div class="flex justify-between items-center pt-3 border-t border-gray-200"><span class="text-base font-semibold">Total</span><span class="font-serif text-2xl font-bold text-green-700">৳<span id="final-total-mobile">0</span></span></div>
+      </div>
+    </div>
+
+    <!-- 2️⃣ Shipping Info -->
+    <div class="bg-white rounded-2xl border border-gray-200 p-6">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center">
+          <svg class="w-5 h-5 text-green-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 19a2 2 0 01-2-2V7a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1M5 19h14a2 2 0 002-2v-5a2 2 0 00-2-2H9a2 2 0 00-2 2v5a2 2 0 01-2 2z"/></svg>
+        </div>
+        <div><h3 class="text-lg font-semibold text-gray-900">Shipping Info</h3><p class="text-sm text-gray-500">Enter your delivery details</p></div>
+      </div>
+      <div class="space-y-4">
+        <input class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm" id="f-name-m" placeholder="Your Full Name *" />
+        <div class="flex items-center gap-2">
+          <div class="px-4 py-3 bg-gray-100 rounded-xl text-sm font-medium text-gray-700 border border-gray-300 flex-shrink-0">BD +88</div>
+          <input class="flex-1 px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm" id="f-phone-m" placeholder="017********" maxlength="11" inputmode="numeric" />
+        </div>
+        <input class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm" id="f-email-m" type="email" placeholder="Email Address (Optional)" />
+        <div class="grid grid-cols-2 gap-3">
+          <select class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm" id="f-jela-m" onchange="populateThanas('-m')">
+            <option value="">Select District</option>
+            <option value="Bagerhat">Bagerhat</option><option value="Bandarban">Bandarban</option><option value="Barguna">Barguna</option><option value="Barisal">Barisal</option><option value="Bhola">Bhola</option><option value="Bogura">Bogura</option><option value="Brahmanbaria">Brahmanbaria</option><option value="Chandpur">Chandpur</option><option value="Chapainawabganj">Chapainawabganj</option><option value="Chattogram">Chattogram</option><option value="Chuadanga">Chuadanga</option><option value="Comilla">Comilla</option><option value="Coxsbazar">Coxsbazar</option><option value="Dhaka">Dhaka</option><option value="Dinajpur">Dinajpur</option><option value="Faridpur">Faridpur</option><option value="Feni">Feni</option><option value="Gaibandha">Gaibandha</option><option value="Gazipur">Gazipur</option><option value="Gopalganj">Gopalganj</option><option value="Habiganj">Habiganj</option><option value="Jamalpur">Jamalpur</option><option value="Jashore">Jashore</option><option value="Jhalakathi">Jhalakathi</option><option value="Jhenaidah">Jhenaidah</option><option value="Joypurhat">Joypurhat</option><option value="Khagrachhari">Khagrachhari</option><option value="Khulna">Khulna</option><option value="Kishoreganj">Kishoreganj</option><option value="Kurigram">Kurigram</option><option value="Kushtia">Kushtia</option><option value="Lakshmipur">Lakshmipur</option><option value="Lalmonirhat">Lalmonirhat</option><option value="Madaripur">Madaripur</option><option value="Magura">Magura</option><option value="Manikganj">Manikganj</option><option value="Meherpur">Meherpur</option><option value="Moulvibazar">Moulvibazar</option><option value="Munshiganj">Munshiganj</option><option value="Mymensingh">Mymensingh</option><option value="Naogaon">Naogaon</option><option value="Narail">Narail</option><option value="Narayanganj">Narayanganj</option><option value="Narsingdi">Narsingdi</option><option value="Natore">Natore</option><option value="Netrokona">Netrokona</option><option value="Nilphamari">Nilphamari</option><option value="Noakhali">Noakhali</option><option value="Pabna">Pabna</option><option value="Panchagarh">Panchagarh</option><option value="Patuakhali">Patuakhali</option><option value="Pirojpur">Pirojpur</option><option value="Rajbari">Rajbari</option><option value="Rajshahi">Rajshahi</option><option value="Rangamati">Rangamati</option><option value="Rangpur">Rangpur</option><option value="Satkhira">Satkhira</option><option value="Shariatpur">Shariatpur</option><option value="Sherpur">Sherpur</option><option value="Sirajganj">Sirajganj</option><option value="Sunamganj">Sunamganj</option><option value="Sylhet">Sylhet</option><option value="Tangail">Tangail</option><option value="Thakurgaon">Thakurgaon</option>
+          </select>
+          <select class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm" id="f-thana-m" disabled><option value="">Select Thana (Optional)</option></select>
+        </div>
+        <textarea class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-green-600 outline-none transition-all text-sm resize-none" id="f-address-m" rows="2" placeholder="Srotoshshini, South Badda, Dhaka, Bangladesh, 1212"></textarea>
+      </div>
+    </div>
+
+    <!-- 3️⃣ Pay Button (Mobile - Sticky) -->
+    <div class="sticky bottom-4 z-30 px-4 pb-2">
+      <button class="w-full bg-green-800 text-white py-4 rounded-xl text-sm font-medium transition-all flex items-center justify-center gap-2 hover:bg-green-900 active:scale-98 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-xl shadow-green-800/20" id="pay-btn-m" onclick="checkoutMobile()">
+        Pay <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="bg-green-900 text-gray-300 py-8 px-4 sm:px-6 mt-12">
+  <div class="max-w-7xl mx-auto text-center text-xs text-gray-500">
+    © ২০২৬ Urbor Essentials — রাজশাহীর প্রাকৃতিক আম
+  </div>
+</footer>
+
+<!-- WhatsApp Float Button -->
+<a href="https://wa.me/8801794449607" target="_blank" class="whatsapp-float" aria-label="Chat on WhatsApp">
+  <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<div id="toast"></div>
+
+<script>
+// === SHARED CONFIG ===
+var API_BASE = "/api";
+var PRODUCTS = {
+  p1: { name: "হিমসাগর আম — প্রিমিয়াম", price: 180, delivery: 80, originalPrice: 220, image: "https://lst-mu.vercel.app/images/image.png", desc: "রাজশাহীর বিখ্যাত হিমসাগর, মিষ্টি ও সুগন্ধি। প্রতি কেজি।", label: "Best Selling", bestSeller: true },
+  p2: { name: "ল্যাংড়া আম", price: 220, delivery: 80, originalPrice: 280, image: "https://lst-mu.vercel.app/images/image.png", desc: "রাজশাহীর ঐতিহ্যবাহী ল্যাংড়া, টক-মিষ্টি স্বাদ। প্রতি কেজি।", label: "Best Selling", bestSeller: true },
+  p3: { name: "ফজলি আম", price: 200, delivery: 90, originalPrice: 250, image: "https://lst-mu.vercel.app/images/image.png", desc: "বড় আকারের ফজলি, রাজশাহীর সেরা বাগান থেকে।", label: "Best Selling", bestSeller: true },
+  p4: { name: "আম্রপালি আম", price: 250, delivery: 80, originalPrice: 300, image: "https://lst-mu.vercel.app/images/image.png", desc: "মিষ্টি ও রসালো আম্রপালি, প্রতি কেজি।", label: "Best Selling", bestSeller: true },
+  p5: { name: "হিমসাগর — ফ্যামিলি প্যাক", price: 850, delivery: 150, originalPrice: 1100, image: "https://lst-mu.vercel.app/images/image.png", desc: "৫ কেজি ফ্যামিলি প্যাক, বিশেষ ডিসকাউন্টে।", label: "", bestSeller: false },
+  p6: { name: "আমের আচার — হাতে তৈরি", price: 350, delivery: 60, originalPrice: 420, image: "https://lst-mu.vercel.app/images/image.png", desc: "পাকা আমের ঐতিহ্যবাহী আচার, কোনো প্রিজারভেটিভ নেই। ৫০০গ্রাম।", label: "Best Selling", bestSeller: true },
+  p7: { name: "আমের জুস — তাজা", price: 180, delivery: 70, originalPrice: 220, image: "https://lst-mu.vercel.app/images/image.png", desc: "তাজা রাজশাহী আমের জুস, কোনো চিনি মিশ্রিত নয়। ১ লিটার।", label: "", bestSeller: false },
+  p8: { name: "আমের সরবত কনসেনট্রেট", price: 280, delivery: 60, originalPrice: 350, image: "https://lst-mu.vercel.app/images/image.png", desc: "ঘন সরবত কনসেনট্রেট, পানিতে মিশিয়ে খান। ৫০০মিলি।", label: "Best Selling", bestSeller: true },
+};
+
+var THANAS_BY_DISTRICT = {
+  "Bagerhat": ["Bagerhat Sadar", "Chitalmari", "Fakirhat", "Kachua", "Mollahat", "Mongla", "Morrelganj", "Rampal", "Sarankhola"],
+  "Bandarban": ["Alikadam", "Bandarban Sadar", "Lama", "Naikhongchhari", "Rowangchhari", "Ruma", "Thanchi"],
+  "Barguna": ["Amtali", "Bamna", "Barguna Sadar", "Betagi", "Pathorghata", "Taltali"],
+  "Barisal": ["Agailjhara", "Babuganj", "Bakerganj", "Banaripara", "Barisal Sadar", "Gournadi", "Gournadi Thana", "Hizla", "Kotwali", "Mehendiganj", "Muladi", "Wazirpur"],
+  "Bhola": ["Bhola Sadar", "Borhanuddin", "Charfesson", "Doulatkhan", "Lalmohan", "Monpura", "Tazumuddin"],
+  "Bogura": ["Adamdighi", "Bogra Sadar", "Dhunot", "Dupchanchia", "Gabtali", "Kahaloo", "Nondigram", "Shajahanpur", "Shariakandi", "Sherpur", "Shibganj", "Sonatala"],
+  "Brahmanbaria": ["Akhaura", "Ashuganj", "Bancharampur", "Bijoynagar", "Brahmanbaria Sadar", "Kasba", "Nabinagar", "Nasirnagar", "Sarail"],
+  "Chandpur": ["Chandpur Sadar", "Faridgonj", "Haimchar", "Hajiganj", "Kachua", "Matlab North", "Matlab South", "Shahrasti"],
+  "Chapainawabganj": ["Bholahat", "Chapainawabganj Sadar", "Gomostapur", "Nachol", "Shibganj"],
+  "Chattogram": ["Akbar Shah Police Station", "Anwara", "Bakalia Police Station", "Bandar Police Station", "Banshkhali", "Bayezid Bostami Police St", "Bhujpur Thana", "Boalkhali", "Chandanaish", "Chandgaon Police Station", "Chawkbazar", "Double Mooring Police Sta", "EPZ Police Station", "Fatikchhari", "Halishahar Police Station", "Hathazari", "Karnafuli", "Khulshi Police Station", "Kotwali Police Station", "Lohagara", "Mirsharai", "Pahartali Police Station", "Panchlaish Police Station", "Patenga Police Station", "Patiya", "Rangunia", "Raozan", "Sadarghat Police Station", "Sandwip", "Satkania", "Sitakunda", "Zorargonj"],
+  "Chuadanga": ["Alamdanga", "Chuadanga Sadar", "Damurhuda", "Jibannagar"],
+  "Comilla": ["Barura", "Brahmanpara", "Burichang", "Chandina", "Chauddagram", "Comilla Sadar", "Daudkandi", "Debidwar", "Homna", "Kotwali", "Laksam", "Lalmai", "Meghna", "Monohargonj", "Muradnagar", "Nangalkot", "Sadarsouth", "Titas"],
+  "Coxsbazar": ["Chakaria", "Coxsbazar Sadar", "Eidgaon", "Kutubdia", "Moheshkhali", "Pekua", "Ramu", "Teknaf", "Ukhiya"],
+  "Dhaka": ["Adabor", "Airport Thana", "Ashulia", "Badda", "Banani", "Bhasantek", "Bongshal", "Cantonment", "Chawkbazar", "Dakkhinkhan", "Darus Salam", "Demra", "Dhamrai", "Dhanmondi", "Dohar", "Gendaria", "Gulshan", "Hajaribaag", "Hatirjheel", "Jatrabari", "Kafrul Thana", "Kamrangirchor", "Keraniganj", "Khilkhet", "Kodomtoli", "Kolabagan", "Kotwali", "Laalbag", "Mirpur", "Mohammadpur", "Motijheel", "Mugda", "Nawabganj", "New Market", "Pallabi", "Paltan Model Thana", "Rampura", "Romna Model Thana", "Rupnagar", "Sabujbag", "Savar", "Shah Ali", "Shahbag", "Shahjahanpur", "Shampur", "Sher-e-bangla", "Sutrapur", "Tejgaon", "Tejgaon Industrial Area", "Turag", "Uttara", "Uttara Model Thana", "Uttarkhan", "Vatara", "Wari", "banani", "khilgaon"],
+  "Dinajpur": ["Birampur", "Birganj", "Birol", "Bochaganj", "Chirirbandar", "Dinajpur Sadar", "Fulbari", "Ghoraghat", "Hakimpur", "Kaharol", "Khansama", "Nawabganj", "Parbatipur"],
+  "Faridpur": ["Alfadanga", "Bhanga", "Boalmari", "Charbhadrasan", "Faridpur Sadar", "Madhukhali", "Nagarkanda", "Sadarpur", "Saltha"],
+  "Feni": ["Chhagalnaiya", "Daganbhuiyan", "Feni Sadar", "Fulgazi", "Parshuram", "Sonagazi"],
+  "Gaibandha": ["Gaibandha Sadar", "Gobindaganj", "Palashbari", "Phulchari", "Sadullapur", "Saghata", "Sundarganj"],
+  "Gazipur": ["Bason", "Gacha Thana", "Gazipur Sadar", "Joydevpur", "Kaliakair", "Kaliganj", "Kapasia", "Kashimpur", "Konabari", "Pubail", "Sreepur", "Tongi"],
+  "Gopalganj": ["Gopalganj Sadar", "Kashiani", "Kotalipara", "Muksudpur", "Tungipara"],
+  "Habiganj": ["Ajmiriganj", "Bahubal", "Baniachong", "Chunarughat", "Habiganj Sadar", "Lakhai", "Madhabpur", "Nabiganj", "Sayestaganj Thana"],
+  "Jamalpur": ["Bokshiganj", "Dewangonj", "Islampur", "Jamalpur Sadar", "Madarganj", "Melandah", "Sarishabari"],
+  "Jashore": ["Abhaynagar", "Bagherpara", "Chougachha", "Jessore Sadar", "Jhikargacha", "Keshabpur", "Kotwali", "Manirampur", "Sharsha"],
+  "Jhalakathi": ["Jhalakathi Sadar", "Kathalia", "Nalchity", "Rajapur"],
+  "Jhenaidah": ["Harinakundu", "Jhenaidah Sadar", "Kaliganj", "Kotchandpur", "Moheshpur", "Shailkupa"],
+  "Joypurhat": ["Akkelpur", "Joypurhat Sadar", "Kalai", "Khetlal", "Panchbibi"],
+  "Khagrachhari": ["Dighinala", "Guimara", "Khagrachhari Sadar", "Laxmichhari", "Manikchari", "Matiranga", "Mohalchari", "Panchari", "Ramgarh"],
+  "Khulna": ["Botiaghata", "Dakop", "Daulatpur", "Digholia", "Dumuria", "Fultola", "Horintana", "Khalishpur", "Khanjahan ali thana", "Koyra", "Paikgasa", "Rupsha", "Sonadanga", "Terokhada", "khulna Sadar"],
+  "Kishoreganj": ["Austagram", "Bajitpur", "Bhairab", "Hossainpur", "Itna", "Karimgonj", "Katiadi", "Kishoreganj Sadar", "Kuliarchar", "Mithamoin", "Nikli", "Pakundia", "Tarail"],
+  "Kurigram": ["Bhurungamari", "Charrajibpur", "Chilmari", "Kurigram Sadar", "Nageshwari", "Phulbari", "Rajarhat", "Rowmari", "Ulipur"],
+  "Kushtia": ["Bheramara", "Daulatpur", "Khoksa", "Kumarkhali", "Kushtia Sadar", "Mirpur"],
+  "Lakshmipur": ["Chandrogonj", "Kamalnagar", "Lakshmipur Sadar", "Raipur", "Ramganj", "Ramgati"],
+  "Lalmonirhat": ["Aditmari", "Hatibandha", "Kaliganj", "Lalmonirhat Sadar", "Patgram"],
+  "Madaripur": ["Dasar", "Kalkini", "Madaripur Sadar", "Rajoir", "Shibchar"],
+  "Magura": ["Magura Sadar", "Mohammadpur", "Shalikha", "Sreepur"],
+  "Manikganj": ["Doulatpur", "Gior", "Harirampur", "Manikganj Sadar", "Saturia", "Shibaloy", "Singiar"],
+  "Meherpur": ["Gangni", "Meherpur Sadar", "Mujibnagar"],
+  "Moulvibazar": ["Barlekha", "Juri", "Kamolganj", "Kulaura", "Moulvibazar Sadar", "Rajnagar", "Sreemangal"],
+  "Munshiganj": ["Gajaria", "Louhajanj", "Munshiganj Sadar", "Sirajdikhan", "Sreenagar", "Tongibari"],
+  "Mymensingh": ["Bhaluka", "Dhobaura", "Fulbaria", "Gafargaon", "Gouripur", "Haluaghat", "Iswarganj", "Muktagacha", "Mymensingh Sadar", "Nandail", "Pagla Thana", "Phulpur", "Tarakanda", "Trishal"],
+  "Naogaon": ["Atrai", "Badalgachi", "Dhamoirhat", "Manda", "Mohadevpur", "Naogaon Sadar", "Niamatpur", "Patnitala", "Porsha", "Raninagar", "Sapahar"],
+  "Narail": ["Kalia", "Lohagara", "Narail Sadar"],
+  "Narayanganj": ["Araihazar", "Bandar", "Fatullah", "Narayanganj Sadar", "Rupganj", "Siddhirganj", "Sonargaon"],
+  "Narsingdi": ["Belabo", "Madhobdi", "Monohardi", "Narsingdi Sadar", "Palash", "Raipura", "Shibpur"],
+  "Natore": ["Bagatipara", "Baraigram", "Gurudaspur", "Lalpur", "Naldanga", "Natore Sadar", "Singra"],
+  "Netrokona": ["Atpara", "Barhatta", "Durgapur", "Kalmakanda", "Kendua", "Khaliajuri", "Madan", "Mohongonj", "Netrokona Sadar", "Purbadhala"],
+  "Nilphamari": ["Dimla", "Domar", "Jaldhaka", "Kishorganj", "Nilphamari Sadar", "Syedpur"],
+  "Noakhali": ["Begumganj", "Chatkhil", "Companiganj", "Hatia", "Kabirhat", "Noakhali Sadar", "Senbug", "Sonaimori", "Subarnachar", "Sudharam"],
+  "Pabna": ["Aminpur", "Ataikula", "Atghoria", "Bera", "Bhangura", "Chatmohar", "Faridpur", "Ishurdi", "Pabna Sadar", "Santhia", "Sujanagar"],
+  "Panchagarh": ["Atwari", "Boda", "Debiganj", "Panchagarh Sadar", "Tetulia"],
+  "Patuakhali": ["Bauphal", "Dashmina", "Dumki", "Galachipa", "Kalapara", "Mirzaganj", "Patuakhali Sadar", "Rangabali"],
+  "Pirojpur": ["Bhandaria", "Kawkhali", "Mathbaria", "Nazirpur", "Nesarabad", "Pirojpur Sadar", "Zianagar"],
+  "Rajbari": ["Baliakandi", "Goalanda", "Kalukhali", "Pangsa", "Rajbari Sadar"],
+  "Rajshahi": ["Bagha", "Bagmara", "Boalia Thana", "Chandrima", "Charghat", "Durgapur", "Godagari", "Mohonpur", "Motihar Thana", "Paba", "Puthia", "Rajpara Thana", "Rajshahi Sadar", "Shah Mokhdum Thana", "Tanore"],
+  "Rangamati": ["Baghaichari", "Barkal", "Belaichari", "Juraichari", "Kaptai", "Kawkhali", "Langadu", "Naniarchar", "Rajasthali", "Rangamati Sadar"],
+  "Rangpur": ["Badargonj", "Gangachara", "Kaunia", "Kotowali", "Mahigonj", "Mithapukur", "Pirgacha", "Pirgonj", "Rangpur Sadar", "Taragonj"],
+  "Satkhira": ["Assasuni", "Debhata", "Kalaroa", "Kaliganj", "Patkelghata", "Satkhira Sadar", "Shyamnagar", "Tala"],
+  "Shariatpur": ["Bhedarganj", "Damudya", "Gosairhat", "Naria", "Sakhipur", "Shariatpur Sadar", "Zajira"],
+  "Sherpur": ["Jhenaigati", "Nalitabari", "Nokla", "Sherpur Sadar", "Sreebordi"],
+  "Sirajganj": ["Belkuchi", "Chauhali", "Jamuna Bridge West", "Kamarkhand", "Kazipur", "Raigonj", "Shahjadpur", "Sirajganj Sadar", "Tarash", "Ullapara", "salangaup"],
+  "Sunamganj": ["Bishwambarpur", "Chhatak", "Derai", "Dharmapasha", "Dowarabazar", "Jagannathpur", "Jamalganj", "Madhyanagar", "Shalla", "South Sunamganj", "Sunamganj Sadar", "Tahirpur"],
+  "Sylhet": ["Airport Thana", "Balaganj", "Beanibazar", "Bishwanath", "Companiganj", "Dakshinsurma", "Fenchuganj", "Golapganj", "Gowainghat", "Jaintiapur", "Jalalabad", "Kanaighat", "Kotwali", "Osmaninagar", "Shahporan", "Sylhet Sadar", "Zakiganj"],
+  "Tangail": ["Basail", "Bhuapur", "Delduar", "Dhanbari", "Ghatail", "Gopalpur", "Kalihati", "Madhupur", "Mirzapur", "Nagarpur", "Sakhipur", "Tangail Sadar"],
+  "Thakurgaon": ["Baliadangi", "Haripur", "Pirganj", "Ranisankail", "Thakurgaon Sadar", "Vulli"]
+};
+
+// === CART MANAGEMENT (localStorage) ===
+function loadCart() {
+  try { var saved = localStorage.getItem('urbor_cart'); return saved ? JSON.parse(saved) : {}; } catch(e) { return {}; }
+}
+var cart = loadCart();
+
+// === CART FUNCTIONS ===
+function cartCount() { var c = 0; for (var pid in cart) { if (cart.hasOwnProperty(pid)) c += cart[pid]; } return c; }
+function getCartTotals() {
+  var productTotal = 0, deliveryTotal = 0;
+  for (var pid in cart) {
+    if (cart.hasOwnProperty(pid) && PRODUCTS[pid]) {
+      var qty = cart[pid];
+      productTotal += PRODUCTS[pid].price * qty;
+      deliveryTotal += PRODUCTS[pid].delivery * qty;
+    }
+  }
+  if (productTotal >= 1000) deliveryTotal = 0;
+  return { productTotal: productTotal, deliveryTotal: deliveryTotal, grandTotal: productTotal + deliveryTotal };
+}
+
+// === RENDER CART ===
+function renderCart() {
+  var count = cartCount(), totals = getCartTotals();
+  var emptyEl = document.getElementById('empty-state');
+  var checkoutLayout = document.getElementById('checkout-layout');
+  var checkoutLayoutMobile = document.getElementById('checkout-layout-mobile');
+
+  if (count === 0) {
+    emptyEl.style.display = 'block';
+    if(checkoutLayout) checkoutLayout.classList.add('hidden');
+    if(checkoutLayoutMobile) checkoutLayoutMobile.classList.add('hidden');
+    return;
+  }
+  emptyEl.style.display = 'none';
+  if(checkoutLayout) checkoutLayout.classList.remove('hidden');
+  if(checkoutLayoutMobile) checkoutLayoutMobile.classList.remove('hidden');
+
+  var itemsHtml = '';
+  for (var pid in cart) {
+    if (!cart.hasOwnProperty(pid)) continue;
+    var qty = cart[pid], p = PRODUCTS[pid]; if (!p) continue;
+    itemsHtml += '<div class="flex gap-4 items-center p-3 bg-gray-50 rounded-xl">' +
+      '<img src="' + p.image + '" alt="' + p.name + '" class="w-16 h-16 object-contain bg-white rounded-lg border" />' +
+      '<div class="flex-1"><h4 class="font-medium text-gray-900 text-sm mb-1">' + p.name + '</h4><div class="flex items-center justify-between"><div class="flex items-center gap-2 text-xs text-gray-500"><span>Qty: ' + qty + '</span></div><div class="font-semibold text-green-700">৳' + (p.price * qty).toLocaleString('en-BD') + '</div></div></div>' +
+      '<button onclick="removeItem(\'' + pid + '\')" class="text-gray-400 hover:text-red-600 transition-colors p-2">×</button>' +
+    '</div>';
+  }
+  document.getElementById('cart-items').innerHTML = itemsHtml;
+  document.getElementById('cart-items-mobile').innerHTML = itemsHtml;
+
+  var deliveryText = totals.deliveryTotal === 0 ? 'FREE' : totals.deliveryTotal.toLocaleString('en-BD');
+  document.getElementById('subtotal-amount').textContent = totals.productTotal.toLocaleString('en-BD');
+  document.getElementById('delivery-amount').textContent = deliveryText;
+  document.getElementById('discount-amount').textContent = '0';
+  document.getElementById('final-total').textContent = totals.grandTotal.toLocaleString('en-BD');
+  document.getElementById('subtotal-amount-m').textContent = totals.productTotal.toLocaleString('en-BD');
+  document.getElementById('delivery-amount-m').textContent = deliveryText;
+  document.getElementById('discount-amount-m').textContent = '0';
+  document.getElementById('final-total-mobile').textContent = totals.grandTotal.toLocaleString('en-BD');
+}
+
+// === FORM FUNCTIONS ===
+function populateThanas(prefix) {
+  var districtSelect = document.getElementById('f-jela' + prefix);
+  var thanaSelect = document.getElementById('f-thana' + prefix);
+  var addressInput = document.getElementById('f-address' + prefix);
+  var district = districtSelect.value;
+  thanaSelect.innerHTML = '<option value="">থানা নির্বাচন করুন</option>';
+  thanaSelect.disabled = true; addressInput.disabled = true; addressInput.value = '';
+  if (district && THANAS_BY_DISTRICT[district]) {
+    var thanas = THANAS_BY_DISTRICT[district];
+    for (var i = 0; i < thanas.length; i++) {
+      var opt = document.createElement('option');
+      opt.value = thanas[i]; opt.textContent = thanas[i];
+      thanaSelect.appendChild(opt);
+    }
+    thanaSelect.disabled = false;
+  }
+}
+function setupThanaListeners() {
+  ['', '-m'].forEach(function(suffix) {
+    var thanaSel = document.getElementById('f-thana' + suffix);
+    var addrInp = document.getElementById('f-address' + suffix);
+    if (thanaSel) {
+      thanaSel.addEventListener('change', function() {
+        if (this.value) { addrInp.disabled = false; addrInp.focus(); }
+        else { addrInp.disabled = true; addrInp.value = ''; }
+      });
+    }
+  });
+}
+
+// === VALIDATION ===
+function validatePhone(p) { return /^01[3-9][0-9]{8}$/.test(p.replace(/[^0-9]/g,'')); }
+function validateEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.trim()); }
+function setFieldStatus(id, ok, msg) {
+  var el = document.getElementById(id);
+  var baseId = id.replace('f-', '').replace('-m', '');
+  var hint = document.getElementById('hint-' + baseId);
+  if (!el) return;
+  if (hint) { hint.textContent = msg || ''; hint.className = 'text-xs mt-1 ' + (ok === false ? 'text-red-600' : ok === true ? 'text-green-600' : ''); }
+}
+
+// === CHECKOUT ===
+function saveOrderToSession(customerName, totalAmount, jela, thana, address) {
+  var items = Object.keys(cart).map(function(pid) {
+    var p = PRODUCTS[pid];
+    return { name: p.name, price: p.price, delivery: p.delivery, qty: cart[pid], image: p.image, id: pid };
+  });
+  var orderData = {
+    invoice: 'URB-' + Date.now().toString().slice(-8),
+    name: customerName, amount: totalAmount, items: items,
+    address: { jela: jela, thana: thana, detail: address },
+    timestamp: new Date().toISOString()
+  };
+  try { sessionStorage.setItem('lastOrder', JSON.stringify(orderData)); } catch(e) { console.warn('sessionStorage save failed:', e); }
+}
+function getFbp() { var m = document.cookie.match(/_fbp=([^;]+)/); return m ? m[1] : null; }
+function getFbc() { var m = document.cookie.match(/_fbc=([^;]+)/); return m ? m[1] : new URLSearchParams(location.search).get('fbclid') || null; }
+
+function checkout() { _doCheckout(''); }
+function checkoutMobile() { _doCheckout('-m'); }
+function _doCheckout(prefix) {
+  var name = document.getElementById('f-name' + prefix).value.trim();
+  var phone = document.getElementById('f-phone' + prefix).value.trim();
+  var email = document.getElementById('f-email' + prefix).value.trim();
+  var jela = document.getElementById('f-jela' + prefix).value.trim();
+  var thana = document.getElementById('f-thana' + prefix).value.trim();
+  var address = document.getElementById('f-address' + prefix).value.trim();
+
+  var err = false;
+  if (!name) { setFieldStatus('f-name' + prefix, false, 'নাম দিন'); err = true; } else setFieldStatus('f-name' + prefix, true, '');
+  if (!phone) { setFieldStatus('f-phone' + prefix, false, 'ফোন নম্বর দিন'); err = true; }
+  else if (!validatePhone(phone)) { setFieldStatus('f-phone' + prefix, false, 'সঠিক বাংলাদেশি নম্বর দিন (01XXXXXXXXX)'); err = true; }
+  else setFieldStatus('f-phone' + prefix, true, '✓ সঠিক');
+  if (!email) { email = 'customer@urboressentials.com'; }
+  else if (!validateEmail(email)) { setFieldStatus('f-email' + prefix, false, 'সঠিক ইমেইল ফরম্যাট'); err = true; }
+  else { setFieldStatus('f-email' + prefix, true, '✓ সঠিক'); }
+  if (!jela) { alert('জেলা নির্বাচন করুন'); err = true; }
+  if (!thana) { alert('থানা নির্বাচন করুন'); err = true; }
+  if (!address) { alert('বিস্তারিত ঠিকানা দিন'); err = true; }
+  if (err) { toast('সব ঘর সঠিকভাবে পূরণ করুন', true); return; }
+  if (cartCount() === 0) { toast('কার্ট খালি', true); return; }
+
+  var totals = getCartTotals();
+  saveOrderToSession(name, totals.grandTotal, jela, thana, address);
+
+  var btn = document.getElementById('pay-btn' + prefix);
+  var orig = btn.innerHTML;
+  btn.disabled = true; btn.innerHTML = '<span class="animate-pulse">সংযুক্ত হচ্ছে…</span>';
+
+  var payload = {
+    items: Object.keys(cart).map(function(pid) { return {id: pid, qty: cart[pid]}; }),
+    cust_name: name, cust_phone: phone, cust_email: email,
+    jela: jela, thana: thana, address_detail: address,
+    fbp: getFbp(), fbc: getFbc(), event_id: 'ic-' + Date.now(),
+  };
+
+  fetch(API_BASE + '/initiate', {
+    method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload),
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (data.payment_url) { window.location.href = data.payment_url; }
+    else { toast(data.error || 'পেমেন্ট ব্যর্থ। আবার চেষ্টা করুন।', true); btn.disabled = false; btn.innerHTML = orig; }
+  })
+  .catch(function() {
+    toast('নেটওয়ার্ক ত্রুটি। আবার চেষ্টা করুন।', true);
+    btn.disabled = false; btn.innerHTML = orig;
+  });
+}
+
+// === TOAST ===
+var _tt;
+function toast(msg, isErr) {
+  var el = document.getElementById('toast');
+  el.textContent = msg; el.className = isErr ? 'err' : ''; el.classList.add('show');
+  clearTimeout(_tt); _tt = setTimeout(function() { el.classList.remove('show'); }, 3000);
+}
+
+// === LIVE VALIDATION ===
+function setupLiveValidation() {
+  ['',' -m'].forEach(function(suffix) {
+    var phoneEl = document.getElementById('f-phone' + suffix);
+    var emailEl = document.getElementById('f-email' + suffix);
+    if (phoneEl) {
+      phoneEl.addEventListener('input', function() {
+        this.value = this.value.replace(/[^0-9]/g, '').slice(0, 11);
+        if (this.value.length > 0) {
+          if (validatePhone(this.value)) setFieldStatus(this.id, true, '✓ সঠিক');
+          else setFieldStatus(this.id, false, '01 দিয়ে শুরু, ১১ সংখ্যা');
+        } else setFieldStatus(this.id, null, '');
+      });
+    }
+    if (emailEl) {
+      emailEl.addEventListener('input', function() {
+        if (this.value.length > 0) {
+          if (validateEmail(this.value)) setFieldStatus(this.id, true, '✓ সঠিক');
+          else setFieldStatus(this.id, false, 'সঠিক ইমেইল ফরম্যাট');
+        } else { setFieldStatus(this.id, null, ''); }
+      });
+    }
+  });
+}
+
+// === INIT ===
+renderCart(); setupThanaListeners(); setupLiveValidation();
+</script>
+</body>
+</html>
