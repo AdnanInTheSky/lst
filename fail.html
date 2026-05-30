@@ -1,209 +1,72 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Payment Failed | Your Store</title>
-  <style>
-    :root {
-      --bg: #f8fafc;
-      --card: #ffffff;
-      --text: #1e293b;
-      --text-muted: #64748b;
-      --danger: #ef4444;
-      --danger-bg: #fef2f2;
-      --border: #e2e8f0;
-      --btn: #0f172a;
-      --btn-hover: #334155;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-      padding: 2rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-    }
-    .container {
-      max-width: 520px;
-      width: 100%;
-      background: var(--card);
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-      padding: 2.5rem;
-      text-align: center;
-    }
-    .icon {
-      width: 72px;
-      height: 72px;
-      background: var(--danger-bg);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 1.5rem;
-      color: var(--danger);
-      font-size: 2rem;
-      font-weight: bold;
-    }
-    h1 {
-      font-size: 1.5rem;
-      margin-bottom: 0.75rem;
-      color: var(--text);
-    }
-    p {
-      color: var(--text-muted);
-      margin-bottom: 1.5rem;
-      font-size: 1rem;
-    }
-    .order-info {
-      background: #f1f5f9;
-      border-radius: 8px;
-      padding: 1rem;
-      margin: 1.25rem 0;
-      text-align: left;
-      font-size: 0.95rem;
-    }
-    .order-info p {
-      margin: 0.25rem 0;
-      display: flex;
-      justify-content: space-between;
-    }
-    .order-info strong {
-      color: var(--text);
-    }
-    .btn-group {
-      display: flex;
-      gap: 0.75rem;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-top: 1.5rem;
-    }
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0.75rem 1.5rem;
-      border-radius: 8px;
-      font-weight: 500;
-      text-decoration: none;
-      transition: background 0.2s;
-      border: none;
-      cursor: pointer;
-      font-size: 1rem;
-    }
-    .btn-primary {
-      background: var(--btn);
-      color: white;
-    }
-    .btn-primary:hover {
-      background: var(--btn-hover);
-    }
-    .btn-outline {
-      background: transparent;
-      color: var(--btn);
-      border: 1px solid var(--border);
-    }
-    .btn-outline:hover {
-      background: #f1f5f9;
-    }
-    .support {
-      margin-top: 2rem;
-      padding-top: 1.5rem;
-      border-top: 1px solid var(--border);
-      font-size: 0.9rem;
-      color: var(--text-muted);
-    }
-    .support a {
-      color: var(--btn);
-      text-decoration: none;
-      font-weight: 500;
-    }
-    .support a:hover {
-      text-decoration: underline;
-    }
-    @media (max-width: 480px) {
-      .container { padding: 2rem 1.5rem; }
-      .btn-group { flex-direction: column; }
-      .btn { width: 100%; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>অর্ডার ব্যর্থ</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    margin:0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    background:#fef2f2; /* Light red background */
+}
+
+.card{
+    background:white;
+    padding:40px 30px;
+    border-radius:16px;
+    text-align:center;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+    max-width:400px;
+}
+
+.check{
+    font-size:60px;
+}
+
+h1{
+    color:#dc2626; /* Red for failure */
+    margin:15px 0;
+}
+
+p{
+    color:#555;
+    line-height: 1.5;
+}
+
+.btn{
+    display:inline-block;
+    margin-top:20px;
+    padding:12px 24px;
+    background:#dc2626;
+    color:white;
+    text-decoration:none;
+    border-radius:8px;
+    transition: background 0.2s;
+}
+
+.btn:hover{
+    background:#b91c1c;
+}
+</style>
 </head>
 <body>
-  <div class="container">
-    <div class="icon">✕</div>
-    <h1>Payment Failed</h1>
+
+<div class="card">
+    <div class="check">❌</div>
+    <h1>অর্ডার ব্যর্থ হয়েছে</h1>
     <p>
-      Sorry, your payment could not be processed. 
-      No charges have been made to your account.
+        দুঃখিত, আপনার অর্ডারটি সম্পন্ন করা যায়নি। 
+        অনুগ্রহ করে আবার চেষ্টা করুন বা সাপোর্টের সাথে যোগাযোগ করুন।
     </p>
 
-    <!-- Optional: Show order details if invoice_number is in URL -->
-    <div id="orderDetails" class="order-info" style="display:none;">
-      <p><strong>Order #:</strong> <span id="invoiceNum"></span></p>
-      <p><strong>Status:</strong> <span style="color:var(--danger);font-weight:500;">Failed</span></p>
-      <p><strong>Amount:</strong> <span id="orderAmount">—</span></p>
-    </div>
+    <a href="/" class="btn">আবার চেষ্টা করুন</a>
+</div>
 
-    <div class="btn-group">
-      <a href="/" class="btn btn-outline">← Back to Home</a>
-      <button id="retryBtn" class="btn btn-primary">Try Payment Again</button>
-    </div>
-
-    <div class="support">
-      <p>
-        Need help? Contact us at 
-        <a href="mailto:support@yoursite.com">support@yoursite.com</a>
-        or call <strong>+880 XXX-XXXXXX</strong>.
-      </p>
-      <p style="margin-top:0.5rem;font-size:0.85rem;">
-        Reference ID: <span id="refId">—</span>
-      </p>
-    </div>
-  </div>
-
-  <script>
-    // Parse invoice_number from URL if present
-    const urlParams = new URLSearchParams(window.location.search);
-    const invoiceNumber = urlParams.get('invoice_number');
-    const refId = invoiceNumber || 'N/A';
-
-    // Show reference ID
-    document.getElementById('refId').textContent = refId;
-
-    // Optional: Fetch order details via your existing /api/status endpoint
-    if (invoiceNumber) {
-      document.getElementById('invoiceNum').textContent = invoiceNumber;
-      
-      fetch('/api/status', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ invoice_number: invoiceNumber })
-      })
-      .then(res => res.json())
-      .then(data => {
-        if (data?.payment_amount) {
-          document.getElementById('orderAmount').textContent = 
-            `${parseFloat(data.payment_amount).toFixed(2)} BDT`;
-          document.getElementById('orderDetails').style.display = 'block';
-        }
-      })
-      .catch(err => console.warn('Could not fetch order details:', err));
-    }
-
-    // Retry button: redirect to checkout with same invoice (if you store cart in session)
-    // Or simply go back to product page - adjust as needed
-    document.getElementById('retryBtn')?.addEventListener('click', () => {
-      // Option 1: Go back to home/cart
-      window.location.href = '/';
-      
-      // Option 2: If you preserve cart state, redirect to checkout:
-      // window.location.href = `/checkout?retry=${invoiceNumber}`;
-    });
-  </script>
 </body>
 </html>
