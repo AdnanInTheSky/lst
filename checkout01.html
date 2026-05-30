@@ -303,7 +303,59 @@ function syncFormToMobile() { ['name','phone','email','jela','thana','address'].
 function syncFormToDesktop() { ['name','phone','email','jela','thana','address'].forEach(f=>{var m=document.getElementById('f-'+f+'-m'),d=document.getElementById('f-'+f); if(m&&d)d.value=m.value;}); }
 function populateThanas(prefix) { var ds=document.getElementById('f-jela'+prefix), ts=document.getElementById('f-thana'+prefix), as=document.getElementById('f-address'+prefix), d=ds.value; ts.innerHTML='<option value="">থানা নির্বাচন করুন</option>'; ts.disabled=true; as.disabled=true; as.value=''; if(d&&THANAS_BY_DISTRICT[d]){ THANAS_BY_DISTRICT[d].forEach(t=>{var o=document.createElement('option');o.value=t;o.textContent=t;ts.appendChild(o);}); ts.disabled=false; } }
 function setupThanaListeners() { ['','-m'].forEach(s=>{ var ts=document.getElementById('f-thana'+s), as=document.getElementById('f-address'+s); if(ts) ts.addEventListener('change', function(){ if(this.value){ as.disabled=false; as.focus(); } else { as.disabled=true; as.value=''; } }); }); }
-function renderCart() { var count=cartCount(), totals=getCartTotals(), emptyEl=document.getElementById('empty-state'), dl=document.getElementById('checkout-layout'), dlM=document.getElementById('checkout-layout-mobile'); if(!emptyEl) return; if(count===0){ emptyEl.style.display='block'; if(dl) dl.classList.add('hidden'); if(dlM) dlM.classList.add('hidden'); return; } emptyEl.style.display='none'; if(dl) dl.classList.remove('hidden'); if(dlM) dlM.classList.remove('hidden'); var html=''; for(var pid in cart){ if(!cart[pid]||!PRODUCTS[pid]) continue; var qty=cart[pid], p=PRODUCTS[pid]; html+='<div class="flex gap-4 items-center p-3 bg-gray-50 rounded-xl"><img src="'+p.image+'" alt="'+p.name+'" class="w-16 h-16 object-contain bg-white rounded-lg border"/><div class="flex-1"><h4 class="font-medium text-gray-900 text-sm mb-1">'+p.name+'</h4><div class="flex items-center justify-between"><div class="flex items-center gap-2 text-xs text-gray-500"><span>Qty: '+qty+'</span></div><div class="font-semibold text-green-700">৳'+(p.price*qty).toLocaleString('en-BD')+'</div></div></div><button onclick="removeItem(\''+pid+'\')" class="text-gray-400 hover:text-red-600 transition-colors p-2">×</button></div>'; } var dI=document.getElementById('cart-items'), dIM=document.getElementById('cart-items-mobile'); if(dI)dI.innerHTML=html; if(dIM)dIM.innerHTML=html; var dText=totals.deliveryTotal===0?'FREE':totals.deliveryTotal.toLocaleString('en-BD'); ['','-m'].forEach(s=>{ var sa=document.getElementById('subtotal-amount'+s), da=document.getElementById('delivery-amount'+s), di=document.getElementById('discount-amount'+s), ft=document.getElementById('final-total'+(s?'':'')); if(sa)sa.textContent=totals.productTotal.toLocaleString('en-BD'); if(da)da.textContent=dText; if(di)di.textContent='0'; if(ft)ft.textContent=totals.grandTotal.toLocaleString('en-BD'); }); if(document.getElementById('final-total-mobile')) document.getElementById('final-total-mobile').textContent=totals.grandTotal.toLocaleString('en-BD'); }
+
+// ✅ FIXED: renderCart() with inline styles to guarantee hiding on mobile
+function renderCart() { 
+  var count = cartCount(), 
+      totals = getCartTotals(), 
+      emptyEl = document.getElementById('empty-state'), 
+      dl = document.getElementById('checkout-layout'), 
+      dlM = document.getElementById('checkout-layout-mobile'); 
+      
+  if(!emptyEl) return; 
+  
+  if(count === 0){ 
+    emptyEl.style.display = 'block'; 
+    // ✅ FIX: Use inline styles instead of just classList to guarantee hiding
+    if(dl) dl.style.display = 'none'; 
+    if(dlM) dlM.style.display = 'none'; 
+    // Clear cart items HTML to prevent stale content
+    var dI = document.getElementById('cart-items');
+    var dIM = document.getElementById('cart-items-mobile');
+    if(dI) dI.innerHTML = '';
+    if(dIM) dIM.innerHTML = '';
+    return; 
+  } 
+  
+  emptyEl.style.display = 'none'; 
+  // Restore display: let CSS handle desktop, force flex for mobile
+  if(dl) dl.style.display = ''; 
+  if(dlM) dlM.style.display = 'flex'; 
+  
+  var html=''; 
+  for(var pid in cart){ 
+    if(!cart[pid]||!PRODUCTS[pid]) continue; 
+    var qty=cart[pid], p=PRODUCTS[pid]; 
+    html+='<div class="flex gap-4 items-center p-3 bg-gray-50 rounded-xl"><img src="'+p.image+'" alt="'+p.name+'" class="w-16 h-16 object-contain bg-white rounded-lg border"/><div class="flex-1"><h4 class="font-medium text-gray-900 text-sm mb-1">'+p.name+'</h4><div class="flex items-center justify-between"><div class="flex items-center gap-2 text-xs text-gray-500"><span>Qty: '+qty+'</span></div><div class="font-semibold text-green-700">৳'+(p.price*qty).toLocaleString('en-BD')+'</div></div></div><button onclick="removeItem(\''+pid+'\')" class="text-gray-400 hover:text-red-600 transition-colors p-2">×</button></div>'; 
+  } 
+  var dI=document.getElementById('cart-items'), dIM=document.getElementById('cart-items-mobile'); 
+  if(dI) dI.innerHTML=html; 
+  if(dIM) dIM.innerHTML=html; 
+  var dText=totals.deliveryTotal===0?'FREE':totals.deliveryTotal.toLocaleString('en-BD'); 
+  ['','-m'].forEach(s=>{ 
+    var sa=document.getElementById('subtotal-amount'+s), 
+        da=document.getElementById('delivery-amount'+s), 
+        di=document.getElementById('discount-amount'+s), 
+        ft=document.getElementById('final-total'+(s?'':'')); 
+    if(sa) sa.textContent=totals.productTotal.toLocaleString('en-BD'); 
+    if(da) da.textContent=dText; 
+    if(di) di.textContent='0'; 
+    if(ft) ft.textContent=totals.grandTotal.toLocaleString('en-BD'); 
+  }); 
+  if(document.getElementById('final-total-mobile')) 
+    document.getElementById('final-total-mobile').textContent=totals.grandTotal.toLocaleString('en-BD'); 
+}
+
 function saveOrderToSession(n,a,j,t,ad) { var items=Object.keys(cart).map(pid=>({name:PRODUCTS[pid].name,price:PRODUCTS[pid].price,delivery:PRODUCTS[pid].delivery,qty:cart[pid],image:PRODUCTS[pid].image,id:pid})); var od={invoice:'URB-'+Date.now().toString().slice(-8),name:n,amount:a,items:items,address:{jela:j,thana:t,detail:ad},timestamp:new Date().toISOString()}; try{sessionStorage.setItem('lastOrder',JSON.stringify(od));}catch(e){} return od; }
 function validatePhone(p){return /^01[3-9][0-9]{8}$/.test(p.replace(/[^0-9]/g,''));}
 function validateEmail(e){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.trim());}
