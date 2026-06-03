@@ -3,160 +3,98 @@
 <head>
 <meta charset="UTF-8">
 
-<!-- 🔹 GOOGLE TAG MANAGER -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-M973Q387');</script>
+<!-- Google Tag Manager -->
+<script>
+(function(w,d,s,l,i){
+  w[l]=w[l]||[];
+  w[l].push({'gtm.start': new Date().getTime(), event:'gtm.js'});
+  var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),
+      dl=l!='dataLayer'?'&l='+l:'';
+  j.async=true;
+  j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
+  f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-M973Q387');
+</script>
 <!-- End Google Tag Manager -->
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>অর্ডার সফল</title>
 
 <style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
 body{
     font-family: Arial, sans-serif;
-    margin:0;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    min-height:100vh;
     background:#f5fff7;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
 }
 
 .card{
-    background:white;
-    padding:40px 30px;
-    border-radius:16px;
+    background:#fff;
+    max-width:420px;
+    width:100%;
     text-align:center;
-    box-shadow:0 10px 30px rgba(0,0,0,.08);
-    max-width:400px;
+    padding:40px 25px;
+    border-radius:16px;
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
 }
 
 .check{
     font-size:60px;
+    margin-bottom:10px;
 }
 
 h1{
     color:#166534;
-    margin:15px 0;
+    margin-bottom:12px;
 }
 
 p{
     color:#555;
+    line-height:1.6;
 }
 
 .btn{
     display:inline-block;
-    margin-top:20px;
-    padding:12px 24px;
+    margin-top:24px;
     background:#166534;
-    color:white;
+    color:#fff;
     text-decoration:none;
+    padding:12px 24px;
     border-radius:8px;
 }
 </style>
 </head>
 <body>
 
-<!-- 🔹 GOOGLE TAG MANAGER (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M973Q387"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- Google Tag Manager (noscript) -->
+<noscript>
+<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M973Q387"
+height="0" width="0" style="display:none;visibility:hidden"></iframe>
+</noscript>
 <!-- End Google Tag Manager (noscript) -->
 
 <div class="card">
     <div class="check">✅</div>
+
     <h1>অর্ডার সফল হয়েছে</h1>
+
     <p>
-        ধন্যবাদ। আপনার অর্ডারটি গ্রহণ করা হয়েছে।
-        আমরা শীঘ্রই আপনার সাথে যোগাযোগ করব।
+        ধন্যবাদ। আপনার অর্ডারটি সফলভাবে গ্রহণ করা হয়েছে।
+        আমাদের প্রতিনিধি শীঘ্রই আপনার সাথে যোগাযোগ করবে।
     </p>
 
-    <a href="/" class="btn" id="home-btn">হোমে ফিরুন</a>
+    <a href="/" class="btn">হোমে ফিরুন</a>
 </div>
-
-<script>
-// === GOOGLE TAG MANAGER: Purchase Event Tracking ===
-(function() {
-  // Helper function to push events to dataLayer
-  function trackEvent(eventName, eventData) {
-    if (typeof dataLayer !== 'undefined') {
-      dataLayer.push(Object.assign({ 'event': eventName }, eventData || {}));
-    }
-  }
-
-  // Try to get order data from sessionStorage (set during checkout)
-  function getOrderData() {
-    try {
-      var saved = sessionStorage.getItem('lastOrder');
-      return saved ? JSON.parse(saved) : null;
-    } catch(e) {
-      return null;
-    }
-  }
-
-  // Fire purchase event when page loads
-  document.addEventListener('DOMContentLoaded', function() {
-    
-    // 🔹 Track page view for thank you page
-    trackEvent('page_view', {
-      page_location: window.location.href,
-      page_title: document.title,
-      page_type: 'thank_you'
-    });
-
-    // 🔹 Track purchase event with order details
-    var order = getOrderData();
-    if (order && order.items && order.items.length > 0) {
-      
-      trackEvent('purchase', {
-        transaction_id: order.invoice,
-        value: order.amount,
-        currency: 'BDT',
-        ecommerce: {
-          items: order.items.map(function(item) {
-            return {
-              item_id: item.id,
-              item_name: item.name,
-              price: item.price,
-              quantity: item.qty,
-              currency: 'BDT'
-            };
-          })
-        },
-        customer: {
-          name: order.name,
-          address: order.address
-        },
-        timestamp: order.timestamp
-      });
-
-      // Optional: Clear order data after tracking (prevent duplicate fires)
-      // sessionStorage.removeItem('lastOrder');
-      
-      console.log('✅ Purchase event tracked:', order.invoice);
-    } else {
-      // Fallback: Track purchase with minimal data if no order found
-      trackEvent('purchase', {
-        transaction_id: 'URB-' + Date.now().toString().slice(-8),
-        value: 0,
-        currency: 'BDT',
-        note: 'Order data not found in sessionStorage'
-      });
-      console.warn('⚠️ No order data found in sessionStorage');
-    }
-  });
-
-  // 🔹 Track click on "Home" button
-  document.getElementById('home-btn')?.addEventListener('click', function() {
-    trackEvent('return_home_click', {
-      page_from: 'thank_you'
-    });
-  });
-
-})();
-</script>
 
 </body>
 </html>
