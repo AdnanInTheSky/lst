@@ -1,6 +1,5 @@
 // api/place.js
 const { MongoClient, ServerApiVersion } = require('mongodb');
-// ❌ Removed: const PRODUCTS = require('./_products.js');
 
 module.exports = async (req, res) => {
   if (req.method !== 'POST') {
@@ -48,8 +47,7 @@ module.exports = async (req, res) => {
       return res.status(400).json({ success: false, redirect: '/fail' });
     }
 
-    // ✅ Process items (No longer checking against _products.js)
-    let subtotal = 0;
+    // ✅ Process items (No price calculation, just validating quantities)
     const processedItems = [];
 
     for (const item of items) {
@@ -60,28 +58,17 @@ module.exports = async (req, res) => {
         return res.status(400).json({ success: false, redirect: '/fail' });
       }
 
-      // Extract price and name directly from the client request
-      const unitPrice = parseFloat(item.price) || 0;
-      const lineTotal = unitPrice * qty;
-      subtotal += lineTotal;
-
       processedItems.push({
         product_id: item.id,
-        product_name: item.name || 'Unknown Product',
-        quantity: qty,
-        unit_price: unitPrice,
-        line_total: lineTotal
+        product_name: item.name || 'Unknown Product', // Kept for display in DB
+        quantity: qty
       });
     }
 
-    // Verify total amount (Now based on client-provided prices)
+    // ✅ Use totals directly from client (No verification against calculated prices)
     const delivery = Math.max(0, parseFloat(delivery_fee) || 0);
-    const expectedTotal = Math.round((subtotal + delivery) * 100) / 100;
-    const clientTotal = Math.round((parseFloat(total_amount) || 0) * 100) / 100;
-
-    if (Math.abs(clientTotal - expectedTotal) > 0.01) {
-      return res.status(400).json({ success: false, redirect: '/fail' });
-    }
+    const finalTotal = Math.round((parseFloat(total_amount) || 0) * 100) / 100;
+    const subtotal = Math.max(0, finalTotal - delivery); // Derived just for record-keeping
 
     // Connect to MongoDB
     const client = new MongoClient(MONGO_URI, {
@@ -100,8 +87,13 @@ module.exports = async (req, res) => {
       order_id: orderId,
       customer: { name, phone, email },
       address: { jela: district, thana: area, detail: address },
-      items: processedItems, // Updated variable name
-      pricing: { subtotal, delivery_fee: delivery, total: expectedTotal, currency: 'USD' },
+      items: processedItems,
+      pricing: { 
+        subtotal: subtotal, 
+        delivery_fee: delivery, 
+        total: finalTotal, 
+        currency: 'BDT' // ✅ Changed to BDT
+      },
       payment: { method: payment_method, status: 'pending' },
       status: 'received',
       createdAt: new Date(),
@@ -115,7 +107,7 @@ module.exports = async (req, res) => {
       success: true,
       redirect: '/thank',
       order_id: orderId,
-      total: expectedTotal
+      total: finalTotal
     });
 
   } catch (error) {
