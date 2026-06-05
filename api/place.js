@@ -9,7 +9,7 @@ module.exports = async (req, res) => {
 
   try {
     const MONGO_URI = process.env.MONGO_URI;
-    const DB_NAME = process.env.DB_NAME || 'paystation_demo';
+    const DB_NAME = process.env.DB_NAME || 'mango';
 
     if (!MONGO_URI) {
       return res.status(500).json({ success: false, redirect: '/fail' });
