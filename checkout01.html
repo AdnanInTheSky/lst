@@ -8,6 +8,8 @@
   'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
   })(window,document,'script','dataLayer','GTM-KXGXXM4R');</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <link rel="icon" type="image/png" sizes="32x32" href="https://lst-mu.vercel.app/images/logo2.png">
+<link rel="apple-touch-icon" href="https://lst-mu.vercel.app/images/logo2.png">
   <title>Checkout — Urbor Essentials</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -95,7 +97,7 @@
 <script>
 var API_BASE = "/api";
 var PRODUCTS = {
-  p1: { name: "হিমসাগর আম — ১২ কেজি", price: 1392  , delivery: 288, originalPrice: 1920 , image: "https://lst-mu.vercel.app/images/image.png", desc: "রাজশাহীর বিখ্যাত হিমসাগর, মিষ্টি ও সুগন্ধি। প্রতি কেজি।", label: "premium", bestSeller: false },
+  p1: { name: "হিমসাগর আম — ১২ কেজি", price: 1392  , delivery: 288, originalPrice: 1920 , image: "https://lst-mu.vercel.app/images/pro2.png", desc: "রাজশাহীর বিখ্যাত হিমসাগর, মিষ্টি ও সুগন্ধি। প্রতি কেজি।", label: "premium", bestSeller: false },
   p2: { name: "হিমসাগর আম — ২৪ কেজি", price: 2784  , delivery: 576, originalPrice: 3840 , image: "https://lst-mu.vercel.app/images/image.png", desc: "রাজশাহীর বিখ্যাত হিমসাগর, মিষ্টি ও সুগন্ধি। প্রতি কেজি।", label: "Best Selling", bestSeller: true }
 };
 
@@ -158,7 +160,19 @@ function adjustQty(pid, delta) {
 function removeItem(pid) { 
   var qty = cart[pid] || 1; delete cart[pid]; saveCartToStorage(); refreshCount(); renderProducts(); renderCart(); renderSideCart(); toast('পণ্য সরানো হয়েছে'); 
 }
-function getCartTotals() { var p=0, d=0; for(var pid in cart){ if(cart[pid] && PRODUCTS[pid]){ p+=PRODUCTS[pid].price*cart[pid]; d+=PRODUCTS[pid].delivery*cart[pid]; } } if(p>=1000) d=0; return {productTotal:p, deliveryTotal:d, grandTotal:p+d}; }
+
+// ✅ FIXED DELIVERY CALCULATION (No free delivery override)
+function getCartTotals() { 
+  var p=0, d=0; 
+  for(var pid in cart){ 
+    if(cart[pid] && PRODUCTS[pid]){ 
+      p+=PRODUCTS[pid].price*cart[pid]; 
+      d+=PRODUCTS[pid].delivery*cart[pid]; 
+    } 
+  } 
+  return {productTotal:p, deliveryTotal:d, grandTotal:p+d}; 
+}
+
 function cartTotal() { return getCartTotals().grandTotal; }
 function cartCount() { var c=0; for(var pid in cart) if(cart.hasOwnProperty(pid)) c+=cart[pid]; return c; }
 function cartPayload() { var items=[]; for(var pid in cart) if(cart.hasOwnProperty(pid)) items.push({id:pid, qty:cart[pid]}); return items; }
