@@ -1,6 +1,6 @@
 // api/place.js
 const { MongoClient, ServerApiVersion } = require('mongodb');
-const PRODUCTS = require('./_products.js');
+// ❌ Removed: const PRODUCTS = require('./_products.js');
 
 module.exports = async (req, res) => {
   if (req.method !== 'POST') {
@@ -48,32 +48,33 @@ module.exports = async (req, res) => {
       return res.status(400).json({ success: false, redirect: '/fail' });
     }
 
-    // 🔐 Server-side price verification using _products.js
+    // ✅ Process items (No longer checking against _products.js)
     let subtotal = 0;
-    const verifiedItems = [];
+    const processedItems = [];
 
     for (const item of items) {
-      const product = PRODUCTS[item.id];
       const qty = parseInt(item.qty, 10);
-
-      if (!product || !Number.isInteger(qty) || qty <= 0 || qty > 50) {
+      
+      // Basic quantity validation
+      if (!Number.isInteger(qty) || qty <= 0 || qty > 50) {
         return res.status(400).json({ success: false, redirect: '/fail' });
       }
 
-      const unitPrice = product.price;
+      // Extract price and name directly from the client request
+      const unitPrice = parseFloat(item.price) || 0;
       const lineTotal = unitPrice * qty;
       subtotal += lineTotal;
 
-      verifiedItems.push({
+      processedItems.push({
         product_id: item.id,
-        product_name: product.name,
+        product_name: item.name || 'Unknown Product',
         quantity: qty,
         unit_price: unitPrice,
         line_total: lineTotal
       });
     }
 
-    // Verify total amount
+    // Verify total amount (Now based on client-provided prices)
     const delivery = Math.max(0, parseFloat(delivery_fee) || 0);
     const expectedTotal = Math.round((subtotal + delivery) * 100) / 100;
     const clientTotal = Math.round((parseFloat(total_amount) || 0) * 100) / 100;
@@ -99,7 +100,7 @@ module.exports = async (req, res) => {
       order_id: orderId,
       customer: { name, phone, email },
       address: { jela: district, thana: area, detail: address },
-      items: verifiedItems,
+      items: processedItems, // Updated variable name
       pricing: { subtotal, delivery_fee: delivery, total: expectedTotal, currency: 'USD' },
       payment: { method: payment_method, status: 'pending' },
       status: 'received',
