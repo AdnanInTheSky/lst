@@ -5,7 +5,7 @@
 const { ObjectId }       = require("mongodb");
 const { getDb }          = require("./_db");
 const PRODUCTS           = require("./_products");
-const { sendCapiEvent }  = require("./_pixel");
+ 
 
 const BASE = process.env.PAYSTATION_ENV === "live"
   ? "https://api.paystation.com.bd"
