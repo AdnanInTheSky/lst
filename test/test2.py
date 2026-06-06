@@ -3,7 +3,7 @@ from bson import json_util
 import json
 
 # Your MongoDB connection string
-URI = ""
+URI = " "
 
 def print_all_orders():
     try:
@@ -11,7 +11,7 @@ def print_all_orders():
         client = MongoClient(URI, serverSelectionTimeoutMS=5000)
         client.admin.command('ping') # Verify connection
         
-        db = client["mango"]
+        db = client["paystation_demo"]
         orders_collection = db["orders"]
         
         # Fetch all orders, sorted by newest first (based on createdAt)

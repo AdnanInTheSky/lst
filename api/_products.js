@@ -1,8 +1,8 @@
 module.exports = {
   p1: { 
     name: "হিমসাগর আম — ১২ কেজি", 
-    price: 700, 
-    delivery: 288,
+    price: 10, 
+    delivery: 2,
     originalPrice: 1920,
     category: "Premium" 
   },
