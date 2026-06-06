@@ -3,7 +3,7 @@ from bson import json_util
 import json
 
 # Your MongoDB connection string
-URI = ""
+URI = "mongodb+srv://adnanf:NqEhSR7ErMo6YuiL@cluster0.7fvc3no.mongodb.net/mango"
 
 def print_all_orders():
     try:

@@ -1,11 +1,9 @@
-// api/initiate.js
+// api/initiate.js 
 // POST /api/initiate
-// Simplified: Only collects District (Jela), Thana, and Address Detail
 
 const { ObjectId }       = require("mongodb");
 const { getDb }          = require("./_db");
 const PRODUCTS           = require("./_products");
- 
 
 const BASE = process.env.PAYSTATION_ENV === "live"
   ? "https://api.paystation.com.bd"
@@ -53,7 +51,7 @@ module.exports = async function handler(req, res) {
   const {
     items,
     cust_name, cust_phone, cust_email,
-    jela, thana, address_detail,  // ✅ Simplified: Only these 3 address fields
+    jela, thana, address_detail,
     fbp, fbc, event_id,
   } = req.body || {};
 
@@ -61,9 +59,9 @@ module.exports = async function handler(req, res) {
   const name    = sanitise(cust_name, 100);
   const phone   = sanitise(cust_phone, 20).replace(/\s/g, "");
   const email   = sanitise(cust_email, 200);
-  const jl      = sanitise(jela, 50);           // District
-  const thn     = sanitise(thana, 50);          // Thana
-  const detail  = sanitise(address_detail, 300); // More Info / Address Detail
+  const jl      = sanitise(jela, 50);
+  const thn     = sanitise(thana, 50);
+  const detail  = sanitise(address_detail, 300);
 
   if (!name)                      return res.status(400).json({ error: "Name is required" });
   if (!validatePhone(phone))      return res.status(400).json({ error: "Invalid phone number (01XXXXXXXXX)" });
@@ -82,12 +80,9 @@ module.exports = async function handler(req, res) {
 
   // ── Generate invoice & build address ─────────────────────────────────────────
   const invoice_number = generateInvoice();
-  
-  // ✅ Simplified address format: "Detail, Thana, District"
   const full_address = [detail, thn, jl].filter(Boolean).join(", ");
   
   const APP_URL        = process.env.APP_URL || "https://your-project.vercel.app";
-  // ✅ Correct: Point to your callback endpoint (PayStation appends ?status, invoice_number, trx_id)
   const callback_url = `${APP_URL}/api/callback`;
   const checkout_items = lineItems.map(i => `${i.name} x${i.qty}`).join(", ");
 
@@ -106,16 +101,7 @@ module.exports = async function handler(req, res) {
     currency:       "BDT",
     status:         "initiated",
     verified:       false,
-    customer: { 
-      name, 
-      phone, 
-      email, 
-      // ✅ Simplified address structure
-      jela: jl, 
-      thana: thn, 
-      address_detail: detail, 
-      full_address 
-    },
+    customer: { name, phone, email, jela: jl, thana: thn, address_detail: detail, full_address },
     items:          lineItems,
     checkout_items,
     callback_url,
@@ -131,11 +117,7 @@ module.exports = async function handler(req, res) {
     try {
       await ordersCol.insertOne(orderDoc);
     } catch (err) {
-      if (err.code === 11000) {
-        console.error("Duplicate invoice:", invoice_number);
-      } else {
-        console.error("MongoDB insertOne error:", err.message);
-      }
+      if (err.code !== 11000) console.error("MongoDB insertOne error:", err.message);
     }
   }
 
@@ -150,7 +132,7 @@ module.exports = async function handler(req, res) {
     cust_name:      name,
     cust_phone:     phone,
     cust_email:     email,
-    cust_address:   full_address,  // ✅ "Detail, Thana, District"
+    cust_address:   full_address,
     callback_url,
     checkout_items,
   });
@@ -162,11 +144,18 @@ module.exports = async function handler(req, res) {
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body:    form.toString(),
     });
-    psData = await psRes.json();
+    
+    // ✅ FIX 1: Safely parse JSON to prevent 500 crash if gateway returns HTML/text
+    const responseText = await psRes.text();
+    try {
+      psData = JSON.parse(responseText);
+    } catch {
+      psData = { status: "failed", message: responseText || "Invalid response from PayStation" };
+    }
   } catch (err) {
     console.error("PayStation network error:", err.message);
     if (ordersCol) await ordersCol.updateOne({ invoice_number }, { $set: { status: "failed", updated_at: new Date() } });
-    return res.status(500).json({ error: "Payment gateway error — please try again" });
+    return res.status(500).json({ error: "Payment gateway network error — please try again" });
   }
 
   if (psData.status === "success" && psData.payment_url) {
@@ -177,7 +166,10 @@ module.exports = async function handler(req, res) {
       );
     }
 
-    // ── Fire CAPI InitiateCheckout (non-blocking) ────────────────────────────
+    // ✅ FIX 2: sendCapiEvent is NOT defined in your code. 
+    // Commenting it out prevents a fatal ReferenceError (500 crash).
+    // If you actually need Facebook CAPI, import it at the top: const { sendCapiEvent } = require('./_capi');
+    /*
     const capiEventId = event_id || invoice_number;
     sendCapiEvent({
       eventName:      "InitiateCheckout",
@@ -187,10 +179,12 @@ module.exports = async function handler(req, res) {
       customData:     { value: total, currency: "BDT", num_items: lineItems.length,
                         contents: lineItems.map(i => ({ id: i.id, quantity: i.qty })) },
     }).catch(e => console.error("CAPI non-blocking error:", e.message));
+    */
 
     return res.status(200).json({ payment_url: psData.payment_url, invoice_number });
   } else {
     if (ordersCol) await ordersCol.updateOne({ invoice_number }, { $set: { status: "failed", updated_at: new Date() } });
-    return res.status(400).json({ error: psData.message || "Payment initiation failed" });
+    // Now it will safely return the actual error message from PayStation instead of crashing!
+    return res.status(400).json({ error: psData.message || "Payment initiation failed" }); 
   }
 };
