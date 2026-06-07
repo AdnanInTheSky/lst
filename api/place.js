@@ -96,6 +96,7 @@ module.exports = async (req, res) => {
       },
       payment: { method: payment_method, status: 'pending' },
       status: 'received',
+      checked: false, // ✅ Added checked variable (defaults to false)
       createdAt: new Date(),
       updatedAt: new Date()
     });
